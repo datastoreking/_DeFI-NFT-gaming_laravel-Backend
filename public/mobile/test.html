@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title></title>
+	</head>
+	<body>
+		<input type="" name="" id="inp" value="" />
+		<button type="button" id="btn">send</button>
+
+		<script src="./jquery-3.4.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://cdn.bootcss.com/socket.io/2.0.3/socket.io.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			var socket = io('http://szyx.l.100help.net:2120');
+
+			uid = 1;
+			// socket连接后以uid登录
+			socket.on('connect', function() {
+				socket.emit('login', uid);
+			});
+			// 后端推送来消息时
+			socket.on('new_msg', function(msg) {
+				console.log("收到消息：" + JSON.stringify(msg));
+			});
+			// 后端推送来在线数据时
+			socket.on('update_online_count', function(online_stat) {
+				console.log(online_stat);
+			});
+
+			$("button").click(function(){
+				$.ajax({
+					type: "post",
+					url: "http://szyx.l.100help.net/api/chat",
+					data: {
+						uid:1,
+						to:2,
+						content: $("#inp").val()
+					},
+					// dataType: "json",
+					success: function(data) {
+						console.log(data)
+						
+					}
+				});
+			})
+			
+		</script>
+	</body>
+</html>
