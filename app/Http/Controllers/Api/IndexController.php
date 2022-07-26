@@ -2,10 +2,7 @@
 
 
 namespace App\Http\Controllers\Api;
-
-
 use App\Http\Controllers\Controller;
-
 use App\Models\Ad;
 use App\Models\Box;
 use App\Models\BoxLevel;
@@ -26,6 +23,7 @@ use App\Models\UserCoupon;
 use App\Services\Common;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class IndexController extends Controller
 {
@@ -52,13 +50,26 @@ class IndexController extends Controller
     }
 
     //盲盒列表
+    public function bidAdd(Request $request) {
+        $box_id = $request->input('box_id');
+        $bid_count_add = $request->input('bid_count_add');
+        $query = Box::query()->select('bid_count')->where('id', $box_id)->first();
+        $currentBidcount = $query->bid_count;
+        $updatedBidcount = $currentBidcount + $bid_count_add;
+        Box::where('id', $box_id)
+            ->update(['bid_count' => $updatedBidcount]);
+        $queryUpdated = Box::query()->select('id', 'bid_count')->where('id', $box_id)->first();
+        return($queryUpdated);
+    }
+
+    //盲盒列表
     public function boxList(Request $request){
         $page = $request->input('page',1);
         $limit = $request->input('limit',10);
         $c_id = $request->input('c_id',1);
         $name = $request->input('name');
 
-        $query = Box::query()->select('id','name','image','cover_image','price','type','create_time')
+        $query = Box::query()->select('id','name','image','cover_image','price','type','create_time', 'bid_count')
             ->where('state',1)->where('is_del',0)->where('c_id',$c_id);
         if($name){
             $query = $query->where('name','like','%'.$name.'%');
@@ -81,6 +92,7 @@ class IndexController extends Controller
         $id = $request->input('id');
         $suit_id = $request->input('suit_id');
         $uid = auth()->guard('api')->id();
+        
         if(empty($id)) return $this->ajax(0,'参数错误');
         $box = Box::query()->where('id',$id)->select('id','name','image','cover_image','price','create_time','sale','type')->first();
         if($suit_id){
@@ -168,6 +180,59 @@ class IndexController extends Controller
         return $this->ajax(1,'请求成功',$box);
     }
 
+    //购买 NFT
+    public function buyNFT(Request $request){
+        $id = $request->input('id');
+        $suit_id = $request->input('suit_id');
+        $play_number = $request->input('play_number');
+        $uid = auth()->guard('api')->id();
+        
+        if(empty($id)) return $this->ajax(0,'参数错误');
+        $box = Box::query()->where('id',$id)->select('id','name','image','cover_image','price','create_time','sale','type')->first();
+        if($suit_id){
+            $suit = Suit::query()->where('box_id',$id)->where('id',$suit_id)->first();
+        }else{
+            $suit = Suit::query()->where('box_id',$id)->where('is_end',0)->orderBy('id','asc')->first();
+            if(!$suit){
+                $suit = Suit::query()->where('box_id',$id)->orderBy('id','asc')->first();
+            }
+        }
+
+        $box->suit_id = $suit->id;
+        $goods = DB::table('suit_goods as s')->leftJoin('goods as g','s.goods_id','=','g.id')
+            ->select('s.num','s.surplus','s.level','s.is_special','g.name','g.image','g.price','g.is_book')->where('s.suit_id',$suit->id)->get()->each(function($item) use ($suit){
+                $item->level_name = DB::table('level')->where('level',$item->level)->value('name');
+                if($item->is_special == 0 && $suit->surplus > 0){
+                    $ratio = bcdiv($item->surplus,$suit->surplus,5);
+                    $item->ratio = sprintf('%.2f',bcmul($ratio,100,3));
+                }else{
+                    $item->ratio = 0;
+                }
+            });
+        $box->goods = $goods;
+        $goodsCount = count($goods);
+        $random_goodsIds = range(1,$goodsCount);
+        shuffle($random_goodsIds);
+        $random_numbers = range(1,100000);
+        shuffle($random_numbers);
+        for($i = 0; $i < $play_number; $i ++){
+            $random_goodsId = array_shift($random_goodsIds);
+            $random_number = array_shift($random_numbers);
+            $random_goodsProbability = $goods[$random_goodsId]->ratio;
+            $temp = 1000 * $random_goodsProbability;
+            // if($random_number > $temp) {
+
+            // }
+            $response = Http::post('https://app.gamifly.co:3001/api/decrease', [
+                'user_id'=>'28',
+                'reason'=>'buy credit',
+                'amount'=>'1.5',
+                'accessToken'=>'ya29.A0AVA9y1vrXfC-6mQ5rRy1M9PSo56w4qylekV2n1pr6DB0xQKeVk1gVG65AvT7BMK84OgXGEOg9bhXCEFdAbfcD8JxYFshmqI1m4bk2Om4DctDVBL0Mx8HlmZxSwZuiKNz3Qc8FrpYa2sXAE4H4PCkZ6SHRikcaHwYUNnWUtBVEFTQVRBU0ZRRTY1ZHI4b2x2RTNBUlRqTENxUjc4TlgtVE1fdw0166'
+            ]);
+        }
+        return $this->ajax(1,'请求成功',$response);
+    }
+
     //当前箱子余量
     public function suitNum(Request $request){
         $suit_id = $request->input('suit_id');
@@ -190,17 +255,16 @@ class IndexController extends Controller
     public function boxGoods(Request $request){
         $box_id = $request->input('box_id');
         $suit_id = $request->input('suit_id');
-        $page = $request->input('page',1);
-        $limit = $request->input('limit',10);
+        $limit = $request->input('limit',50);
         $number = $request->input('number');
         $query = OrderGoods::query()->from('order_goods as o')
             ->leftJoin('user as u','o.uid','=','u.id')
-            ->select('u.nickname','u.avatar','o.level','o.level_name','o.is_special','o.number','o.name','o.create_time')
+            ->select('u.nickname','u.avatar','o.level','o.level_name','o.is_special','o.number','o.name','o.create_time','o.suit_id')
             ->where('o.box_id',$box_id)->where('o.suit_id',$suit_id);
         if($number){
             $query = $query->where('o.number','<=',$number);
         }
-        $query = $query->orderBy('o.number','desc')->paginate($limit);
+        $query = $query->orderBy('o.create_time','desc')->paginate($limit);
         $suit = Suit::query()->find($suit_id);
         if(!$number){
             if($suit->is_end == 1){
@@ -212,8 +276,6 @@ class IndexController extends Controller
         return $this->ajax(1,'请求成功',[
             'number'=>$number,
             'count'=>$query->total(),
-            'page'=>$page,
-            'pages'=>$query->lastPage(),
             'data'=>$query->items(),
         ]);
     }

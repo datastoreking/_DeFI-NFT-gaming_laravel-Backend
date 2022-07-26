@@ -26,7 +26,9 @@ Route::post('forget','Api\LoginController@forget');//忘记密码
 Route::post('ad','Api\IndexController@ad');//轮播图
 Route::post('category','Api\IndexController@category');//分类
 Route::post('level','Api\IndexController@level');//等级
+Route::post('bidAdd','Api\IndexController@bidAdd');//出价添加
 Route::post('boxList','Api\IndexController@boxList');//盲盒列表
+Route::post('buyNFT','Api\IndexController@buyNFT');//购买 NFT
 Route::post('boxDetail','Api\IndexController@boxDetail');//盲盒详情
 Route::post('suitNum','Api\IndexController@suitNum');//盲盒详情余量
 Route::post('boxGoods','Api\IndexController@boxGoods');//盲盒详情记录
