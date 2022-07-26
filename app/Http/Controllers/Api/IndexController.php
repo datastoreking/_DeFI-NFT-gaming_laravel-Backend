@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Ad;
@@ -21,9 +20,10 @@ use App\Models\Recharge;
 use App\Models\User;
 use App\Models\UserCoupon;
 use App\Services\Common;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
+
 
 class IndexController extends Controller
 {
@@ -223,12 +223,19 @@ class IndexController extends Controller
             // if($random_number > $temp) {
 
             // }
-            $response = Http::post('https://app.gamifly.co:3001/api/decrease', [
+            $client = new Client;
+            $response = $client->request('POST', 'https://app.gamifly.co:3001/api/decrease', [
                 'user_id'=>'28',
                 'reason'=>'buy credit',
                 'amount'=>'1.5',
                 'accessToken'=>'ya29.A0AVA9y1vrXfC-6mQ5rRy1M9PSo56w4qylekV2n1pr6DB0xQKeVk1gVG65AvT7BMK84OgXGEOg9bhXCEFdAbfcD8JxYFshmqI1m4bk2Om4DctDVBL0Mx8HlmZxSwZuiKNz3Qc8FrpYa2sXAE4H4PCkZ6SHRikcaHwYUNnWUtBVEFTQVRBU0ZRRTY1ZHI4b2x2RTNBUlRqTENxUjc4TlgtVE1fdw0166'
             ]);
+            // $response = Http::post('https://app.gamifly.co:3001/api/decrease', [
+            //     'user_id'=>'28',
+            //     'reason'=>'buy credit',
+            //     'amount'=>'1.5',
+            //     'accessToken'=>'ya29.A0AVA9y1vrXfC-6mQ5rRy1M9PSo56w4qylekV2n1pr6DB0xQKeVk1gVG65AvT7BMK84OgXGEOg9bhXCEFdAbfcD8JxYFshmqI1m4bk2Om4DctDVBL0Mx8HlmZxSwZuiKNz3Qc8FrpYa2sXAE4H4PCkZ6SHRikcaHwYUNnWUtBVEFTQVRBU0ZRRTY1ZHI4b2x2RTNBUlRqTENxUjc4TlgtVE1fdw0166'
+            // ]);
         }
         return $this->ajax(1,'请求成功',$response);
     }
