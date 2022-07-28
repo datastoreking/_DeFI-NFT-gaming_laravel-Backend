@@ -68,12 +68,12 @@ class IndexController extends Controller
         $pageSize = $request->input('pageSize');
         $c_id = $request->input('blindBoxesType');
 
-        $query = Box::query()->select('id','name', 'c_id', 'image','cover_image','price','type','create_time', 'bid_count')
+        $query = Box::query()->select('id','name', 'c_id', 'image','cover_image','price','type','create_time', 'surplus', 'total_number')
             ->where('state',1)->where('is_del',0)->where('c_id',$c_id);
         if($name){
             $query = $query->where('name','like','%'.$name.'%');
         }
-        $query = $query->whereIn('type',[1,2])->orderBy('sort','asc')->paginate($limit);
+        $query = $query->whereIn('type',[1,2])->orderBy('sort','asc')->paginate($pageSize);
         foreach ($query as &$item){
             $item->total = Suit::query()->where('box_id',$item->id)->count();
             $item->surplus = Suit::query()->where('box_id',$item->id)->where('is_end',0)->count();
