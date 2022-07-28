@@ -61,7 +61,7 @@ class LoginController extends Controller
             CURLOPT_URL => "https://app.gamifly.co:3001/auth/login",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
-            CURLOPT_TIMEOUT => 30000,
+            CURLOPT_TIMEOUT => 50000,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "POST",
             CURLOPT_POSTFIELDS => $accessToken,
@@ -100,6 +100,7 @@ class LoginController extends Controller
         //     DB::rollBack();
         //     return $this->ajax(0,'登录失败');
         // }
+        return($response);
     }
 
     //忘记密码
