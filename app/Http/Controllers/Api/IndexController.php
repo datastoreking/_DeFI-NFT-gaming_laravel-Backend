@@ -63,10 +63,10 @@ class IndexController extends Controller
     }
 
     //盲盒列表
-    public function boxList(Request $request){
+    public function getBlindBoxesList(Request $request){
         $page = $request->input('page',1);
         $limit = $request->input('limit',10);
-        $c_id = $request->input('c_id',1);
+        $c_id = $request->input('blindBoxesType',1);
         $name = $request->input('name');
 
         $query = Box::query()->select('id','name','image','cover_image','price','type','create_time', 'bid_count')
