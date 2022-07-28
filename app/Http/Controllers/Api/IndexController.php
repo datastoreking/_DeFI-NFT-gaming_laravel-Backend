@@ -70,19 +70,10 @@ class IndexController extends Controller
 
         $query = Box::query()->select('id','name', 'c_id', 'image','cover_image','price','type','create_time', 'surplus', 'total_number')
             ->where('state',1)->where('is_del',0)->where('c_id',$c_id);
-        if($name){
-            $query = $query->where('name','like','%'.$name.'%');
-        }
-        $query = $query->whereIn('type',[1,2])->orderBy('sort','asc')->paginate($pageSize);
-        foreach ($query as &$item){
-            $item->total = Suit::query()->where('box_id',$item->id)->count();
-            $item->surplus = Suit::query()->where('box_id',$item->id)->where('is_end',0)->count();
-        }
         return $this->ajax(1,'请求成功',[
-            'count'=>$query->total(),
-            'page'=>$page,
-            'pages'=>$query->lastPage(),
-            'data'=>$query->items(),
+            'page'=>$pageNumber,
+            'pages'=>$pageSize,
+            'data'=>$query->first(),
         ]);
     }
 
