@@ -220,9 +220,9 @@ class IndexController extends Controller
             $random_number = array_shift($random_numbers);
             $random_goodsProbability = $goods[$random_goodsId]->ratio;
             $temp = 1000 * $random_goodsProbability;
-            // if($random_number > $temp) {
+            if($random_number > $temp) {
 
-            // }
+            }
             $client = new Client;
             $response = $client->request('POST', 'https://app.gamifly.co:3001/api/decrease', [
                 'user_id'=>'28',
@@ -237,7 +237,7 @@ class IndexController extends Controller
             //     'accessToken'=>'ya29.A0AVA9y1vrXfC-6mQ5rRy1M9PSo56w4qylekV2n1pr6DB0xQKeVk1gVG65AvT7BMK84OgXGEOg9bhXCEFdAbfcD8JxYFshmqI1m4bk2Om4DctDVBL0Mx8HlmZxSwZuiKNz3Qc8FrpYa2sXAE4H4PCkZ6SHRikcaHwYUNnWUtBVEFTQVRBU0ZRRTY1ZHI4b2x2RTNBUlRqTENxUjc4TlgtVE1fdw0166'
             // ]);
         }
-        return $this->ajax(1,'请求成功',$response);
+        return $this->ajax(1,'请求成功',$goods);
     }
 
     //当前箱子余量
