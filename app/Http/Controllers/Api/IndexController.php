@@ -64,12 +64,11 @@ class IndexController extends Controller
 
     //盲盒列表
     public function getBlindBoxesList(Request $request){
-        $page = $request->input('page',1);
-        $limit = $request->input('limit',10);
-        $c_id = $request->input('blindBoxesType',1);
-        $name = $request->input('name');
+        $pageNumber = $request->input('pageNumber');
+        $pageSize = $request->input('pageSize');
+        $c_id = $request->input('blindBoxesType');
 
-        $query = Box::query()->select('id','name','image','cover_image','price','type','create_time', 'bid_count')
+        $query = Box::query()->select('id','name', 'c_id', 'image','cover_image','price','type','create_time', 'bid_count')
             ->where('state',1)->where('is_del',0)->where('c_id',$c_id);
         if($name){
             $query = $query->where('name','like','%'.$name.'%');
