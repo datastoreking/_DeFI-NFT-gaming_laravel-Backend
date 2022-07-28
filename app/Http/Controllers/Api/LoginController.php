@@ -63,7 +63,8 @@ class LoginController extends Controller
             CURLOPT_ENCODING => "",
             CURLOPT_TIMEOUT => 30000,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => $accessToken,
             CURLOPT_HTTPHEADER => array(
                 // Set Here Your Requesred Headers
                 'Content-Type: application/json',
