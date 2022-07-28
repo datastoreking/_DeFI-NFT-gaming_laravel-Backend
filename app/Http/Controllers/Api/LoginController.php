@@ -55,51 +55,13 @@ class LoginController extends Controller
 
     //登录
     public function login(Request $request){
-        $accessToken = $request->input('accessToken');
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://app.gamifly.co:3001/auth/login",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_TIMEOUT => 50000,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "POST",
-            CURLOPT_POSTFIELDS => $accessToken,
-            CURLOPT_HTTPHEADER => array(
-                // Set Here Your Requesred Headers
-                'Content-Type: application/json',
-            ),
-        ));
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-        curl_close($curl);
-
-        if ($err) {
-            echo "cURL Error #:" . $err;
-        } else {
-            print_r(json_decode($response));
-        }
-        // $mobile = $request->input('mobile');
-        // $password = $request->input('password');
-        // if(empty($mobile)) return $this->ajax(0,'手机号不能为空');
-        // if(empty($password)) return $this->ajax(0,'密码不能为空');
-
-        // $user = User::query()->where('mobile',$mobile)->where('is_del',0)->first();
-        // if(!$user) return $this->ajax(0,'手机号未注册');
-
-
-        // if(!Hash::check($password,$user->password)) return $this->ajax(0,'密码错误');
-
-        // $token = User::getToken();
-        // DB::beginTransaction();
-        // $user->token = $token;
-        // if($user->save()){
-        //     DB::commit();
-        //     return $this->ajax(1,'登录成功',['token'=>$token]);
-        // }else{
-        //     DB::rollBack();
-        //     return $this->ajax(0,'登录失败');
-        // }
+        $accessToken = $request->input('accessToken');        
+        $ch = curl_init('https://app.gamifly.co:3001/auth/login');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $accessToken);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        var_dump($response);
         return($response);
     }
 
