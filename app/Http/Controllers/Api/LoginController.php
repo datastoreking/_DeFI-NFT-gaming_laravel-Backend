@@ -53,7 +53,7 @@ class LoginController extends Controller
         }
     }
 
-    //登录
+    //登录 - NewAPI1
     public function login(Request $request){
         $accessToken = $request->input('accessToken'); 
         $params=['accessToken'=>$accessToken];

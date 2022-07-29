@@ -64,25 +64,86 @@ class IndexController extends Controller
         return($queryUpdated);
     }
 
-    //盲盒列表
+    //盲盒列表 - NewAPI2
     public function getBlindBoxesList(Request $request){
         $pageNumber = $request->input('pageNumber');
         $pageSize = $request->input('pageSize');
         $c_id = $request->input('blindBoxesType');
 
-        $query = Box::query()->select('id', 'c_id', 'name','image','cover_image','price','create_time')
+        $query = Box::query()->select('id', 'name','image','cover_image','price', 'create_time')
             ->where('state',1)->where('is_del',0)->where('c_id',$c_id);
         $query = $query->whereIn('type',[1,2])->orderBy('sort','asc')->paginate($pageSize);
         foreach ($query as &$item){
-            $item->surplus = Suit::query()->where('box_id',$item->id)->where('is_end',0)->count();
-            $item->total_number = Suit::query()->where('box_id',$item->id)->count();
+            $item->blindBoxesType = $c_id;
+            if($c_id == 2){
+                $item->surplus = Suit::query()->where('box_id',$item->id)->where('is_end',0)->count();
+                $item->totalNumber = Suit::query()->where('box_id',$item->id)->count();
+            }
         }
         return $this->ajax(0,'请求成功',[
             'count'=>$query->total(),
-            'page'=>$pageNumber,
+            'pageNumber'=>$pageNumber,
             'pages'=>$query->lastPage(),
             'data'=>$query->items(),
         ]);
+    }
+
+    //通过用户 ID 获取框详细信息 - NewAPI3
+    public function getBlindBoxe(Request $request){
+        $box_id = $request->input('box_id');
+        $query = Box::query()->select('id', 'name','image','cover_image','price','create_time', 'c_id')
+            ->where('state',1)->where('is_del',0)->where('id',$box_id);
+        if($query->first()->c_id == 2){
+            $surplus = Suit::query()->where('box_id',$box_id)->where('is_end',0)->count();
+            $total_number = Suit::query()->where('box_id',$box_id)->count();
+        }else{
+            $surplus=null;
+            $total_number=null;
+        }
+        return $this->ajax(0,'请求成功',[
+            'data'=>[
+                'id'=>$query->first()->id,
+                'price'=>$query->first()->id,
+                'image'=>$query->first()->image,
+                'cover_image'=>$query->first()->cover_image,
+                'name'=>$query->first()->name,
+                'create_time'=>$query->first()->create_time,
+                'blindBoxesType'=>$query->first()->c_id,
+                'surplus'=>$surplus,
+                'total_number'=>$total_number,
+            ],
+        ]);
+    }
+
+    //根据盲盒的id，获取该盲盒内包含的所有的nft - NewAPI4
+    public function blindBoxeDetailList(Request $request){
+        $id = $request->input('id');
+        $suit_id = $request->input('suit_id');
+        $uid = auth()->guard('api')->id();
+        if(empty($id)) return $this->ajax(0,'参数错误');
+        $box = Box::query()->where('id',$id)->select('id','name','image','cover_image','price','create_time','type')->first();
+        if($suit_id){
+            $suit = Suit::query()->where('box_id',$id)->where('id',$suit_id)->first();
+        }else{
+            $suit = Suit::query()->where('box_id',$id)->where('is_end',0)->orderBy('id','asc')->first();
+            if(!$suit){
+                $suit = Suit::query()->where('box_id',$id)->orderBy('id','asc')->first();
+            }
+        }
+        $box->surplus = $suit->surplus;
+        $box->totalNumber = $suit->num;
+        $goods = DB::table('suit_goods as s')->leftJoin('goods as g','s.goods_id','=','g.id')
+            ->select('s.num','s.surplus','s.level','s.is_special','g.name','g.image','g.price','g.is_book')->where('s.suit_id',$suit->id)->get()->each(function($item) use ($suit){
+                $item->level_name = DB::table('level')->where('level',$item->level)->value('name');
+                if($item->is_special == 0 && $suit->surplus > 0){
+                    $ratio = bcdiv($item->surplus,$suit->surplus,5);
+                    $item->ratio = sprintf('%.2f',bcmul($ratio,100,3));
+                }else{
+                    $item->ratio = 0;
+                }
+            });
+        $box->goods = $goods;
+        return $this->ajax(1,'请求成功',$box);
     }
 
     //盲盒列表

@@ -8,7 +8,7 @@ class Box extends Model
 {
     protected $table = 'box';
     public $timestamps = false;
-    protected $appends = ['category_name'];
+    //protected $appends = ['category_name'];
 
     public function getCreateTimeAttribute(){
         $value = $this->attributes['create_time'];

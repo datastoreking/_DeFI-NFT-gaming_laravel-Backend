@@ -21,13 +21,15 @@ Route::post('single','Api\CommonController@single');//单页协议
 Route::post('getConfig','Api\CommonController@getConfig');//系统配置
 Route::post('sendSms','Api\CommonController@sendSms');//发送验证码
 Route::post('register','Api\LoginController@register');//注册
-Route::post('login','Api\LoginController@login');//登录
+Route::post('login','Api\LoginController@login');//登录 - NewAPI1
 Route::post('forget','Api\LoginController@forget');//忘记密码
 Route::post('ad','Api\IndexController@ad');//轮播图
 Route::post('category','Api\IndexController@category');//分类
 Route::post('level','Api\IndexController@level');//等级
 Route::post('bidAdd','Api\IndexController@bidAdd');//出价添加
-Route::post('getBlindBoxesList','Api\IndexController@getBlindBoxesList');//盲盒列表-new
+Route::post('getBlindBoxesList','Api\IndexController@getBlindBoxesList');//盲盒列表-NewAPI2
+Route::post('getBlindBoxe', 'Api\IndexController@getBlindBoxe');//-NewAPI3
+Route::post('blindBoxeDetailList','Api\IndexController@blindBoxeDetailList');//盲盒详情// NewAPI4
 Route::post('boxList','Api\IndexController@boxList');//盲盒列表
 Route::post('buyNFT','Api\IndexController@buyNFT');//购买 NFT
 Route::post('boxDetail','Api\IndexController@boxDetail');//盲盒详情
