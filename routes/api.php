@@ -32,8 +32,9 @@ Route::post('getBlindBoxe', 'Api\IndexController@getBlindBoxe');//-NewAPI3
 Route::post('blindBoxeDetailList','Api\IndexController@blindBoxeDetailList');//盲盒详情// NewAPI4
 Route::post('blindBoxeRankingList', 'Api\IndexController@blindBoxeRankingList');//NewAPI5
 Route::post('blindBoxeRecordList', 'Api\IndexController@blindBoxeRecordList');//NewAPI6
+Route::post('getChangeBoxList', 'Api\IndexController@getChangeBoxList');//NewAPI7
 Route::post('boxList','Api\IndexController@boxList');//盲盒列表
-Route::post('buyNFT','Api\IndexController@buyNFT');//购买 NFT
+Route::post('buyNFT','Api\IndexController@buyNFT');//购买 NFT NewAPI8
 Route::post('boxDetail','Api\IndexController@boxDetail');//盲盒详情
 Route::post('suitNum','Api\IndexController@suitNum');//盲盒详情余量
 Route::post('boxGoods','Api\IndexController@boxGoods');//盲盒详情记录

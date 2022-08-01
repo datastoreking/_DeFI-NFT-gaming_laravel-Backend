@@ -76,8 +76,8 @@ class IndexController extends Controller
         foreach ($query as &$item){
             $item->blindBoxesType = $c_id;
             if($c_id == 2){
-                $item->surplus = Suit::query()->where('box_id',$item->id)->where('is_end',0)->count();
-                $item->totalNumber = Suit::query()->where('box_id',$item->id)->count();
+                $item->surplus = 10 - Box::query()->select('bid_count')->where('id', $item->id)->first()->bid_count;
+                $item->totalNumber = 10;
             }
         }
         return $this->ajax(0,'请求成功',[
@@ -94,8 +94,8 @@ class IndexController extends Controller
         $query = Box::query()->select('id', 'name','image','cover_image','price','create_time', 'c_id')
             ->where('state',1)->where('is_del',0)->where('id',$box_id);
         if($query->first()->c_id == 2){
-            $surplus = Suit::query()->where('box_id',$box_id)->where('is_end',0)->count();
-            $total_number = Suit::query()->where('box_id',$box_id)->count();
+            $surplus = 10 - Box::query()->select('bid_count')->where('id', $box_id)->first()->bid_count;
+            $totalNumber = 10;
         }else{
             $surplus=null;
             $total_number=null;
@@ -110,7 +110,7 @@ class IndexController extends Controller
                 'create_time'=>$query->first()->create_time,
                 'blindBoxesType'=>$query->first()->c_id,
                 'surplus'=>$surplus,
-                'total_number'=>$total_number,
+                'total_number'=>$totalNumber,
             ],
         ]);
     }
@@ -282,7 +282,7 @@ class IndexController extends Controller
             });
         return $this->ajax(1,'请求成功',$goods);
     }
-
+    //NewAPI6
     public function blindBoxeRecordList(Request $request){
         $box_id = $request->input('box_id');
         $suit_id = $request->input('suit_id');
@@ -315,6 +315,60 @@ class IndexController extends Controller
             $result[$i]['time'] = $query->items()[$i]['create_time'];
         }
         return $this->ajax(1,'请求成功', $result);
+    }
+
+    //NewAPI7
+
+    public function getChangeBoxList(Request $request){
+        $id = $request->input('id');
+        $suit = Suit::query()->where('box_id',$id)->where('is_end',0)->orderBy('id','asc')->first();
+        $goods = DB::table('suit_goods as s')->leftJoin('goods as g','s.goods_id','=','g.id')
+            ->select('s.num','s.surplus','s.level','g.name', 'g.id')->where('s.suit_id',$suit->id);
+        $surplus = 0;
+        $result = array();
+        for($i = 0; $i < count($goods->get()); $i ++){
+            $result[$i]['id'] = $goods->get()[$i]->id;
+            $result[$i]['name'] = $goods->get()[$i]->name;
+            $result[$i]['surplus'] = $goods->get()[$i]->surplus;
+            $surplus += $result[$i]['surplus'];
+            $result[$i]['total'] = $goods->get()[$i]->num;
+        }
+        $data = [
+            'id' => $id,
+            'surplus' => $surplus,
+            'nftList' => $result
+        ];
+        return $this->ajax(1,'请求成功',$data);
+    }
+
+    //NewAPI8
+    public function buyNFT(Request $request) {
+        $id = $request->input('id');
+        $buyNumber = $request->input('buyNumber');
+        $suit = Suit::query()->where('box_id',$id)->where('is_end',0)->orderBy('id','asc')->first();
+        $goods = DB::table('suit_goods as s')->select('s.num','s.surplus', 's.sales', 's.ratio','s.goods_id')->where('s.suit_id',$suit->id);
+        $calcAmount = 0;
+        switch($buyNumber){
+            case 1:
+                $randomNumber = rand(1,100000);
+                for($i = 0; $i < count($goods->get()); $i ++){
+                    $calcAmount += $goods->get()[$i]->ratio * 1000;
+                    if($randomNumber > $calcAmount) continue;
+                    else{
+                        $getGoodsId = $goods->get()[$i]->goods_id;
+                        $getSales = $goods->get()[$i]->sales + 1;
+                        $getSurplus = $goods->get()[$i]->surplus - 1;
+                        break;
+                    }
+                }
+                $obj = SuitGoods::where('goods_id', $getGoodsId)->first();
+                $obj->sales = $getSales;
+                $obj->surplus = $getSurplus;
+                $obj->save();
+                return(SuitGoods::where('goods_id', $getGoodsId)->first());
+                break;
+            default: break;
+        }
     }
 
     //当前箱子记录
@@ -441,7 +495,8 @@ class IndexController extends Controller
     //     array_multisort($sort, SORT_DESC, $rank);
     //     return $this->ajax(1,'请求成功',$rank);
     // }
-
+    
+    //NewAPI5
     public function blindBoxeRankingList(Request $request){
         $pageNumber = $request->input('page',1);
         $pageSize = $request->input('pageSize',2);
@@ -560,6 +615,9 @@ class IndexController extends Controller
     //     array_multisort($sort, SORT_DESC, $rank);
     //     return $this->ajax(1,'请求成功',$rank);
     // }
+
+
+    
 
     //换箱-箱子列表
     public function suit(Request $request){
