@@ -66,13 +66,13 @@ class IndexController extends Controller
 
     //盲盒列表 - NewAPI2
     public function getBlindBoxesList(Request $request){
-        $pageNumber = $request->input('pageNumber');
-        $pageSize = $request->input('pageSize');
+        $page = $request->input('page',1);
+        $limit = $request->input('pageSize',2);
         $c_id = $request->input('blindBoxesType');
 
         $query = Box::query()->select('id', 'name','image','cover_image','price', 'create_time')
             ->where('state',1)->where('is_del',0)->where('c_id',$c_id);
-        $query = $query->whereIn('type',[1,2])->orderBy('sort','asc')->paginate($pageSize);
+        $query = $query->whereIn('type',[1])->orderBy('sort','asc')->paginate($limit);
         foreach ($query as &$item){
             $item->blindBoxesType = $c_id;
             if($c_id == 2){
@@ -82,7 +82,7 @@ class IndexController extends Controller
         }
         return $this->ajax(0,'请求成功',[
             'count'=>$query->total(),
-            'pageNumber'=>$pageNumber,
+            'pageNumber'=>$page,
             'pages'=>$query->lastPage(),
             'data'=>$query->items(),
         ]);
@@ -133,7 +133,7 @@ class IndexController extends Controller
         $box->surplus = $suit->surplus;
         $box->totalNumber = $suit->num;
         $goods = DB::table('suit_goods as s')->leftJoin('goods as g','s.goods_id','=','g.id')
-            ->select('s.num','s.surplus','s.level','s.is_special','g.name','g.image','g.price','g.is_book')->where('s.suit_id',$suit->id)->get()->each(function($item) use ($suit){
+            ->select('s.num','s.surplus','s.level','s.is_special','g.name','g.image','g.price','g.is_book', 'g.content')->where('s.suit_id',$suit->id)->get()->each(function($item) use ($suit){
                 $item->level_name = DB::table('level')->where('level',$item->level)->value('name');
                 if($item->is_special == 0 && $suit->surplus > 0){
                     $ratio = bcdiv($item->surplus,$suit->surplus,5);
@@ -143,13 +143,15 @@ class IndexController extends Controller
                 }
             });
         $box->goods = $goods;
+        // $box->level = $goods->level;
+        // $box->description = $goods->content;
         return $this->ajax(1,'请求成功',$box);
     }
 
     //盲盒列表
     public function boxList(Request $request){
         $page = $request->input('page',1);
-        $limit = $request->input('limit',10);
+        $limit = $request->input('limit',2);
         $c_id = $request->input('c_id',1);
         $name = $request->input('name');
 
@@ -281,6 +283,40 @@ class IndexController extends Controller
         return $this->ajax(1,'请求成功',$goods);
     }
 
+    public function blindBoxeRecordList(Request $request){
+        $box_id = $request->input('box_id');
+        $suit_id = $request->input('suit_id');
+        $page = $request->input('page',1);
+        $limit = $request->input('pageSize',6);
+        $number = $request->input('number');
+        $query = OrderGoods::query()->from('order_goods as o')
+            ->leftJoin('user as u','o.uid','=','u.id')
+            ->select('u.id','u.nickname','u.avatar','o.level','o.level_name','o.is_special','o.name','o.create_time')
+            ->where('o.box_id',$box_id)->where('o.suit_id',$suit_id);
+        if($number){
+            $query = $query->where('o.number','<=',$number);
+        }
+        $query = $query->orderBy('o.number','desc')->paginate($limit);
+        $suit = Suit::query()->find($suit_id);
+        if(!$number){
+            if($suit->is_end == 1){
+                $number = OrderGoods::query()->where('box_id',$box_id)->where('suit_id',$suit_id)->orderBy('number','desc')->value('number');
+            }else{
+                $number = OrderGoods::query()->where('box_id',$box_id)->where('suit_id',$suit_id)->where('is_special',0)->orderBy('number','desc')->value('number');
+            }
+        }
+        $result = array();
+        for($i = 0; $i < count($query->items()); $i ++){
+            $result[$i]['id'] = $query->items()[$i]['id'];
+            $result[$i]['name'] = $query->items()[$i]['nickname'];
+            $result[$i]['img'] = $query->items()[$i]['avatar'];
+            $result[$i]['nftName'] = $query->items()[$i]['name'];
+            $result[$i]['level'] = $query->items()[$i]['level'];
+            $result[$i]['time'] = $query->items()[$i]['create_time'];
+        }
+        return $this->ajax(1,'请求成功', $result);
+    }
+
     //当前箱子记录
     public function boxGoods(Request $request){
         $box_id = $request->input('box_id');
@@ -343,81 +379,84 @@ class IndexController extends Controller
     }
 
     //次数排行
-    public function timesRank(Request $request){
-        $box_id = $request->input('box_id');
-        $suit_id = $request->input('suit_id');
-        $where['box_id'] = $box_id;
-        $where['suit_id'] = $suit_id;
-        $rank = OrderGoods::query()->where($where)->select('uid')->distinct()->get()->toArray();
-        foreach ($rank as $key=>$value){
-            $user = User::query()->find($value['uid']);
-            $rank[$key]['nickname'] = $user->nickname;
-            $rank[$key]['avatar'] = $user->avatar;
-            $rank[$key]['total'] = OrderGoods::query()->where($where)->where('is_special',0)->where('uid',$value['uid'])->count();
-            $levelData = OrderGoods::query()->where($where)->where('uid',$value['uid'])->select('level')->distinct('level')->get()->toArray();
-            foreach ($levelData as $k=>$v){
-                $times = OrderGoods::query()->where($where)->where('uid',$value['uid'])->where('level',$v['level'])->count();
-                $level = Level::query()->where('level',$v['level'])->first();
-                $levelData[$k]['times'] = $times;
-                $levelData[$k]['sort'] = $level->sort;
-                $levelData[$k]['level_name'] = $level->name;
-            }
-            $sorts = array_column($levelData,'sort');
-            array_multisort($sorts, SORT_ASC, $levelData);
-            $rank[$key]['times'] = $levelData;
-        }
-        $sort = array_column($rank,'total');
-        array_multisort($sort, SORT_DESC, $rank);
-        return $this->ajax(1,'请求成功',$rank);
-    }
+    // public function timesRank(Request $request){
+    //     $box_id = $request->input('box_id');
+    //     $suit_id = $request->input('suit_id');
+    //     $where['box_id'] = $box_id;
+    //     $where['suit_id'] = $suit_id;
+    //     $rank = OrderGoods::query()->where($where)->select('uid')->distinct()->get()->toArray();
+    //     foreach ($rank as $key=>$value){
+    //         $user = User::query()->find($value['uid']);
+    //         $rank[$key]['nickname'] = $user->nickname;
+    //         $rank[$key]['avatar'] = $user->avatar;
+    //         $rank[$key]['total'] = OrderGoods::query()->where($where)->where('is_special',0)->where('uid',$value['uid'])->count();
+    //         $levelData = OrderGoods::query()->where($where)->where('uid',$value['uid'])->select('level')->distinct('level')->get()->toArray();
+    //         foreach ($levelData as $k=>$v){
+    //             $times = OrderGoods::query()->where($where)->where('uid',$value['uid'])->where('level',$v['level'])->count();
+    //             $level = Level::query()->where('level',$v['level'])->first();
+    //             $levelData[$k]['times'] = $times;
+    //             $levelData[$k]['sort'] = $level->sort;
+    //             $levelData[$k]['level_name'] = $level->name;
+    //         }
+    //         $sorts = array_column($levelData,'sort');
+    //         array_multisort($sorts, SORT_ASC, $levelData);
+    //         $rank[$key]['times'] = $levelData;
+    //     }
+    //     $sort = array_column($rank,'total');
+    //     array_multisort($sort, SORT_DESC, $rank);
+    //     return $this->ajax(1,'请求成功',$rank);
+    // }
 
     //竞技赏次数
-    public function timesRankLog(Request $request){
-        $box_id = $request->input('box_id');
-        $suit_id = $request->input('suit_id');
-        $where['box_id'] = $box_id;
-        $where['suit_id'] = $suit_id;
-        $suit = Suit::query()->find($suit_id);
-        $rank = OrderGoods::query()->where($where)->select('uid')->distinct()->get()->toArray();
-        foreach ($rank as $key=>$value){
-            $user = User::query()->find($value['uid']);
-            $rank[$key]['nickname'] = $user->nickname;
-            $rank[$key]['avatar'] = $user->avatar;
-            $rank[$key]['total'] = OrderGoods::query()->where($where)->where('is_special',0)->where('uid',$value['uid'])->count();
-            if($suit->is_end == 1){
-                $levelData = OrderGoods::query()->where($where)->where('uid',$value['uid'])->select('level')->distinct('level')->get()->toArray();
-            }else{
-                $levelData = OrderGoods::query()->where($where)->where('uid',$value['uid'])->where('is_special',0)->select('level')->distinct('level')->get()->toArray();
-            }
+    // public function timesRankLog(Request $request){
+    //     $box_id = $request->input('box_id');
+    //     $suit_id = $request->input('suit_id');
+    //     $where['box_id'] = $box_id;
+    //     $where['suit_id'] = $suit_id;
+    //     $suit = Suit::query()->find($suit_id);
+    //     $rank = OrderGoods::query()->where($where)->select('uid')->distinct()->get()->toArray();
+    //     foreach ($rank as $key=>$value){
+    //         $user = User::query()->find($value['uid']);
+    //         $rank[$key]['nickname'] = $user->nickname;
+    //         $rank[$key]['avatar'] = $user->avatar;
+    //         $rank[$key]['total'] = OrderGoods::query()->where($where)->where('is_special',0)->where('uid',$value['uid'])->count();
+    //         if($suit->is_end == 1){
+    //             $levelData = OrderGoods::query()->where($where)->where('uid',$value['uid'])->select('level')->distinct('level')->get()->toArray();
+    //         }else{
+    //             $levelData = OrderGoods::query()->where($where)->where('uid',$value['uid'])->where('is_special',0)->select('level')->distinct('level')->get()->toArray();
+    //         }
 
-            foreach ($levelData as $k=>$v){
-                $times = OrderGoods::query()->where($where)->where('uid',$value['uid'])->where('level',$v['level'])->count();
-                $level = Level::query()->where('level',$v['level'])->first();
-                $levelData[$k]['times'] = $times;
-                $levelData[$k]['sort'] = $level->sort;
-                $levelData[$k]['level_name'] = $level->name;
-            }
-            $sorts = array_column($levelData,'sort');
-            array_multisort($sorts, SORT_ASC, $levelData);
-            $rank[$key]['times'] = $levelData;
-        }
-        $sort = array_column($rank,'total');
-        array_multisort($sort, SORT_DESC, $rank);
-        return $this->ajax(1,'请求成功',$rank);
-    }
+    //         foreach ($levelData as $k=>$v){
+    //             $times = OrderGoods::query()->where($where)->where('uid',$value['uid'])->where('level',$v['level'])->count();
+    //             $level = Level::query()->where('level',$v['level'])->first();
+    //             $levelData[$k]['times'] = $times;
+    //             $levelData[$k]['sort'] = $level->sort;
+    //             $levelData[$k]['level_name'] = $level->name;
+    //         }
+    //         $sorts = array_column($levelData,'sort');
+    //         array_multisort($sorts, SORT_ASC, $levelData);
+    //         $rank[$key]['times'] = $levelData;
+    //     }
+    //     $sort = array_column($rank,'total');
+    //     array_multisort($sort, SORT_DESC, $rank);
+    //     return $this->ajax(1,'请求成功',$rank);
+    // }
 
-    //欧皇排行
-    public function luckRank(Request $request){
+    public function blindBoxeRankingList(Request $request){
+        $pageNumber = $request->input('page',1);
+        $pageSize = $request->input('pageSize',2);
         $box_id = $request->input('box_id');
-        $suit_id = $request->input('suit_id');
+        //$suit_id = $request->input('suit_id');
         $where['box_id'] = $box_id;
-        $where['suit_id'] = $suit_id;
+        //$where['suit_id'] = $suit_id;
+        //$rank_page = OrderGoods::query()->where($where)->pagination($pageSize);
         $rank = OrderGoods::query()->where($where)->select('uid')->distinct()->get()->toArray();
+        $count = count($rank);
         $box = Box::query()->find($box_id);
         foreach ($rank as $key=>$value){
             $user = User::query()->find($value['uid']);
-            $rank[$key]['nickname'] = $user->nickname;
-            $rank[$key]['avatar'] = $user->avatar;
+            $rank[$key]['name'] = $user->nickname;
+            $rank[$key]['img'] = $user->avatar;
             $rank[$key]['total'] = OrderGoods::query()->where($where)->where('is_special',0)->where('uid',$value['uid'])->count();
             $total_price = 0;
             $orderGoods = OrderGoods::query()->where($where)->where('uid',$value['uid'])->get();
@@ -429,61 +468,98 @@ class IndexController extends Controller
             foreach ($levelData as $k=>$v){
                 $times = OrderGoods::query()->where($where)->where('uid',$value['uid'])->where('level',$v['level'])->count();
                 $level = Level::query()->where('level',$v['level'])->first();
-                $levelData[$k]['times'] = $times;
-                $levelData[$k]['sort'] = $level->sort;
-                $levelData[$k]['level_name'] = $level->name;
+                $levelData[$k]['time'] = $times;
+                $levelData[$k]['rank'] = $level->sort;
+                //$levelData[$k]['level_name'] = $level->name;
             }
-            $sorts = array_column($levelData,'sort');
+            $sorts = array_column($levelData,'rank');
             array_multisort($sorts, SORT_ASC, $levelData);
             $rank[$key]['times'] = $levelData;
         }
         $sort = array_column($rank,'total_price');
         array_multisort($sort, SORT_DESC, $rank);
+        
         return $this->ajax(1,'请求成功',$rank);
     }
+
+    //欧皇排行
+    // public function luckRank(Request $request){
+    //     $box_id = $request->input('box_id');
+    //     $suit_id = $request->input('suit_id');
+    //     $where['box_id'] = $box_id;
+    //     $where['suit_id'] = $suit_id;
+    //     $rank = OrderGoods::query()->where($where)->select('uid')->distinct()->get()->toArray();
+    //     $box = Box::query()->find($box_id);
+    //     foreach ($rank as $key=>$value){
+    //         $user = User::query()->find($value['uid']);
+    //         $rank[$key]['nickname'] = $user->nickname;
+    //         $rank[$key]['avatar'] = $user->avatar;
+    //         $rank[$key]['total'] = OrderGoods::query()->where($where)->where('is_special',0)->where('uid',$value['uid'])->count();
+    //         $total_price = 0;
+    //         $orderGoods = OrderGoods::query()->where($where)->where('uid',$value['uid'])->get();
+    //         foreach ($orderGoods as $item){
+    //             $total_price += $item->cost_price - $box->price;
+    //         }
+    //         $rank[$key]['total_price'] = $total_price;
+    //         $levelData = OrderGoods::query()->where($where)->where('uid',$value['uid'])->select('level')->distinct('level')->get()->toArray();
+    //         foreach ($levelData as $k=>$v){
+    //             $times = OrderGoods::query()->where($where)->where('uid',$value['uid'])->where('level',$v['level'])->count();
+    //             $level = Level::query()->where('level',$v['level'])->first();
+    //             $levelData[$k]['times'] = $times;
+    //             $levelData[$k]['sort'] = $level->sort;
+    //             $levelData[$k]['level_name'] = $level->name;
+    //         }
+    //         $sorts = array_column($levelData,'sort');
+    //         array_multisort($sorts, SORT_ASC, $levelData);
+    //         $rank[$key]['times'] = $levelData;
+    //     }
+    //     $sort = array_column($rank,'total_price');
+    //     array_multisort($sort, SORT_DESC, $rank);
+    //     return $this->ajax(1,'请求成功',$rank);
+    // }
 
     //竞技场欧皇
-    public function luckRankLog(Request $request){
-        $box_id = $request->input('box_id');
-        $suit_id = $request->input('suit_id');
-        $where['box_id'] = $box_id;
-        $where['suit_id'] = $suit_id;
-        $suit = Suit::query()->find($suit_id);
-        $rank = OrderGoods::query()->where($where)->select('uid')->distinct()->get()->toArray();
-        $box = Box::query()->find($box_id);
-        foreach ($rank as $key=>$value){
-            $user = User::query()->find($value['uid']);
-            $rank[$key]['nickname'] = $user->nickname;
-            $rank[$key]['avatar'] = $user->avatar;
-            $rank[$key]['total'] = OrderGoods::query()->where($where)->where('is_special',0)->where('uid',$value['uid'])->count();
-            $total_price = 0;
-            if($suit->is_end == 1){
-                $orderGoods = OrderGoods::query()->where($where)->where('uid',$value['uid'])->get();
-                $levelData = OrderGoods::query()->where($where)->where('uid',$value['uid'])->select('level')->distinct('level')->get()->toArray();
-            }else{
-                $orderGoods = OrderGoods::query()->where($where)->where('is_special',0)->where('uid',$value['uid'])->get();
-                $levelData = OrderGoods::query()->where($where)->where('uid',$value['uid'])->where('is_special',0)->select('level')->distinct('level')->get()->toArray();
-            }
+    // public function luckRankLog(Request $request){
+    //     $box_id = $request->input('box_id');
+    //     $suit_id = $request->input('suit_id');
+    //     $where['box_id'] = $box_id;
+    //     $where['suit_id'] = $suit_id;
+    //     $suit = Suit::query()->find($suit_id);
+    //     $rank = OrderGoods::query()->where($where)->select('uid')->distinct()->get()->toArray();
+    //     $box = Box::query()->find($box_id);
+    //     foreach ($rank as $key=>$value){
+    //         $user = User::query()->find($value['uid']);
+    //         $rank[$key]['nickname'] = $user->nickname;
+    //         $rank[$key]['avatar'] = $user->avatar;
+    //         $rank[$key]['total'] = OrderGoods::query()->where($where)->where('is_special',0)->where('uid',$value['uid'])->count();
+    //         $total_price = 0;
+    //         if($suit->is_end == 1){
+    //             $orderGoods = OrderGoods::query()->where($where)->where('uid',$value['uid'])->get();
+    //             $levelData = OrderGoods::query()->where($where)->where('uid',$value['uid'])->select('level')->distinct('level')->get()->toArray();
+    //         }else{
+    //             $orderGoods = OrderGoods::query()->where($where)->where('is_special',0)->where('uid',$value['uid'])->get();
+    //             $levelData = OrderGoods::query()->where($where)->where('uid',$value['uid'])->where('is_special',0)->select('level')->distinct('level')->get()->toArray();
+    //         }
 
-            foreach ($orderGoods as $item){
-                $total_price += $item->cost_price - $box->price;
-            }
-            $rank[$key]['total_price'] = $total_price;
-            foreach ($levelData as $k=>$v){
-                $times = OrderGoods::query()->where($where)->where('uid',$value['uid'])->where('level',$v['level'])->count();
-                $level = Level::query()->where('level',$v['level'])->first();
-                $levelData[$k]['times'] = $times;
-                $levelData[$k]['sort'] = $level->sort;
-                $levelData[$k]['level_name'] = $level->name;
-            }
-            $sorts = array_column($levelData,'sort');
-            array_multisort($sorts, SORT_ASC, $levelData);
-            $rank[$key]['times'] = $levelData;
-        }
-        $sort = array_column($rank,'total_price');
-        array_multisort($sort, SORT_DESC, $rank);
-        return $this->ajax(1,'请求成功',$rank);
-    }
+    //         foreach ($orderGoods as $item){
+    //             $total_price += $item->cost_price - $box->price;
+    //         }
+    //         $rank[$key]['total_price'] = $total_price;
+    //         foreach ($levelData as $k=>$v){
+    //             $times = OrderGoods::query()->where($where)->where('uid',$value['uid'])->where('level',$v['level'])->count();
+    //             $level = Level::query()->where('level',$v['level'])->first();
+    //             $levelData[$k]['times'] = $times;
+    //             $levelData[$k]['sort'] = $level->sort;
+    //             $levelData[$k]['level_name'] = $level->name;
+    //         }
+    //         $sorts = array_column($levelData,'sort');
+    //         array_multisort($sorts, SORT_ASC, $levelData);
+    //         $rank[$key]['times'] = $levelData;
+    //     }
+    //     $sort = array_column($rank,'total_price');
+    //     array_multisort($sort, SORT_DESC, $rank);
+    //     return $this->ajax(1,'请求成功',$rank);
+    // }
 
     //换箱-箱子列表
     public function suit(Request $request){

@@ -30,6 +30,8 @@ Route::post('bidAdd','Api\IndexController@bidAdd');//出价添加
 Route::post('getBlindBoxesList','Api\IndexController@getBlindBoxesList');//盲盒列表-NewAPI2
 Route::post('getBlindBoxe', 'Api\IndexController@getBlindBoxe');//-NewAPI3
 Route::post('blindBoxeDetailList','Api\IndexController@blindBoxeDetailList');//盲盒详情// NewAPI4
+Route::post('blindBoxeRankingList', 'Api\IndexController@blindBoxeRankingList');//NewAPI5
+Route::post('blindBoxeRecordList', 'Api\IndexController@blindBoxeRecordList');//NewAPI6
 Route::post('boxList','Api\IndexController@boxList');//盲盒列表
 Route::post('buyNFT','Api\IndexController@buyNFT');//购买 NFT
 Route::post('boxDetail','Api\IndexController@boxDetail');//盲盒详情
