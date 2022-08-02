@@ -379,12 +379,9 @@ class IndexController extends Controller
                             ->update(['is_del' => 1]);
                         var_dump("Game over in this box");
                     } 
-                    //return(Box::query()->select('is_del')->where('id', $id)->first());
                 } else {
                     break;
                 }
-                break;
-                
                 //return coin if that item is an special 
                 $params=['accessToken'=>$accessToken];
                 $ch = curl_init('https://app.gamifly.co:3001/api/decrease');
@@ -393,6 +390,7 @@ class IndexController extends Controller
                 $response = curl_exec($ch);
                 curl_close($ch);
                 return($response);
+                break;
             default: break;
         }
     }
