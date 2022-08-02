@@ -64,6 +64,7 @@ class LoginController extends Controller
         curl_close($ch);
         return($response);
     }
+    
 
     //忘记密码
     public function forget(Request $request){

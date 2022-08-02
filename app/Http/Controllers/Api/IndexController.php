@@ -360,25 +360,31 @@ class IndexController extends Controller
                     else{
                         $getGoodsId = $goods->get()[$i]->goods_id;
                         var_dump($getGoodsId);
-                        $getSurplus = $goods->get()[$i]->surplus - 1;
-                        var_dump($getSurplus);
-                        $getSales = $goods->get()[$i]->sales + 1;
+                        $getCurrentSurplus = $goods->get()[$i]->surplus;
+                        var_dump($getCurrentSurplus);
+                        $getCurrentSales = $goods->get()[$i]->sales;
                         break;
                     }
                 }
 
                 //remove that item in box
-                DB::table('suit_goods')
-                            ->where('goods_id', $getGoodsId)
-                            ->update(['sales' => $getSales, 'surplus' => $getSurplus]);
-                if($getSurplus == 0){   
-                    DB::table('box')
-                        ->where('id', $id)
-                        ->update(['is_del' => 1]);
-                } 
-                return(Box::query()->select('is_del')->where('id', $id)->first());
-                //return coin if that item is an special
+                if($getCurrentSurplus > 0){
+                    $sales = $getCurrentSales + 1;
+                    $surplus = $getCurrentSurplus - 1;
+                    DB::table('suit_goods')->where('goods_id', $getGoodsId)->update(['sales' => $sales, 'surplus' => $surplus]);
+                    if($surplus == 0){   
+                        DB::table('box')
+                            ->where('id', $id)
+                            ->update(['is_del' => 1]);
+                        var_dump("Game over in this box");
+                    } 
+                    return(Box::query()->select('is_del')->where('id', $id)->first());
+                } else {
+                    break;
+                }
+                break;
                 
+                // //return coin if that item is an special
                 // $accessToken = $request->input('accessToken'); 
                 // $params=['accessToken'=>$accessToken];
                 // $ch = curl_init('https://app.gamifly.co:3001/auth/login');
@@ -387,7 +393,6 @@ class IndexController extends Controller
                 // $response = curl_exec($ch);
                 // curl_close($ch);
                 // return($response);
-                break;
             default: break;
         }
     }
