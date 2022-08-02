@@ -58,8 +58,10 @@ class IndexController extends Controller
         $query = Box::query()->select('bid_count')->where('id', $box_id)->first();
         $currentBidcount = $query->bid_count;
         $updatedBidcount = $currentBidcount + $bid_count_add;
-        Box::where('id', $box_id)
-            ->update(['bid_count' => $updatedBidcount]);
+        $getCID = Box::query()->select('c_id')->where('id', $box_id)->first()->c_id;
+        if($getCID == 2){
+            Box::where('id', $box_id)->update(['bid_count' => $updatedBidcount]);
+        }
         $queryUpdated = Box::query()->select('id', 'bid_count')->where('id', $box_id)->first();
         return($queryUpdated);
     }
@@ -350,22 +352,41 @@ class IndexController extends Controller
         $calcAmount = 0;
         switch($buyNumber){
             case 1:
+                // get goodsId to remove according to random number
                 $randomNumber = rand(1,100000);
                 for($i = 0; $i < count($goods->get()); $i ++){
                     $calcAmount += $goods->get()[$i]->ratio * 1000;
                     if($randomNumber > $calcAmount) continue;
                     else{
                         $getGoodsId = $goods->get()[$i]->goods_id;
-                        $getSales = $goods->get()[$i]->sales + 1;
+                        var_dump($getGoodsId);
                         $getSurplus = $goods->get()[$i]->surplus - 1;
+                        var_dump($getSurplus);
+                        $getSales = $goods->get()[$i]->sales + 1;
                         break;
                     }
                 }
-                $obj = SuitGoods::where('goods_id', $getGoodsId)->first();
-                $obj->sales = $getSales;
-                $obj->surplus = $getSurplus;
-                $obj->save();
-                return(SuitGoods::where('goods_id', $getGoodsId)->first());
+
+                //remove that item in box
+                DB::table('suit_goods')
+                            ->where('goods_id', $getGoodsId)
+                            ->update(['sales' => $getSales, 'surplus' => $getSurplus]);
+                if($getSurplus == 0){   
+                    DB::table('box')
+                        ->where('id', $id)
+                        ->update(['is_del' => 1]);
+                } 
+                return(Box::query()->select('is_del')->where('id', $id)->first());
+                //return coin if that item is an special
+                
+                // $accessToken = $request->input('accessToken'); 
+                // $params=['accessToken'=>$accessToken];
+                // $ch = curl_init('https://app.gamifly.co:3001/auth/login');
+                // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                // curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+                // $response = curl_exec($ch);
+                // curl_close($ch);
+                // return($response);
                 break;
             default: break;
         }
