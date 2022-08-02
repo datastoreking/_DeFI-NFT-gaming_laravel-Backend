@@ -347,6 +347,7 @@ class IndexController extends Controller
     public function buyNFT(Request $request) {
         $id = $request->input('id');
         $buyNumber = $request->input('buyNumber');
+        $accessToken = $request->input('accessToken');
         $suit = Suit::query()->where('box_id',$id)->where('is_end',0)->orderBy('id','asc')->first();
         $goods = DB::table('suit_goods as s')->select('s.num','s.surplus', 's.sales', 's.ratio','s.goods_id')->where('s.suit_id',$suit->id);
         $calcAmount = 0;
@@ -378,21 +379,20 @@ class IndexController extends Controller
                             ->update(['is_del' => 1]);
                         var_dump("Game over in this box");
                     } 
-                    return(Box::query()->select('is_del')->where('id', $id)->first());
+                    //return(Box::query()->select('is_del')->where('id', $id)->first());
                 } else {
                     break;
                 }
                 break;
                 
-                // //return coin if that item is an special
-                // $accessToken = $request->input('accessToken'); 
-                // $params=['accessToken'=>$accessToken];
-                // $ch = curl_init('https://app.gamifly.co:3001/auth/login');
-                // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                // curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-                // $response = curl_exec($ch);
-                // curl_close($ch);
-                // return($response);
+                //return coin if that item is an special 
+                $params=['accessToken'=>$accessToken];
+                $ch = curl_init('https://app.gamifly.co:3001/api/decrease');
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+                $response = curl_exec($ch);
+                curl_close($ch);
+                return($response);
             default: break;
         }
     }
