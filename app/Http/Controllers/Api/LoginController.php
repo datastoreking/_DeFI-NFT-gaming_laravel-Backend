@@ -63,6 +63,30 @@ class LoginController extends Controller
         $response = curl_exec($ch);
         curl_close($ch);
         $result = json_decode($response,true);
+        $data = [];
+        $data['id'] = $result['id'];
+        $data['nickname'] = $result['name'];
+        $data['avatar'] = $result['avatar'];
+        $data['mobile'] = '';
+        $data['password'] = '';
+        $data['balance'] = '';
+        $data['score'] = '';
+        $data['token'] = $result['access_token'];
+        $data['created'] = $result['created'];
+        $data['create_time'] = '';
+        $data['state'] = '';
+        $data['is_del'] = 0;
+        $data['achieve'] = 0;
+        $data['platform_wallet'] = $result['platform_wallet'];
+        $data['email'] = $result['email'];
+        $data['external_wallet_address'] = $result['external_wallet_address'];
+        $data['bitcoin_address'] = $result['bitcoin_address'];
+        $data['sol_address'] = $result['sol_address'];
+        $data['login_type'] = $result['login_type'];
+        $data['verified'] = $result['verified'];
+        $data['referral_id'] = $result['referral_id'];
+        $data['ip'] = $result['ip'];
+        DB::table('user')->insert($data);
         return($result);
     }
     
