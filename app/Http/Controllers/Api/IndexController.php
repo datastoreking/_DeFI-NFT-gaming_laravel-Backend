@@ -347,51 +347,57 @@ class IndexController extends Controller
     public function buyNFT(Request $request) {
         $id = $request->input('id');
         $buyNumber = $request->input('buyNumber');
+        $c_id = Box::query()->where('id',$id)->select('c_id')->first();
         $accessToken = $request->input('accessToken');
         $suit = Suit::query()->where('box_id',$id)->where('is_end',0)->orderBy('id','asc')->first();
         $goods = DB::table('suit_goods as s')->select('s.num','s.surplus', 's.sales', 's.ratio','s.goods_id')->where('s.suit_id',$suit->id);
         $calcAmount = 0;
-        switch($buyNumber){
-            case 1:
-                // get goodsId to remove according to random number
-                $randomNumber = rand(1,100000);
-                for($i = 0; $i < count($goods->get()); $i ++){
-                    $calcAmount += $goods->get()[$i]->ratio * 1000;
-                    if($randomNumber > $calcAmount) continue;
-                    else{
-                        $getGoodsId = $goods->get()[$i]->goods_id;
-                        var_dump($getGoodsId);
-                        $getCurrentSurplus = $goods->get()[$i]->surplus;
-                        var_dump($getCurrentSurplus);
-                        $getCurrentSales = $goods->get()[$i]->sales;
-                        break;
-                    }
-                }
-
-                //remove that item in box
-                if($getCurrentSurplus > 0){
-                    $sales = $getCurrentSales + 1;
-                    $surplus = $getCurrentSurplus - 1;
-                    DB::table('suit_goods')->where('goods_id', $getGoodsId)->update(['sales' => $sales, 'surplus' => $surplus]);
-                    if($surplus == 0){   
-                        DB::table('box')
-                            ->where('id', $id)
-                            ->update(['is_del' => 1]);
-                        var_dump("Game over in this box");
-                    } 
-                } else {
+        for($j = 0; $j < $buyNumber; $j++){
+            if($c_id == 2) {
+                $this->bidAdd($box_id = $id, $bid_count_add = $buyNumber);
+                $bid_count = Box::query()->where('id',$id)->select('bid_count')->first();
+            }
+            if(($c_id == 1) || ($bid_count == 10)){
+            // get goodsId to remove according to random number
+            $randomNumber = rand(1,100000);
+            for($i = 0; $i < count($goods->get()); $i ++){
+                $calcAmount += $goods->get()[$i]->ratio * 1000;
+                if($randomNumber > $calcAmount) continue;
+                else{
+                    $getGoodsId = $goods->get()[$i]->goods_id;
+                    var_dump($getGoodsId);
+                    $getCurrentSurplus = $goods->get()[$i]->surplus;
+                    var_dump($getCurrentSurplus);
+                    $getCurrentSales = $goods->get()[$i]->sales;
                     break;
                 }
-                //return coin if that item is an special 
-                $params=['accessToken'=>$accessToken];
-                $ch = curl_init('https://app.gamifly.co:3001/api/decrease');
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-                $response = curl_exec($ch);
-                curl_close($ch);
-                return($response);
+            }
+            //remove that item in box
+            if($getCurrentSurplus > 1){
+                $sales = $getCurrentSales + 1;
+                $surplus = $getCurrentSurplus - 1;
+                DB::table('suit_goods')->where('goods_id', $getGoodsId)->update(['sales' => $sales, 'surplus' => $surplus]);
+                if($surplus == 0){   
+                    DB::table('box')
+                        ->where('id', $id)
+                        ->update(['is_del' => 1]);
+                    var_dump("Game over in this box");
+                } 
+            } else {
                 break;
-            default: break;
+            }
+            
+            //pay to buy NFT 1
+            $params=['accessToken'=>$accessToken];
+            $ch = curl_init('https://app.gamifly.co:3001/api/decrease');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+            $response = curl_exec($ch);
+            curl_close($ch);
+            return($response);
+            // return coin when is special 
+            // $isSpecial = DB::table('suit_goods')->select('is_special')->where('goods_id', $getGoodsId)->is_special->first();
+            }
         }
     }
 
