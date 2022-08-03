@@ -351,6 +351,7 @@ class IndexController extends Controller
         $c_id = $query->c_id;
         $price = $query->price;
         $accessToken = $request->input('accessToken');
+        $user_id = User::query()->where('token',$accessToken)->select('id')->first()->id;
         $suit = Suit::query()->where('box_id',$id)->where('is_end',0)->orderBy('id','asc')->first();
         $goods = DB::table('suit_goods as s')->select('s.num','s.surplus', 's.sales', 's.ratio','s.goods_id')->where('s.suit_id',$suit->id);
         $calcAmount = 0;
@@ -386,7 +387,7 @@ class IndexController extends Controller
                     break;
                 }
                 //pay to buy NFT 1
-                $params=['accessToken'=>$accessToken, 'amount'=>$price];
+                $params=['accessToken'=>$accessToken, 'id'=>$user_id, 'reason'=>'buyNFT', 'amount'=>$price];
                 $ch = curl_init('https://app.gamifly.co:3001/api/decrease');
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
