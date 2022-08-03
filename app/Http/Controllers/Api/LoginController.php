@@ -62,7 +62,8 @@ class LoginController extends Controller
         curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
         $response = curl_exec($ch);
         curl_close($ch);
-        return($response);
+        $result = json_decode($response,true);
+        return($result);
     }
     
 
