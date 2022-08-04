@@ -360,6 +360,14 @@ class IndexController extends Controller
                 $bid_count = $this->bidAdd($id, $buyNumber)->bid_count;
             }
             if(($c_id == 1) || ($bid_count == 10)){
+                // //pay to get reward
+                // $params=['accessToken'=>$accessToken, 'user_id'=>$user_id, 'reason'=>'buyNFT', 'amount'=>$price];
+                // $ch = curl_init('https://app.gamifly.co:3001/api/decrease');
+                // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                // curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+                // $response = curl_exec($ch);
+                // curl_close($ch);
+
                 // get goodsId to remove according to random number
                 $randomNumber = rand(1,100000);
                 for($i = 0; $i < count($goods->get()); $i ++){
@@ -386,18 +394,17 @@ class IndexController extends Controller
                 } else {
                     break;
                 }
-                //pay to buy NFT 1
-                $params=['accessToken'=>$accessToken, 'id'=>$user_id, 'reason'=>'buyNFT', 'amount'=>$price];
-                $ch = curl_init('https://app.gamifly.co:3001/api/decrease');
+                
+                //return coin when is special 
+                $isSpecial = SuitGoods::query()->where('goods_id',$getGoodsId)->select('is_special')->first()->is_special;
+               $params1=['user_id'=>$user_id, 'type'=>0, 'amount'=>2, 'contract_address'=>'0x28e55F02D628da22FA0E13C5159bd8bceF2cC664', ];
+                $ch = curl_init('https://app.gamifly.co:3001/api/sendBlindReward');
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-                $response = curl_exec($ch);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $params1);
+                $res = curl_exec($ch);
                 curl_close($ch);
-                return($response);
-                // return coin when is special 
-                // $isSpecial = DB::table('suit_goods')->select('is_special')->where('goods_id', $getGoodsId)->is_special->first();
+                return(json_decode($res, true));
             }
-            // return(DB::table('suit_goods')->select('surplus')->where('goods_id', $getGoodsId)->surplus);
         }
     }
 
