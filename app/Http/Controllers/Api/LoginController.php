@@ -63,13 +63,14 @@ class LoginController extends Controller
         $response = curl_exec($ch);
         curl_close($ch);
         $result = json_decode($response,true);
+
         $data = [];
         $data['id'] = $result['id'];
         $data['nickname'] = $result['name'];
         $data['avatar'] = $result['avatar'];
         $data['mobile'] = '';
         $data['password'] = '';
-        $data['balance'] = '';
+        $data['balance'] = $result['balance'];
         $data['score'] = '';
         $data['token'] = $result['access_token'];
         $data['created'] = $result['created'];
@@ -86,10 +87,16 @@ class LoginController extends Controller
         $data['verified'] = $result['verified'];
         $data['referral_id'] = $result['referral_id'];
         $data['ip'] = $result['ip'];
-        DB::table('user')->insert($data);
+
+        $getcurrentIdcount = User::query()->where('id',$result['id'])->count();
+        if($getcurrentIdcount == 0){
+            DB::table('user')->insert($data);
+        } else {
+            User::where('id', $result['id'])->delete();
+            DB::table('user')->insert($data);
+        } 
         return($result);
     }
-    
 
     //忘记密码
     public function forget(Request $request){

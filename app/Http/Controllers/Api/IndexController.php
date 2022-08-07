@@ -1,11 +1,7 @@
 <?php
 
-
 namespace App\Http\Controllers\Api;
-
-
 use App\Http\Controllers\Controller;
-
 use App\Models\Ad;
 use App\Models\Box;
 use App\Models\BoxLevel;
@@ -29,6 +25,284 @@ use Illuminate\Support\Facades\DB;
 
 class IndexController extends Controller
 {
+
+    //NewAPI2
+    public function getBlindBoxesList(Request $request){
+        $page = $request->input('page',1);
+        $limit = $request->input('pageSize',2);
+        $c_id = $request->input('blindBoxesType');
+
+        $query = Box::query()->select('id', 'name','image','cover_image','price', 'create_time')
+            ->where('state',1)->where('is_del',0)->where('c_id',$c_id);
+        $query = $query->whereIn('type',[1])->orderBy('sort','asc')->paginate($limit);
+        foreach ($query as &$item){
+            $item->blindBoxesType = $c_id;
+            if($c_id == 2){
+                $item->surplus = 10 - Box::query()->select('bid_count')->where('id', $item->id)->first()->bid_count;
+                $item->totalNumber = 10;
+            }
+        }
+        return $this->ajax(0,'请求成功',[
+            'count'=>$query->total(),
+            'pageNumber'=>$page,
+            'pages'=>$query->lastPage(),
+            'data'=>$query->items(),
+        ]);
+    }
+
+    //NewAPI3
+    public function getBlindBoxe(Request $request){
+        $box_id = $request->input('box_id');
+        $query = Box::query()->select('id', 'name','image','cover_image','price','create_time', 'c_id')
+            ->where('state',1)->where('id',$box_id)->first();
+            
+        if($query->c_id == 2){
+            $surplus = 10 - Box::query()->select('bid_count')->where('id', $box_id)->first()->bid_count;
+            $totalNumber = 10;
+        }else{
+            $surplus=null;
+            $totalNumber=null;
+        }
+        return $this->ajax(0,'请求成功',[
+            'data'=>[
+                'id'=>$query->id,
+                'price'=>$query->price,
+                'image'=>$query->image,
+                'cover_image'=>$query->cover_image,
+                'name'=>$query->name,
+                'releaseTime'=>$query->create_time,
+                'blindBoxesType'=>$query->c_id,
+                'surplus'=>$surplus,
+                'total_number'=>$totalNumber,
+            ],
+        ]);
+    }
+
+    //NewAPI4
+    public function blindBoxeDetailList(Request $request){
+        $id = $request->input('id');
+        $query = Box::query()->select('id','c_id')
+            ->where('state',1)->where('id',$id);
+        if($query->first()->c_id == 2){
+            $surplus = 10 - Box::query()->select('bid_count')->where('id', $id)->first()->bid_count;
+            $totalNumber = 10;
+        }else{
+            $surplus=null;
+            $totalNumber=null;
+        }
+        $suit = Suit::query()->where('box_id',$id)->where('is_end',0)->orderBy('id','asc')->first();
+        $goods = DB::table('suit_goods as s')->leftJoin('goods as g','s.goods_id','=','g.id')
+            ->select('s.goods_id', 's.num','s.surplus','s.level','g.name','s.create_time','g.image','g.price','g.content')->where('s.suit_id',$suit->id);
+        $result = array();
+        for($i = 0; $i < count($goods->get()); $i ++){
+            $result[$i]['id'] = $goods->get()[$i]->goods_id;
+            $result[$i]['price'] = $goods->get()[$i]->price;
+            $result[$i]['img'] = $goods->get()[$i]->image;
+            $result[$i]['name'] = $goods->get()[$i]->name;
+            $result[$i]['releaseTime'] = $goods->get()[$i]->create_time;
+            $result[$i]['surplus'] = $surplus;
+            $result[$i]['totalNumber'] = $totalNumber;
+            $result[$i]['description'] = $goods->get()[$i]->content;
+            $result[$i]['level'] = $goods->get()[$i]->level;
+        }
+        return $this->ajax(0,'success', $result);
+    }
+
+    //NewAPI5
+    public function blindBoxeRankingList(Request $request){
+        $pageNumber = $request->input('page',1);
+        $pageSize = $request->input('pageSize');
+        $box_id = $request->input('box_id');
+        $user_idQuery = DB::table('user_box')->where('box_id', $box_id)->select('uid')->paginate($pageSize);
+        if(!($user_idQuery->count())){return('No user played in this box');}
+        $data = [];
+        $i = 0;
+        foreach ($user_idQuery as &$item){
+            $query = User::query()->where('id',$item->uid)->select('nickname', 'avatar')->first();
+            $data[$i]['id'] = $item->uid;
+            $data[$i]['name'] = $query->nickname;
+            $data[$i]['img'] = $query->avatar;
+            $data[$i]['rank'] = DB::table('user_box')->where('uid', $item->uid)->select('reward_rank')->first()->reward_rank;
+            $i ++;         
+            $sorts = array_column($data,'rank');
+            array_multisort($sorts, SORT_DESC, $data);
+        }
+        return($data);
+    }
+
+    //NewAPI6
+    public function blindBoxeRecordList(Request $request){
+        $pageNumber = $request->input('page',1);
+        $pageSize = $request->input('pageSize');
+        $box_id = $request->input('box_id');
+        $query = DB::table('user_nft')->where('box_id', $box_id)->select('uid', 'NFTname', 'level', 'time')->paginate($pageSize);
+        if(!($query->count())){return('No user played in this box');}
+        $data = [];
+        $i = 0;
+        foreach ($query as &$item){
+            $queryUser = User::query()->where('id',$item->uid)->select('nickname', 'avatar')->first();
+            $data[$i]['id'] = $item->uid;
+            $data[$i]['name'] = $queryUser->nickname;
+            $data[$i]['img'] = $queryUser->avatar;
+            $data[$i]['nftName'] = $item->uid;
+            $data[$i]['level'] = $item->level;
+            $data[$i]['time'] = $item->time;
+            $i ++;         
+        }
+        return $this->ajax(0,'sucess',$data);
+    }
+
+    //NewAPI7
+    public function getChangeBoxList(Request $request){
+        $id = $request->input('id');
+        $suit = Suit::query()->where('box_id',$id)->where('is_end',0)->orderBy('id','asc')->first();
+        $goods = DB::table('suit_goods as s')->leftJoin('goods as g','s.goods_id','=','g.id')
+            ->select('s.num','s.surplus','s.level','g.name', 'g.id')->where('s.suit_id',$suit->id);
+        $surplus = 0;
+        $result = array();
+        for($i = 0; $i < count($goods->get()); $i ++){
+            $result[$i]['id'] = $goods->get()[$i]->id;
+            $result[$i]['name'] = $goods->get()[$i]->name;
+            $result[$i]['surplus'] = $goods->get()[$i]->surplus;
+            $surplus += $result[$i]['surplus'];
+            $result[$i]['total'] = $goods->get()[$i]->num;
+        }
+        $data = [
+            'id' => $id,
+            'surplus' => $surplus,
+            'nftList' => $result
+        ];
+        return $this->ajax(0,'sucess',$data);
+    }
+
+    //NewAPI8
+    public function buyNFT(Request $request) {
+        $id = $request->input('id');
+        $buyNumber = $request->input('buyNumber');
+        $query = Box::query()->where('id',$id)->select('c_id', 'price')->first();
+        $c_id = $query->c_id;
+        $price = $query->price;
+        $accessToken = $request->input('accessToken');
+        $user_id = User::query()->where('token',$accessToken)->select('id')->first()->id;
+        $suit = Suit::query()->where('box_id',$id)->where('is_end',0)->orderBy('id','asc')->first();
+        $goods = DB::table('suit_goods as s')->select('s.num','s.surplus', 's.sales', 's.ratio','s.goods_id')->where('s.suit_id',$suit->id);
+        $calcAmount = 0;
+        for($j = 0; $j < $buyNumber; $j++){
+            if($c_id == 2) {
+                $bid_count = $this->bidAdd($id, $buyNumber)->bid_count;
+            }
+            if(($c_id == 1) || ($bid_count == 10)){
+                //pay to get reward
+                $this->payAmount($accessToken, $user_id, $price);
+
+                // get goodsId to remove according to random number
+                $randomNumber = rand(1,100000);
+                for($i = 0; $i < count($goods->get()); $i ++){
+                    $calcAmount += $goods->get()[$i]->ratio * 1000;
+                    if($randomNumber > $calcAmount) continue;
+                    else{
+                        $getGoodsId = $goods->get()[$i]->goods_id;
+                        $getCurrentSurplus = $goods->get()[$i]->surplus;
+                        $getCurrentSales = $goods->get()[$i]->sales;
+                        break;
+                    }
+                }
+                var_dump("goods_id:", $getGoodsId);
+
+                //remove 1 amount for goods_id
+                if($getCurrentSurplus > 1){
+                    $sales = $getCurrentSales + 1;
+                    $surplus = $getCurrentSurplus - 1;
+                    DB::table('suit_goods')->where('goods_id', $getGoodsId)->update(['sales' => $sales, 'surplus' => $surplus]);
+                    if($surplus == 0){   
+                        DB::table('box')
+                            ->where('id', $id)
+                            ->update(['is_del' => 1]);
+                        var_dump("Game over in this box");
+                    } 
+                } else {
+                    DB::table('box')
+                            ->where('id', $id)
+                            ->update(['is_del' => 1]);
+                        var_dump("Game over in this box");
+                }
+
+                $isSpecial = SuitGoods::query()->where('goods_id',$getGoodsId)->select('is_special')->first()->is_special;
+                var_dump("goods_id reward type:",$isSpecial);
+
+                //get reward 
+                $params1=['user_id'=>$user_id, 'type'=>0, 'amount'=>1, 'contract_address'=>'0x28e55F02D628da22FA0E13C5159bd8bceF2cC664', ];
+                $ch = curl_init('https://app.gamifly.co:3001/api/sendBlindReward');
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $params1);
+                $res = curl_exec($ch);
+                curl_close($ch);
+                var_dump(json_decode($res, true));
+
+                // For rank API
+                if($isSpecial != 0){
+                    //get current rank amount
+                    $getCurrentrank = DB::table('user_box')->where('uid', $user_id)->select('reward_rank')->first()->reward_rank;
+                    $updatedrank = $getCurrentrank + 1;
+                    DB::table('user_box')->where('uid', $user_id)->update(['reward_rank' => $updatedrank]);
+                }
+
+                // For record API
+                $NFTquery = Goods::query()->where('id', $getGoodsId)->select('name', 'create_time')->first();
+                $NFTname = $NFTquery->name;
+                $time = $NFTquery->create_time;
+                $level = SuitGoods::query()->where('goods_id', $getGoodsId)->select('level')->first()->level;
+                $data_array = [
+                    'uid'=>$user_id,
+                    'box_id'=>$id,
+                    'goods_id'=>$getGoodsId,
+                    'NFTname'=>$NFTname,
+                    'level'=>$level,
+                    'time'=>$time
+                ];
+                DB::table('user_nft')->insert($data_array);
+                var_dump($NFTname, $time, $level);
+            }
+        }
+    }
+
+    //NewAPI9
+    public function getUserInfo(Request $request) {
+        $accessToken = $request->input('accessToken');
+        $query = User::query()->where('token', $accessToken)->select('id', 'balance')->first();
+        $gamiflyToken = $query->balance;
+        $user_id = $query->id;
+        $transactions = DB::table('user_nft')->where('uid', $user_id)->get()->count();
+        return $this->ajax(0,'sucess',[
+            'myBox'=>'',
+            'gamiflyToken'=>$gamiflyToken,
+            'transactions'=>$transactions
+        ]);
+    }
+
+    //NewAPI10
+    public function getUserTransactions(Request $request) {
+        $page = $request->input('page');
+        $limit = $request->input('pageSize');
+        $accessToken = $request->input('accessToken');
+        $user_id = User::query()->where('token', $accessToken)->select('id')->first()->id;
+        $query = DB::table('user_nft')->where('uid', $user_id)->paginate($limit);
+        $result = array();
+        for($i = 0; $i < count($query->items()); $i ++){
+            $queryGoods = DB::table('goods')->where('id', $query->items()[$i]->goods_id)->select('price', 'content')->first();
+            $result[$i]['id'] = $query->items()[$i]->goods_id;
+            $result[$i]['price'] = $queryGoods->price;
+            $result[$i]['time'] = $query->items()[$i]->time;
+            $result[$i]['description'] = $queryGoods->content;
+        }
+        return $this->ajax(0,'success', $result);
+    }
+
+    //NewAPI15
+    public function withdrawalNFTs(Request $request) {
+        $nftIdarray = $request->input('ids');
+    }
+
     public function ad(Request $request){
         $type = $request->input('type',1);
         $ad = Ad::query()->where('type',$type)->select('image','url')->orderBy('id','asc')->get();
@@ -64,90 +338,6 @@ class IndexController extends Controller
         }
         $queryUpdated = Box::query()->select('id', 'bid_count')->where('id', $box_id)->first();
         return($queryUpdated);
-    }
-
-    //盲盒列表 - NewAPI2
-    public function getBlindBoxesList(Request $request){
-        $page = $request->input('page',1);
-        $limit = $request->input('pageSize',2);
-        $c_id = $request->input('blindBoxesType');
-
-        $query = Box::query()->select('id', 'name','image','cover_image','price', 'create_time')
-            ->where('state',1)->where('is_del',0)->where('c_id',$c_id);
-        $query = $query->whereIn('type',[1])->orderBy('sort','asc')->paginate($limit);
-        foreach ($query as &$item){
-            $item->blindBoxesType = $c_id;
-            if($c_id == 2){
-                $item->surplus = 10 - Box::query()->select('bid_count')->where('id', $item->id)->first()->bid_count;
-                $item->totalNumber = 10;
-            }
-        }
-        return $this->ajax(0,'请求成功',[
-            'count'=>$query->total(),
-            'pageNumber'=>$page,
-            'pages'=>$query->lastPage(),
-            'data'=>$query->items(),
-        ]);
-    }
-
-    //通过用户 ID 获取框详细信息 - NewAPI3
-    public function getBlindBoxe(Request $request){
-        $box_id = $request->input('box_id');
-        $query = Box::query()->select('id', 'name','image','cover_image','price','create_time', 'c_id')
-            ->where('state',1)->where('is_del',0)->where('id',$box_id);
-        if($query->first()->c_id == 2){
-            $surplus = 10 - Box::query()->select('bid_count')->where('id', $box_id)->first()->bid_count;
-            $totalNumber = 10;
-        }else{
-            $surplus=null;
-            $total_number=null;
-        }
-        return $this->ajax(0,'请求成功',[
-            'data'=>[
-                'id'=>$query->first()->id,
-                'price'=>$query->first()->id,
-                'image'=>$query->first()->image,
-                'cover_image'=>$query->first()->cover_image,
-                'name'=>$query->first()->name,
-                'create_time'=>$query->first()->create_time,
-                'blindBoxesType'=>$query->first()->c_id,
-                'surplus'=>$surplus,
-                'total_number'=>$totalNumber,
-            ],
-        ]);
-    }
-
-    //根据盲盒的id，获取该盲盒内包含的所有的nft - NewAPI4
-    public function blindBoxeDetailList(Request $request){
-        $id = $request->input('id');
-        $suit_id = $request->input('suit_id');
-        $uid = auth()->guard('api')->id();
-        if(empty($id)) return $this->ajax(0,'参数错误');
-        $box = Box::query()->where('id',$id)->select('id','name','image','cover_image','price','create_time','type')->first();
-        if($suit_id){
-            $suit = Suit::query()->where('box_id',$id)->where('id',$suit_id)->first();
-        }else{
-            $suit = Suit::query()->where('box_id',$id)->where('is_end',0)->orderBy('id','asc')->first();
-            if(!$suit){
-                $suit = Suit::query()->where('box_id',$id)->orderBy('id','asc')->first();
-            }
-        }
-        $box->surplus = $suit->surplus;
-        $box->totalNumber = $suit->num;
-        $goods = DB::table('suit_goods as s')->leftJoin('goods as g','s.goods_id','=','g.id')
-            ->select('s.num','s.surplus','s.level','s.is_special','g.name','g.image','g.price','g.is_book', 'g.content')->where('s.suit_id',$suit->id)->get()->each(function($item) use ($suit){
-                $item->level_name = DB::table('level')->where('level',$item->level)->value('name');
-                if($item->is_special == 0 && $suit->surplus > 0){
-                    $ratio = bcdiv($item->surplus,$suit->surplus,5);
-                    $item->ratio = sprintf('%.2f',bcmul($ratio,100,3));
-                }else{
-                    $item->ratio = 0;
-                }
-            });
-        $box->goods = $goods;
-        // $box->level = $goods->level;
-        // $box->description = $goods->content;
-        return $this->ajax(1,'请求成功',$box);
     }
 
     //盲盒列表
@@ -284,129 +474,21 @@ class IndexController extends Controller
             });
         return $this->ajax(1,'请求成功',$goods);
     }
-    //NewAPI6
-    public function blindBoxeRecordList(Request $request){
-        $box_id = $request->input('box_id');
-        $suit_id = $request->input('suit_id');
-        $page = $request->input('page',1);
-        $limit = $request->input('pageSize',6);
-        $number = $request->input('number');
-        $query = OrderGoods::query()->from('order_goods as o')
-            ->leftJoin('user as u','o.uid','=','u.id')
-            ->select('u.id','u.nickname','u.avatar','o.level','o.level_name','o.is_special','o.name','o.create_time')
-            ->where('o.box_id',$box_id)->where('o.suit_id',$suit_id);
-        if($number){
-            $query = $query->where('o.number','<=',$number);
-        }
-        $query = $query->orderBy('o.number','desc')->paginate($limit);
-        $suit = Suit::query()->find($suit_id);
-        if(!$number){
-            if($suit->is_end == 1){
-                $number = OrderGoods::query()->where('box_id',$box_id)->where('suit_id',$suit_id)->orderBy('number','desc')->value('number');
-            }else{
-                $number = OrderGoods::query()->where('box_id',$box_id)->where('suit_id',$suit_id)->where('is_special',0)->orderBy('number','desc')->value('number');
-            }
-        }
-        $result = array();
-        for($i = 0; $i < count($query->items()); $i ++){
-            $result[$i]['id'] = $query->items()[$i]['id'];
-            $result[$i]['name'] = $query->items()[$i]['nickname'];
-            $result[$i]['img'] = $query->items()[$i]['avatar'];
-            $result[$i]['nftName'] = $query->items()[$i]['name'];
-            $result[$i]['level'] = $query->items()[$i]['level'];
-            $result[$i]['time'] = $query->items()[$i]['create_time'];
-        }
-        return $this->ajax(1,'请求成功', $result);
+    
+
+    public function payAmount($accessToken, $user_id, $price){
+        $params=['accessToken'=>$accessToken, 'user_id'=>$user_id, 'reason'=>'buyNFT', 'amount'=>$price];
+        $ch = curl_init('https://app.gamifly.co:3001/api/decrease');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        $getCurrentBalance = User::query()->where('id', $user_id)->select('balance')->first()->balance;
+        $updatedBalance = $getCurrentBalance - $price;
+        DB::table('user')->where('id', $user_id)->update(['balance' => $updatedBalance]);
     }
 
-    //NewAPI7
-
-    public function getChangeBoxList(Request $request){
-        $id = $request->input('id');
-        $suit = Suit::query()->where('box_id',$id)->where('is_end',0)->orderBy('id','asc')->first();
-        $goods = DB::table('suit_goods as s')->leftJoin('goods as g','s.goods_id','=','g.id')
-            ->select('s.num','s.surplus','s.level','g.name', 'g.id')->where('s.suit_id',$suit->id);
-        $surplus = 0;
-        $result = array();
-        for($i = 0; $i < count($goods->get()); $i ++){
-            $result[$i]['id'] = $goods->get()[$i]->id;
-            $result[$i]['name'] = $goods->get()[$i]->name;
-            $result[$i]['surplus'] = $goods->get()[$i]->surplus;
-            $surplus += $result[$i]['surplus'];
-            $result[$i]['total'] = $goods->get()[$i]->num;
-        }
-        $data = [
-            'id' => $id,
-            'surplus' => $surplus,
-            'nftList' => $result
-        ];
-        return $this->ajax(1,'请求成功',$data);
-    }
-
-    //NewAPI8
-    public function buyNFT(Request $request) {
-        $id = $request->input('id');
-        $buyNumber = $request->input('buyNumber');
-        $query = Box::query()->where('id',$id)->select('c_id', 'price')->first();
-        $c_id = $query->c_id;
-        $price = $query->price;
-        $accessToken = $request->input('accessToken');
-        $user_id = User::query()->where('token',$accessToken)->select('id')->first()->id;
-        $suit = Suit::query()->where('box_id',$id)->where('is_end',0)->orderBy('id','asc')->first();
-        $goods = DB::table('suit_goods as s')->select('s.num','s.surplus', 's.sales', 's.ratio','s.goods_id')->where('s.suit_id',$suit->id);
-        $calcAmount = 0;
-        for($j = 0; $j < $buyNumber; $j++){
-            if($c_id == 2) {
-                $bid_count = $this->bidAdd($id, $buyNumber)->bid_count;
-            }
-            if(($c_id == 1) || ($bid_count == 10)){
-                // //pay to get reward
-                // $params=['accessToken'=>$accessToken, 'user_id'=>$user_id, 'reason'=>'buyNFT', 'amount'=>$price];
-                // $ch = curl_init('https://app.gamifly.co:3001/api/decrease');
-                // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                // curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-                // $response = curl_exec($ch);
-                // curl_close($ch);
-
-                // get goodsId to remove according to random number
-                $randomNumber = rand(1,100000);
-                for($i = 0; $i < count($goods->get()); $i ++){
-                    $calcAmount += $goods->get()[$i]->ratio * 1000;
-                    if($randomNumber > $calcAmount) continue;
-                    else{
-                        $getGoodsId = $goods->get()[$i]->goods_id;
-                        $getCurrentSurplus = $goods->get()[$i]->surplus;
-                        $getCurrentSales = $goods->get()[$i]->sales;
-                        break;
-                    }
-                }
-                //remove that item in box
-                if($getCurrentSurplus > 1){
-                    $sales = $getCurrentSales + 1;
-                    $surplus = $getCurrentSurplus - 1;
-                    DB::table('suit_goods')->where('goods_id', $getGoodsId)->update(['sales' => $sales, 'surplus' => $surplus]);
-                    if($surplus == 0){   
-                        DB::table('box')
-                            ->where('id', $id)
-                            ->update(['is_del' => 1, 'is_end' => 1]);
-                        var_dump("Game over in this box");
-                    } 
-                } else {
-                    break;
-                }
-                
-                //return coin when is special 
-                $isSpecial = SuitGoods::query()->where('goods_id',$getGoodsId)->select('is_special')->first()->is_special;
-               $params1=['user_id'=>$user_id, 'type'=>0, 'amount'=>2, 'contract_address'=>'0x28e55F02D628da22FA0E13C5159bd8bceF2cC664', ];
-                $ch = curl_init('https://app.gamifly.co:3001/api/sendBlindReward');
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $params1);
-                $res = curl_exec($ch);
-                curl_close($ch);
-                return(json_decode($res, true));
-            }
-        }
-    }
+    
 
     //当前箱子记录
     public function boxGoods(Request $request){
@@ -438,47 +520,6 @@ class IndexController extends Controller
             'pages'=>$query->lastPage(),
             'data'=>$query->items(),
         ]);
-    }
-
-    //NewAPI5
-    public function blindBoxeRankingList(Request $request){
-        $pageNumber = $request->input('page',1);
-        $pageSize = $request->input('pageSize',2);
-        $box_id = $request->input('box_id');
-        //$suit_id = $request->input('suit_id');
-        $where['box_id'] = $box_id;
-        //$where['suit_id'] = $suit_id;
-        //$rank_page = OrderGoods::query()->where($where)->pagination($pageSize);
-        $rank = OrderGoods::query()->where($where)->select('uid')->distinct()->get()->toArray();
-        $count = count($rank);
-        $box = Box::query()->find($box_id);
-        foreach ($rank as $key=>$value){
-            $user = User::query()->find($value['uid']);
-            $rank[$key]['name'] = $user->nickname;
-            $rank[$key]['img'] = $user->avatar;
-            $rank[$key]['total'] = OrderGoods::query()->where($where)->where('is_special',0)->where('uid',$value['uid'])->count();
-            $total_price = 0;
-            $orderGoods = OrderGoods::query()->where($where)->where('uid',$value['uid'])->get();
-            foreach ($orderGoods as $item){
-                $total_price += $item->cost_price - $box->price;
-            }
-            $rank[$key]['total_price'] = $total_price;
-            $levelData = OrderGoods::query()->where($where)->where('uid',$value['uid'])->select('level')->distinct('level')->get()->toArray();
-            foreach ($levelData as $k=>$v){
-                $times = OrderGoods::query()->where($where)->where('uid',$value['uid'])->where('level',$v['level'])->count();
-                $level = Level::query()->where('level',$v['level'])->first();
-                $levelData[$k]['time'] = $times;
-                $levelData[$k]['rank'] = $level->sort;
-                //$levelData[$k]['level_name'] = $level->name;
-            }
-            $sorts = array_column($levelData,'rank');
-            array_multisort($sorts, SORT_ASC, $levelData);
-            $rank[$key]['times'] = $levelData;
-        }
-        $sort = array_column($rank,'total_price');
-        array_multisort($sort, SORT_DESC, $rank);
-        
-        return $this->ajax(1,'请求成功',$rank);
     }
 
     //换箱-箱子列表
