@@ -53,15 +53,14 @@ class IndexController extends Controller
     //NewAPI3
     public function getBlindBoxe(Request $request){
         $box_id = $request->input('box_id');
-        $query = Box::query()->select('id', 'name','image','cover_image','price','create_time', 'c_id')
-            ->where('state',1)->where('id',$box_id)->first();
-            
-        if($query->c_id == 2){
-            $surplus = 10 - Box::query()->select('bid_count')->where('id', $box_id)->first()->bid_count;
-            $totalNumber = 10;
-        }else{
-            $surplus=null;
-            $totalNumber=null;
+        $query = Box::query()->select('id', 'name','image','cover_image','price','create_time', 'c_id')->where('state',1)->where('id',$box_id)->first();
+        $suit = Suit::query()->where('box_id',$box_id)->where('is_end',0)->orderBy('id','asc')->first();
+        $goods = DB::table('suit_goods')->where('suit_id',$suit->id)->select('num','surplus');
+        $surplus = 0;
+        $totalNumber = 0;
+        for($i = 0; $i < count($goods->get()); $i ++){
+            $surplus += $goods->get()[$i]->surplus;
+            $totalNumber += $goods->get()[$i]->num;
         }
         return $this->ajax(0,'请求成功',[
             'data'=>[
@@ -81,15 +80,6 @@ class IndexController extends Controller
     //NewAPI4
     public function blindBoxeDetailList(Request $request){
         $id = $request->input('id');
-        $query = Box::query()->select('id','c_id')
-            ->where('state',1)->where('id',$id);
-        if($query->first()->c_id == 2){
-            $surplus = 10 - Box::query()->select('bid_count')->where('id', $id)->first()->bid_count;
-            $totalNumber = 10;
-        }else{
-            $surplus=null;
-            $totalNumber=null;
-        }
         $suit = Suit::query()->where('box_id',$id)->where('is_end',0)->orderBy('id','asc')->first();
         $goods = DB::table('suit_goods as s')->leftJoin('goods as g','s.goods_id','=','g.id')
             ->select('s.goods_id', 's.num','s.surplus','s.level','g.name','s.create_time','g.image','g.price','g.content')->where('s.suit_id',$suit->id);
@@ -100,8 +90,8 @@ class IndexController extends Controller
             $result[$i]['img'] = $goods->get()[$i]->image;
             $result[$i]['name'] = $goods->get()[$i]->name;
             $result[$i]['releaseTime'] = $goods->get()[$i]->create_time;
-            $result[$i]['surplus'] = $surplus;
-            $result[$i]['totalNumber'] = $totalNumber;
+            $result[$i]['surplus'] = $goods->get()[$i]->surplus;
+            $result[$i]['totalNumber'] = $goods->get()[$i]->num;
             $result[$i]['description'] = $goods->get()[$i]->content;
             $result[$i]['level'] = $goods->get()[$i]->level;
         }
@@ -114,7 +104,8 @@ class IndexController extends Controller
         $pageSize = $request->input('pageSize');
         $box_id = $request->input('box_id');
         $user_idQuery = DB::table('user_box')->where('box_id', $box_id)->select('uid')->paginate($pageSize);
-        if(!($user_idQuery->count())){return('No user played in this box');}
+        // if(!($user_idQuery->count())){return('No user played in this box');}
+        if(!($user_idQuery->count())){return $this->ajax(1,'failed', "No user played in this box");}
         $data = [];
         $i = 0;
         foreach ($user_idQuery as &$item){
@@ -127,7 +118,7 @@ class IndexController extends Controller
             $sorts = array_column($data,'rank');
             array_multisort($sorts, SORT_DESC, $data);
         }
-        return($data);
+        return $this->ajax(0,'success', $data);
     }
 
     //NewAPI6
@@ -136,7 +127,7 @@ class IndexController extends Controller
         $pageSize = $request->input('pageSize');
         $box_id = $request->input('box_id');
         $query = DB::table('user_nft')->where('box_id', $box_id)->select('uid', 'NFTname', 'level', 'time')->paginate($pageSize);
-        if(!($query->count())){return('No user played in this box');}
+        if(!($query->count())){return $this->ajax(1,'failed', "No user played in this box");}
         $data = [];
         $i = 0;
         foreach ($query as &$item){
@@ -156,33 +147,36 @@ class IndexController extends Controller
     public function getChangeBoxList(Request $request){
         $id = $request->input('id');
         $suit = Suit::query()->where('box_id',$id)->where('is_end',0)->orderBy('id','asc')->first();
-        $goods = DB::table('suit_goods as s')->leftJoin('goods as g','s.goods_id','=','g.id')
+        if($suit != null){
+            $goods = DB::table('suit_goods as s')->leftJoin('goods as g','s.goods_id','=','g.id')
             ->select('s.num','s.surplus','s.level','g.name', 'g.id')->where('s.suit_id',$suit->id);
-        $surplus = 0;
-        $result = array();
-        for($i = 0; $i < count($goods->get()); $i ++){
-            $result[$i]['id'] = $goods->get()[$i]->id;
-            $result[$i]['name'] = $goods->get()[$i]->name;
-            $result[$i]['surplus'] = $goods->get()[$i]->surplus;
-            $surplus += $result[$i]['surplus'];
-            $result[$i]['total'] = $goods->get()[$i]->num;
+            $surplus = 0;
+            $result = array();
+            for($i = 0; $i < count($goods->get()); $i ++){
+                $result[$i]['id'] = $goods->get()[$i]->id;
+                $result[$i]['name'] = $goods->get()[$i]->name;
+                $result[$i]['surplus'] = $goods->get()[$i]->surplus;
+                $surplus += $result[$i]['surplus'];
+                $result[$i]['total'] = $goods->get()[$i]->num;
+            }
+            $data = [];
+            $data[0]['id'] = $id;
+            $data[0]['surplus'] = $surplus;
+            $data[0]['nftList'] = $result;
+            $data[1]= [];
+            return $this->ajax(0,'sucess', $data);
         }
-        $data = [
-            'id' => $id,
-            'surplus' => $surplus,
-            'nftList' => $result
-        ];
-        return $this->ajax(0,'sucess',$data);
+        return $this->ajax(1,'failed', 'That box is not exsted.');
     }
 
     //NewAPI8
     public function buyNFT(Request $request) {
         $id = $request->input('id');
+        $accessToken = $request->input('accessToken');
         $buyNumber = $request->input('buyNumber');
         $query = Box::query()->where('id',$id)->select('c_id', 'price')->first();
         $c_id = $query->c_id;
         $price = $query->price;
-        $accessToken = $request->input('accessToken');
         $user_id = User::query()->where('token',$accessToken)->select('id')->first()->id;
         $suit = Suit::query()->where('box_id',$id)->where('is_end',0)->orderBy('id','asc')->first();
         $goods = DB::table('suit_goods as s')->select('s.num','s.surplus', 's.sales', 's.ratio','s.goods_id')->where('s.suit_id',$suit->id);
@@ -210,7 +204,7 @@ class IndexController extends Controller
                 var_dump("goods_id:", $getGoodsId);
 
                 //remove 1 amount for goods_id
-                if($getCurrentSurplus > 1){
+                if($getCurrentSurplus > 0){
                     $sales = $getCurrentSales + 1;
                     $surplus = $getCurrentSurplus - 1;
                     DB::table('suit_goods')->where('goods_id', $getGoodsId)->update(['sales' => $sales, 'surplus' => $surplus]);
@@ -227,11 +221,14 @@ class IndexController extends Controller
                         var_dump("Game over in this box");
                 }
 
+                //Send NFT token ID to boughtNFTidArray
+                $tokenId = $this->buyNFTid($getGoodsId);
+
                 $isSpecial = SuitGoods::query()->where('goods_id',$getGoodsId)->select('is_special')->first()->is_special;
                 var_dump("goods_id reward type:",$isSpecial);
 
                 //get reward 
-                $params1=['user_id'=>$user_id, 'type'=>0, 'amount'=>1, 'contract_address'=>'0x28e55F02D628da22FA0E13C5159bd8bceF2cC664', ];
+                $params1=['user_id'=>$user_id, 'type'=>0, 'amount'=>1, 'contract_address'=>'0x28e55F02D628da22FA0E13C5159bd8bceF2cC664', 'tokenId'=>$tokenId];
                 $ch = curl_init('https://app.gamifly.co:3001/api/sendBlindReward');
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $params1);
@@ -298,9 +295,184 @@ class IndexController extends Controller
         return $this->ajax(0,'success', $result);
     }
 
+    //NewAPI12
+    public function getUserReturnList(Request $request){
+        $page = $request->input('page',1);
+        $limit = $request->input('pageSize',2);
+        $accessToken = $request->input('accessToken');
+        $user_id = User::query()->where('token',$accessToken)->select('id')->first()->id;
+        $query = DB::table('nft_returnList')->where('uid', $user_id)->select('goods_id', 'price', 'img', 'name', 'returnTime', 'quantity', 'integral', 'description', 'level')->paginate($limit);
+        return $this->ajax(0,'success', $query->items());
+    }
+
+    //NewAPI13
+    public function getUserTransactionsList(Request $request){
+        $page = $request->input('page',1);
+        $limit = $request->input('pageSize',2);
+        $accessToken = $request->input('accessToken');
+        $user_address = User::query()->where('token', $accessToken)->select('external_wallet_address')->first()->external_wallet_address;
+        $query = DB::table('nft_withdrawList')->where('address', $user_address)->select('goods_id', 'img', 'name', 'address')->paginate($limit);
+        return $this->ajax(0,'success', $query->items());
+    }
+
+    //NewAPI14
+    public function returnNFTs(Request $request) {
+        $goodsIdArray = json_decode($request->input('ids'),true);
+        $accessToken = $request->input('accessToken');
+        $user_id = User::query()->where('token',$accessToken)->select('id')->first()->id;
+        for($i = 0; $i < count($goodsIdArray); $i ++){
+            $goods_id = $goodsIdArray[$i];
+            $price = Goods::query()->where('id',$goods_id)->select('cost_price')->first()->cost_price;
+            $contractAddress = Goods::query()->where('id',$goods_id)->select('contract_address')->first()->contract_address;
+            $quantity = array_count_values($goodsIdArray)[$goods_id];
+            //get NFT id
+            $idToreturn = $this->returnNFTid($goods_id, $user_id, $quantity);
+
+            //return NFT
+            $params=['user_id'=>$user_id, 'token_id'=>$idToreturn, 'reason'=>'return blind nft', 'contract_address'=>$contractAddress];
+            $ch = curl_init('https://app.gamifly.co:3001/api/returnblindNFT');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+            $response = curl_exec($ch);
+            curl_close($ch);
+            
+            //refund gmf or USDC to user wallet
+            $this->refundAmount($accessToken, $user_id, $price);
+
+            //remove sales amount 
+            $query = DB::table('suit_goods')->where('goods_id', $goods_id)->select('sales', 'surplus')->first();
+            $getCurrentSales = $query->sales;
+            $getCurrentSurplus = $query->surplus;
+            if($getCurrentSales > 0){
+                $sales = $getCurrentSales - 1;
+                $surplus = $getCurrentSurplus + 1;
+                SuitGoods::where('goods_id', $goods_id)->update(['sales' => $sales, 'surplus' => $surplus]);
+            } 
+            return $this->ajax(0,'success', $data = null);
+        }
+    }
+
     //NewAPI15
     public function withdrawalNFTs(Request $request) {
-        $nftIdarray = $request->input('ids');
+        $goodsIdArray = json_decode($request->input('ids'),true);
+        $accessToken = $request->input('accessToken');
+        $user_id = User::query()->where('token',$accessToken)->select('id')->first()->id;
+        for($i = 0; $i < count($goodsIdArray); $i ++){
+            $goods_id = $goodsIdArray[$i];
+            $idToWithdraw = $this->withdrawNFTid($goods_id, $user_id);
+            $contractAddress = Goods::query()->where('id',$goods_id)->select('contract_address')->first()->contract_address;
+            //withdraw NFT
+            $params=['user_id'=>$user_id, 'token_id'=>$idToWithdraw, 'reason'=>'withdraw blind nft', 'contract_address'=>$contractAddress];
+            $ch = curl_init('https://app.gamifly.co:3001/api/withdrawblindNFT');
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+            $response = curl_exec($ch);
+            curl_close($ch);
+            return $this->ajax(0,'success', $data = null);
+        }
+    }
+
+    public function withdrawNFTid($goods_id, $user_id){
+        //get withdrawNFTid
+        $query = DB::table('suit_goods')->where('goods_id', $goods_id)->select('boughtNFTidArray')->first();
+        $boughtNFTidArray = json_decode($query->boughtNFTidArray, true);
+        if(count($boughtNFTidArray) != 0){
+            $idTowithdraw = array_shift($boughtNFTidArray);
+        }
+        SuitGoods::where('goods_id', $goods_id)->update(['boughtNFTidArray' => $boughtNFTidArray]);
+        //get withdrawNFT list
+        $listQuery = Goods::query()->where('id',$goods_id)->select('image', 'name')->first();
+        $user_address = User::query()->where('id', $user_id)->select('external_wallet_address')->first()->external_wallet_address;
+        $data = [
+            'goods_id'=>$goods_id,
+            'img'=>$listQuery->image,
+            'name'=>$listQuery->name,
+            'address'=>$user_address
+        ];
+        DB::table('nft_withdrawList')->insert($data);
+        return($idTowithdraw);
+    }
+
+    public function returnNFTid($goods_id, $user_id, $quantity){
+        //get returnNFTid
+        $query = DB::table('suit_goods')->where('goods_id', $goods_id)->select('surplusNFTidArray','boughtNFTidArray')->first();
+        $surplusNFTidArray = json_decode($query->surplusNFTidArray, true);
+        $boughtNFTidArray = json_decode($query->boughtNFTidArray, true);
+        $idToreturn = array_shift($boughtNFTidArray);
+        if($idToreturn){
+            array_push($surplusNFTidArray,$idToreturn);
+        }
+        SuitGoods::where('goods_id', $goods_id)->update(['surplusNFTidArray'=>$surplusNFTidArray,'boughtNFTidArray' => $boughtNFTidArray]);
+
+        //get returnNFT list
+        $listQuery = Goods::query()->where('id',$goods_id)->select('cost_price', 'image', 'name', 'content')->first();
+        $returnTime = time();
+        $level = SuitGoods::query()->where('id',$goods_id)->select('level')->first()->level;
+        $data = [
+            'goods_id'=>$goods_id,
+            'price'=>$listQuery->cost_price,
+            'img'=>$listQuery->image,
+            'name'=>$listQuery->name,
+            'returnTime'=>$returnTime,
+            'quantity'=>$quantity,
+            'integral'=>$quantity*($listQuery->cost_price),
+            'description'=>$listQuery->content,
+            'level'=>$level,
+            'uid'=>$user_id
+        ];
+        DB::table('nft_returnList')->insert($data);
+        return($idToreturn);
+    }
+
+    public function buyNFTid($goods_id){
+        $query = DB::table('suit_goods')->where('goods_id', $goods_id)->select('surplusNFTidArray','boughtNFTidArray')->first();
+        $surplusNFTidArray = json_decode($query->surplusNFTidArray, true);
+        $boughtNFTidArray = json_decode($query->boughtNFTidArray, true);
+        $idToreturn = array_shift($surplusNFTidArray);
+        if($idToreturn){
+            array_push($boughtNFTidArray,$idToreturn);
+        }
+        $id = DB::table('suit_goods')->where('goods_id', $goods_id)->select('id')->first()->id;
+        SuitGoods::where('id', $id)->update(['surplusNFTidArray'=>$surplusNFTidArray,'boughtNFTidArray' => $boughtNFTidArray]);
+        return($idToreturn);
+    }
+
+    public function bidAdd($id, $count) {
+        $box_id = $id;
+        $bid_count_add = $count;
+        $query = Box::query()->select('bid_count')->where('id', $box_id)->first();
+        $currentBidcount = $query->bid_count;
+        $updatedBidcount = $currentBidcount + $bid_count_add;
+        $getCID = Box::query()->select('c_id')->where('id', $box_id)->first()->c_id;
+        if(($getCID == 2) && ($updatedBidcount <= 10)){
+            Box::where('id', $box_id)->update(['bid_count' => $updatedBidcount]);
+        }
+        $queryUpdated = Box::query()->select('id', 'bid_count')->where('id', $box_id)->first();
+        return($queryUpdated);
+    }
+
+    public function payAmount($accessToken, $user_id, $price){
+        $params=['accessToken'=>$accessToken, 'user_id'=>$user_id, 'reason'=>'buyNFT', 'amount'=>$price];
+        $ch = curl_init('https://app.gamifly.co:3001/api/decrease');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        $getCurrentBalance = User::query()->where('id', $user_id)->select('balance')->first()->balance;
+        $updatedBalance = $getCurrentBalance - $price;
+        DB::table('user')->where('id', $user_id)->update(['balance' => $updatedBalance]);
+    }
+
+    public function refundAmount($accessToken, $user_id, $price){
+        $params=['accessToken'=>$accessToken, 'user_id'=>$user_id, 'reason'=>'returnNFT', 'amount'=>$price];
+        $ch = curl_init('https://app.gamifly.co:3001/api/decrease');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+        $response = curl_exec($ch);
+        curl_close($ch);
+        $getCurrentBalance = User::query()->where('id', $user_id)->select('balance')->first()->balance;
+        $updatedBalance = $getCurrentBalance + $price;
+        DB::table('user')->where('id', $user_id)->update(['balance' => $updatedBalance]);
     }
 
     public function ad(Request $request){
@@ -323,21 +495,6 @@ class IndexController extends Controller
     public function level(){
         $level = Level::query()->select('name','level')->orderBy('sort','asc')->get();
         return $this->ajax(1,'请求成功',$level);
-    }
-
-    //盲盒列表
-    public function bidAdd($id, $count) {
-        $box_id = $id;
-        $bid_count_add = $count;
-        $query = Box::query()->select('bid_count')->where('id', $box_id)->first();
-        $currentBidcount = $query->bid_count;
-        $updatedBidcount = $currentBidcount + $bid_count_add;
-        $getCID = Box::query()->select('c_id')->where('id', $box_id)->first()->c_id;
-        if(($getCID == 2) && ($updatedBidcount <= 10)){
-            Box::where('id', $box_id)->update(['bid_count' => $updatedBidcount]);
-        }
-        $queryUpdated = Box::query()->select('id', 'bid_count')->where('id', $box_id)->first();
-        return($queryUpdated);
     }
 
     //盲盒列表
@@ -474,21 +631,6 @@ class IndexController extends Controller
             });
         return $this->ajax(1,'请求成功',$goods);
     }
-    
-
-    public function payAmount($accessToken, $user_id, $price){
-        $params=['accessToken'=>$accessToken, 'user_id'=>$user_id, 'reason'=>'buyNFT', 'amount'=>$price];
-        $ch = curl_init('https://app.gamifly.co:3001/api/decrease');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-        $response = curl_exec($ch);
-        curl_close($ch);
-        $getCurrentBalance = User::query()->where('id', $user_id)->select('balance')->first()->balance;
-        $updatedBalance = $getCurrentBalance - $price;
-        DB::table('user')->where('id', $user_id)->update(['balance' => $updatedBalance]);
-    }
-
-    
 
     //当前箱子记录
     public function boxGoods(Request $request){
