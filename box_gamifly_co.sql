@@ -1,518 +1,197 @@
--- phpMyAdmin SQL Dump
--- version 5.0.4
--- https://www.phpmyadmin.net/
+-- MySQL dump 10.13  Distrib 5.7.37, for Linux (x86_64)
 --
--- Host: localhost
--- Generation Time: Jun 16, 2022 at 09:54 AM
--- Server version: 5.7.37-log
--- PHP Version: 7.3.32
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
+-- Host: localhost    Database: box_gamifly_co
+-- ------------------------------------------------------
+-- Server version	5.7.37-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `box_gamifly_co`
---
-
--- --------------------------------------------------------
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
 -- Table structure for table `dl_ad`
 --
 
+DROP TABLE IF EXISTS `dl_ad`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_ad` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `image` varchar(255) NOT NULL COMMENT '图片',
   `url` varchar(150) NOT NULL COMMENT '链接',
   `type` tinyint(3) NOT NULL DEFAULT '1' COMMENT '1轮播图 2个人中心',
-  `create_time` int(10) NOT NULL COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='轮播图表' ROW_FORMAT=COMPACT;
+  `create_time` int(10) NOT NULL COMMENT '添加时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='轮播图表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_ad`
 --
 
-INSERT INTO `dl_ad` (`id`, `image`, `url`, `type`, `create_time`) VALUES
-(2, '/upload/images/20220307/1646614446785523.png', '#', 2, 1646614453),
-(6, '/upload/images/20220418/1650279511227189.jpg', '#', 1, 1650279517),
-(8, '/upload/images/20220418/1650289584284233.jpg', '#', 1, 1650289589),
-(9, '/upload/images/20220418/1650289597920354.jpg', '#', 1, 1650289601),
-(10, '/upload/images/20220418/165028961862774.jpg', '#', 1, 1650289621),
-(11, '/upload/images/20220418/1650289629820623.jpg', '#', 1, 1650289632);
-
--- --------------------------------------------------------
+LOCK TABLES `dl_ad` WRITE;
+/*!40000 ALTER TABLE `dl_ad` DISABLE KEYS */;
+INSERT INTO `dl_ad` VALUES (2,'/upload/images/20220307/1646614446785523.png','#',2,1646614453),(6,'/upload/images/20220418/1650279511227189.jpg','#',1,1650279517),(8,'/upload/images/20220418/1650289584284233.jpg','#',1,1650289589),(9,'/upload/images/20220418/1650289597920354.jpg','#',1,1650289601),(10,'/upload/images/20220418/165028961862774.jpg','#',1,1650289621),(11,'/upload/images/20220418/1650289629820623.jpg','#',1,1650289632);
+/*!40000 ALTER TABLE `dl_ad` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_admin`
 --
 
+DROP TABLE IF EXISTS `dl_admin`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_admin` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `auth_ids` varchar(255) DEFAULT NULL COMMENT '角色权限ID',
   `head_img` varchar(255) DEFAULT NULL COMMENT '头像',
   `username` varchar(50) NOT NULL DEFAULT '' COMMENT '用户登录名',
   `password` varchar(150) NOT NULL DEFAULT '' COMMENT '用户登录密码',
   `phone` varchar(16) DEFAULT NULL COMMENT '联系手机号',
   `remark` varchar(255) DEFAULT '' COMMENT '备注说明',
-  `login_num` bigint(20) UNSIGNED DEFAULT '0' COMMENT '登录次数',
+  `login_num` bigint(20) unsigned DEFAULT '0' COMMENT '登录次数',
   `sort` int(11) DEFAULT '0' COMMENT '排序',
-  `status` tinyint(1) UNSIGNED NOT NULL DEFAULT '1' COMMENT '状态(0:禁用,1:启用,)',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '状态(0:禁用,1:启用,)',
   `create_time` int(11) DEFAULT NULL COMMENT '创建时间',
   `update_time` int(11) DEFAULT NULL COMMENT '更新时间',
   `delete_time` int(11) DEFAULT NULL COMMENT '删除时间',
   `agency_id` int(10) DEFAULT '0' COMMENT '用户ID',
-  `ware_id` int(10) DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统用户表' ROW_FORMAT=COMPACT;
+  `ware_id` int(10) DEFAULT '0',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `username` (`username`) USING BTREE,
+  KEY `phone` (`phone`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统用户表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_admin`
 --
 
-INSERT INTO `dl_admin` (`id`, `auth_ids`, `head_img`, `username`, `password`, `phone`, `remark`, `login_num`, `sort`, `status`, `create_time`, `update_time`, `delete_time`, `agency_id`, `ware_id`) VALUES
-(1, '1', '/static/admin/images/head.jpg', 'admin', 'a816duypGBJ6bo8FwVb7nfxn9MLcitvcUlROQm8zDwmajio', '15617661050', '管理员', 683, 0, 1, 1600782083, 1606785628, NULL, 0, 0);
-
--- --------------------------------------------------------
+LOCK TABLES `dl_admin` WRITE;
+/*!40000 ALTER TABLE `dl_admin` DISABLE KEYS */;
+INSERT INTO `dl_admin` VALUES (1,'1','/static/admin/images/head.jpg','admin','a816duypGBJ6bo8FwVb7nfxn9MLcitvcUlROQm8zDwmajio','15617661050','管理员',735,0,1,1600782083,1606785628,NULL,0,0);
+/*!40000 ALTER TABLE `dl_admin` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_admin_auth`
 --
 
+DROP TABLE IF EXISTS `dl_admin_auth`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_admin_auth` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(20) NOT NULL COMMENT '权限名称',
   `sort` int(11) DEFAULT '0' COMMENT '排序',
-  `status` tinyint(1) UNSIGNED DEFAULT '1' COMMENT '状态(1:禁用,2:启用)',
+  `status` tinyint(1) unsigned DEFAULT '1' COMMENT '状态(1:禁用,2:启用)',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注说明',
   `create_time` int(11) DEFAULT NULL COMMENT '创建时间',
   `update_time` int(11) DEFAULT NULL COMMENT '更新时间',
-  `delete_time` int(11) DEFAULT NULL COMMENT '删除时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统权限表' ROW_FORMAT=COMPACT;
+  `delete_time` int(11) DEFAULT NULL COMMENT '删除时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `title` (`title`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统权限表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_admin_auth`
 --
 
-INSERT INTO `dl_admin_auth` (`id`, `title`, `sort`, `status`, `remark`, `create_time`, `update_time`, `delete_time`) VALUES
-(1, '管理员', 1, 1, '测试管理员', 1588921753, 1589614331, NULL);
-
--- --------------------------------------------------------
+LOCK TABLES `dl_admin_auth` WRITE;
+/*!40000 ALTER TABLE `dl_admin_auth` DISABLE KEYS */;
+INSERT INTO `dl_admin_auth` VALUES (1,'管理员',1,1,'测试管理员',1588921753,1589614331,NULL);
+/*!40000 ALTER TABLE `dl_admin_auth` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_admin_auth_node`
 --
 
+DROP TABLE IF EXISTS `dl_admin_auth_node`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_admin_auth_node` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `auth_id` bigint(20) UNSIGNED DEFAULT NULL COMMENT '角色ID',
-  `menu_id` bigint(20) DEFAULT NULL COMMENT '菜单ID'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色与节点关系表' ROW_FORMAT=COMPACT;
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `auth_id` bigint(20) unsigned DEFAULT NULL COMMENT '角色ID',
+  `menu_id` bigint(20) DEFAULT NULL COMMENT '菜单ID',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `index_system_auth_auth` (`auth_id`) USING BTREE,
+  KEY `index_system_auth_node` (`menu_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=300 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='角色与节点关系表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_admin_auth_node`
 --
 
-INSERT INTO `dl_admin_auth_node` (`id`, `auth_id`, `menu_id`) VALUES
-(37, 1, 228),
-(38, 1, 234),
-(39, 1, 244),
-(40, 1, 245),
-(41, 1, 247),
-(42, 1, 249),
-(43, 1, 251),
-(44, 1, 255),
-(45, 1, 256),
-(46, 1, 257),
-(47, 1, 258),
-(48, 1, 259),
-(49, 1, 260),
-(50, 1, 261),
-(51, 1, 262),
-(52, 1, 263),
-(53, 1, 264),
-(54, 1, 265),
-(55, 1, 266),
-(94, 8, 257),
-(95, 8, 258),
-(96, 8, 268),
-(97, 8, 269),
-(98, 8, 271),
-(99, 8, 287),
-(100, 8, 352),
-(101, 8, 392),
-(102, 8, 393),
-(103, 8, 353),
-(104, 8, 394),
-(105, 8, 395),
-(106, 8, 274),
-(107, 8, 275),
-(108, 8, 323),
-(109, 8, 324),
-(110, 8, 326),
-(111, 8, 327),
-(112, 8, 377),
-(113, 8, 378),
-(114, 8, 379),
-(115, 8, 380),
-(116, 8, 381),
-(117, 8, 354),
-(118, 8, 382),
-(119, 8, 383),
-(120, 8, 384),
-(121, 8, 385),
-(122, 8, 355),
-(123, 8, 386),
-(124, 8, 387),
-(125, 8, 388),
-(126, 8, 356),
-(127, 8, 389),
-(128, 8, 390),
-(129, 8, 391),
-(130, 8, 276),
-(131, 8, 277),
-(132, 8, 328),
-(133, 8, 329),
-(134, 8, 330),
-(135, 8, 284),
-(136, 8, 285),
-(137, 8, 343),
-(138, 8, 344),
-(139, 8, 409),
-(140, 8, 410),
-(141, 8, 412),
-(142, 8, 414),
-(143, 8, 415),
-(144, 8, 416),
-(145, 8, 417),
-(146, 8, 418),
-(147, 8, 347),
-(148, 8, 411),
-(149, 8, 413),
-(150, 8, 365),
-(151, 8, 345),
-(152, 8, 346),
-(153, 8, 402),
-(154, 8, 404),
-(155, 8, 408),
-(156, 8, 348),
-(157, 8, 349),
-(158, 8, 405),
-(159, 8, 406),
-(160, 8, 407),
-(161, 8, 357),
-(162, 8, 358),
-(163, 8, 419),
-(164, 8, 421),
-(165, 8, 423),
-(166, 8, 424),
-(167, 8, 425),
-(168, 8, 426),
-(169, 8, 359),
-(170, 8, 420),
-(171, 8, 422),
-(172, 8, 360),
-(173, 8, 361),
-(174, 8, 431),
-(175, 8, 432),
-(176, 8, 433),
-(177, 8, 434),
-(178, 8, 370),
-(179, 8, 435),
-(180, 8, 436),
-(181, 8, 437),
-(182, 8, 364),
-(183, 8, 366),
-(184, 8, 438),
-(185, 8, 367),
-(186, 8, 439),
-(187, 8, 368),
-(188, 8, 440),
-(189, 8, 427),
-(190, 8, 428),
-(191, 8, 429),
-(192, 8, 430),
-(193, 6, 249),
-(194, 6, 251),
-(195, 6, 288),
-(196, 6, 290),
-(197, 6, 291),
-(198, 6, 257),
-(199, 6, 258),
-(200, 6, 268),
-(201, 6, 269),
-(202, 6, 271),
-(203, 6, 280),
-(204, 6, 281),
-(205, 6, 338),
-(206, 6, 339),
-(207, 6, 340),
-(208, 6, 396),
-(209, 6, 350),
-(210, 6, 351),
-(211, 6, 397),
-(212, 6, 398),
-(213, 6, 399),
-(214, 6, 343),
-(215, 6, 344),
-(216, 6, 409),
-(217, 6, 410),
-(218, 6, 412),
-(219, 6, 414),
-(220, 6, 415),
-(221, 6, 416),
-(222, 6, 417),
-(223, 6, 418),
-(224, 6, 347),
-(225, 6, 411),
-(226, 6, 413),
-(227, 6, 365),
-(228, 2, 228),
-(229, 2, 234),
-(230, 2, 296),
-(231, 2, 297),
-(232, 2, 299),
-(233, 2, 300),
-(234, 2, 301),
-(235, 2, 302),
-(236, 2, 376),
-(237, 2, 442),
-(238, 2, 244),
-(239, 2, 303),
-(240, 2, 304),
-(241, 2, 305),
-(242, 2, 306),
-(243, 2, 245),
-(244, 2, 307),
-(245, 2, 308),
-(246, 2, 309),
-(247, 2, 310),
-(248, 2, 311),
-(249, 2, 247),
-(250, 2, 333),
-(251, 2, 249),
-(252, 2, 251),
-(253, 2, 288),
-(254, 2, 289),
-(255, 2, 291),
-(256, 2, 255),
-(257, 2, 256),
-(258, 2, 292),
-(259, 2, 293),
-(260, 2, 294),
-(261, 2, 276),
-(262, 2, 277),
-(263, 2, 328),
-(264, 2, 329),
-(265, 2, 330),
-(266, 2, 278),
-(267, 2, 279),
-(268, 2, 331),
-(269, 2, 332),
-(270, 2, 284),
-(271, 2, 285),
-(272, 2, 444),
-(273, 2, 445),
-(274, 2, 446),
-(275, 2, 447),
-(276, 2, 448),
-(277, 2, 500),
-(278, 2, 501),
-(279, 2, 502),
-(280, 2, 503),
-(281, 2, 455),
-(282, 2, 456),
-(283, 2, 457),
-(284, 2, 458),
-(285, 2, 459),
-(286, 2, 474),
-(287, 2, 475),
-(288, 2, 476),
-(289, 2, 477),
-(290, 2, 481),
-(291, 2, 482),
-(292, 2, 483),
-(293, 2, 484),
-(294, 2, 485),
-(295, 2, 507),
-(296, 2, 508),
-(297, 2, 509),
-(298, 2, 510),
-(299, 2, 511);
-
--- --------------------------------------------------------
+LOCK TABLES `dl_admin_auth_node` WRITE;
+/*!40000 ALTER TABLE `dl_admin_auth_node` DISABLE KEYS */;
+INSERT INTO `dl_admin_auth_node` VALUES (37,1,228),(38,1,234),(39,1,244),(40,1,245),(41,1,247),(42,1,249),(43,1,251),(44,1,255),(45,1,256),(46,1,257),(47,1,258),(48,1,259),(49,1,260),(50,1,261),(51,1,262),(52,1,263),(53,1,264),(54,1,265),(55,1,266),(94,8,257),(95,8,258),(96,8,268),(97,8,269),(98,8,271),(99,8,287),(100,8,352),(101,8,392),(102,8,393),(103,8,353),(104,8,394),(105,8,395),(106,8,274),(107,8,275),(108,8,323),(109,8,324),(110,8,326),(111,8,327),(112,8,377),(113,8,378),(114,8,379),(115,8,380),(116,8,381),(117,8,354),(118,8,382),(119,8,383),(120,8,384),(121,8,385),(122,8,355),(123,8,386),(124,8,387),(125,8,388),(126,8,356),(127,8,389),(128,8,390),(129,8,391),(130,8,276),(131,8,277),(132,8,328),(133,8,329),(134,8,330),(135,8,284),(136,8,285),(137,8,343),(138,8,344),(139,8,409),(140,8,410),(141,8,412),(142,8,414),(143,8,415),(144,8,416),(145,8,417),(146,8,418),(147,8,347),(148,8,411),(149,8,413),(150,8,365),(151,8,345),(152,8,346),(153,8,402),(154,8,404),(155,8,408),(156,8,348),(157,8,349),(158,8,405),(159,8,406),(160,8,407),(161,8,357),(162,8,358),(163,8,419),(164,8,421),(165,8,423),(166,8,424),(167,8,425),(168,8,426),(169,8,359),(170,8,420),(171,8,422),(172,8,360),(173,8,361),(174,8,431),(175,8,432),(176,8,433),(177,8,434),(178,8,370),(179,8,435),(180,8,436),(181,8,437),(182,8,364),(183,8,366),(184,8,438),(185,8,367),(186,8,439),(187,8,368),(188,8,440),(189,8,427),(190,8,428),(191,8,429),(192,8,430),(193,6,249),(194,6,251),(195,6,288),(196,6,290),(197,6,291),(198,6,257),(199,6,258),(200,6,268),(201,6,269),(202,6,271),(203,6,280),(204,6,281),(205,6,338),(206,6,339),(207,6,340),(208,6,396),(209,6,350),(210,6,351),(211,6,397),(212,6,398),(213,6,399),(214,6,343),(215,6,344),(216,6,409),(217,6,410),(218,6,412),(219,6,414),(220,6,415),(221,6,416),(222,6,417),(223,6,418),(224,6,347),(225,6,411),(226,6,413),(227,6,365),(228,2,228),(229,2,234),(230,2,296),(231,2,297),(232,2,299),(233,2,300),(234,2,301),(235,2,302),(236,2,376),(237,2,442),(238,2,244),(239,2,303),(240,2,304),(241,2,305),(242,2,306),(243,2,245),(244,2,307),(245,2,308),(246,2,309),(247,2,310),(248,2,311),(249,2,247),(250,2,333),(251,2,249),(252,2,251),(253,2,288),(254,2,289),(255,2,291),(256,2,255),(257,2,256),(258,2,292),(259,2,293),(260,2,294),(261,2,276),(262,2,277),(263,2,328),(264,2,329),(265,2,330),(266,2,278),(267,2,279),(268,2,331),(269,2,332),(270,2,284),(271,2,285),(272,2,444),(273,2,445),(274,2,446),(275,2,447),(276,2,448),(277,2,500),(278,2,501),(279,2,502),(280,2,503),(281,2,455),(282,2,456),(283,2,457),(284,2,458),(285,2,459),(286,2,474),(287,2,475),(288,2,476),(289,2,477),(290,2,481),(291,2,482),(292,2,483),(293,2,484),(294,2,485),(295,2,507),(296,2,508),(297,2,509),(298,2,510),(299,2,511);
+/*!40000 ALTER TABLE `dl_admin_auth_node` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_admin_menu`
 --
 
+DROP TABLE IF EXISTS `dl_admin_menu`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_admin_menu` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `pid` bigint(20) UNSIGNED NOT NULL DEFAULT '0' COMMENT '父id',
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `pid` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '父id',
   `title` varchar(100) NOT NULL DEFAULT '' COMMENT '名称',
   `icon` varchar(100) NOT NULL DEFAULT '0' COMMENT '菜单图标',
   `href` varchar(100) NOT NULL DEFAULT '' COMMENT '链接',
   `params` varchar(500) DEFAULT '' COMMENT '链接参数',
   `target` varchar(20) NOT NULL DEFAULT '_self' COMMENT '链接打开方式',
   `sort` int(11) DEFAULT '0' COMMENT '菜单排序',
-  `status` tinyint(1) UNSIGNED NOT NULL DEFAULT '1' COMMENT '状态(0:禁用,1:启用)',
+  `status` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '状态(0:禁用,1:启用)',
   `remark` varchar(255) DEFAULT NULL,
   `create_time` int(11) DEFAULT NULL COMMENT '创建时间',
   `update_time` int(11) DEFAULT NULL COMMENT '更新时间',
   `delete_time` int(11) DEFAULT NULL COMMENT '删除时间',
-  `menu_status` tinyint(1) DEFAULT '1' COMMENT '是否是菜单列表 1 是  0 否'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统菜单表' ROW_FORMAT=COMPACT;
+  `menu_status` tinyint(1) DEFAULT '1' COMMENT '是否是菜单列表 1 是  0 否',
+  PRIMARY KEY (`id`) USING BTREE,
+  KEY `title` (`title`) USING BTREE,
+  KEY `href` (`href`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=601 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统菜单表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_admin_menu`
 --
 
-INSERT INTO `dl_admin_menu` (`id`, `pid`, `title`, `icon`, `href`, `params`, `target`, `sort`, `status`, `remark`, `create_time`, `update_time`, `delete_time`, `menu_status`) VALUES
-(228, 0, '系统管理', 'setup_fill', '#', '', '_self', 0, 1, '', NULL, 1617006047, NULL, 1),
-(234, 228, '菜单管理', 'fa fa-tree', 'admin/menu_index', '', '_self', 10, 1, '', NULL, 1588228555, NULL, 1),
-(244, 228, '管理员管理', 'fa fa-user', 'admin/admin_index', '', '_self', 12, 1, '', 1573185011, 1608167926, NULL, 1),
-(245, 228, '角色管理', 'fa fa-bitbucket-square', 'admin/auth_index', '', '_self', 11, 1, '', 1573435877, 1608167968, NULL, 1),
-(247, 228, '配置管理', 'fa fa-asterisk', 'admin/config_index', '', '_self', 8, 1, '', 1573457448, 1608168069, NULL, 1),
-(249, 0, '用户管理', 'people_fill', '#', '', '_self', 100, 1, '', 1589439884, 1628579842, NULL, 1),
-(251, 249, '用户列表', 'fa fa-list', 'admin/user_index', '', '_self', 0, 1, '', 1589439931, 1606801177, NULL, 1),
-(255, 0, '轮播图管理', 'picture_fill', '#', '', '_self', 95, 1, NULL, 1608186891, 1628580002, NULL, 1),
-(256, 255, '轮播图列表', 'upload/category/20201217/1608186941783812.jpg', 'admin/ad_index', '', '_self', NULL, 1, NULL, 1608186942, NULL, NULL, 1),
-(278, 0, '协议管理', 'activity_fill', '#', '', '_self', 91, 1, NULL, 1611546588, 1630391639, NULL, 1),
-(279, 278, '协议列表', '0', 'admin/single_index', '', '_self', NULL, 1, NULL, 1611546626, NULL, NULL, 1),
-(284, 0, '控制面板', '0', 'admin/index', '', '_self', 0, 1, NULL, 1614332322, NULL, NULL, 0),
-(285, 284, '控制面板数据', '0', 'admin/welcome', '', '_self', 0, 1, NULL, 1614332351, NULL, NULL, 0),
-(288, 251, '列表数据', '0', 'admin/user_list', '', '_self', 0, 1, NULL, 1614332631, NULL, NULL, 0),
-(289, 251, '增加/编辑', '0', 'admin/user_add', '', '_self', 0, 1, NULL, 1614332697, 1614332762, NULL, 0),
-(291, 251, '封禁', '0', 'admin/user_state', '', '_self', 0, 1, NULL, 1614332818, NULL, NULL, 0),
-(292, 256, '列表数据', '0', 'admin/ad_list', '', '_self', 0, 1, NULL, 1614332890, NULL, NULL, 0),
-(293, 256, '添加/编辑', '0', 'admin/ad_add', '', '_self', 0, 1, NULL, 1614332922, NULL, NULL, 0),
-(294, 256, '删除', '0', 'admin/ad_del', '', '_self', 0, 1, NULL, 1614332953, NULL, NULL, 0),
-(296, 234, '列表数据', '0', 'admin/menu_list', '', '_self', 0, 1, NULL, 1614333053, NULL, NULL, 0),
-(297, 234, '添加', '0', 'admin/menu_add', '', '_self', 0, 1, NULL, 1614333090, NULL, NULL, 0),
-(299, 234, '编辑', '0', 'admin/menu_edit', '', '_self', 0, 1, NULL, 1614333139, NULL, NULL, 0),
-(300, 234, '删除', '0', 'admin/menu_del', '', '_self', 0, 1, NULL, 1614333168, NULL, NULL, 0),
-(301, 234, '状态', '0', 'admin/menu_status', '', '_self', 0, 1, NULL, 1614333194, NULL, NULL, 0),
-(302, 234, '是否列表', '0', 'admin/menu_list_status', '', '_self', 0, 1, NULL, 1614333215, NULL, NULL, 0),
-(303, 244, '列表数据', '0', 'admin/admin_list', '', '_self', 0, 1, NULL, 1614333268, NULL, NULL, 0),
-(304, 244, '添加', '0', 'admin/admin_add', '', '_self', 0, 1, NULL, 1614333302, NULL, NULL, 0),
-(305, 244, '编辑', '0', 'admin/admin_edit', '', '_self', 0, 1, NULL, 1614333330, NULL, NULL, 0),
-(306, 244, '封号', '0', 'admin/admin_status', '', '_self', 0, 1, NULL, 1614333396, NULL, NULL, 0),
-(307, 245, '列表数据', '0', 'admin/auth_list', '', '_self', 0, 1, NULL, 1614333493, NULL, NULL, 0),
-(308, 245, '添加', '0', 'admin/auth_add', '', '_self', 0, 1, NULL, 1614333519, NULL, NULL, 0),
-(309, 245, '编辑', '0', 'admin/auth_edit', '', '_self', 0, 1, NULL, 1614333596, NULL, NULL, 0),
-(310, 245, '授权管理', '0', 'admin/auth_node', '', '_self', 0, 1, NULL, 1614333621, NULL, NULL, 0),
-(311, 245, '状态', '0', 'admin/auth_state', '', '_self', 0, 1, NULL, 1614333654, NULL, NULL, 0),
-(331, 279, '列表数据', '0', 'admin/single_list', '', '_self', 0, 1, NULL, 1614394172, NULL, NULL, 0),
-(332, 279, '添加/编辑', '0', 'admin/single_add', '', '_self', 0, 1, NULL, 1614394212, NULL, NULL, 0),
-(333, 247, '添加/编辑', '0', 'admin/config_save', '', '_self', 0, 1, NULL, 1614394291, NULL, NULL, 0),
-(376, 234, '排序', '0', 'admin/menu_sort', '', '_self', 0, 1, NULL, 1616742691, NULL, NULL, 1),
-(442, 234, '图标选择', '0', 'admin/menu_icon', '', '_self', 0, 1, NULL, 1617006887, NULL, NULL, 0),
-(455, 0, '盲盒管理', 'manage_fill .icon-manage_fill', '#', '', '_self', 93, 1, NULL, 1618986530, 1637895034, NULL, 1),
-(474, 0, '订单管理', 'order .icon-order', '#', '', '_self', 99, 1, NULL, 1619492920, 1649921664, NULL, 1),
-(475, 474, '订单列表', '0', 'admin/order_index', '', '_self', 1, 1, NULL, 1619492943, 1647247961, NULL, 1),
-(476, 475, '列表数据', '0', 'admin/order_list', '', '_self', NULL, 1, NULL, 1619492960, NULL, NULL, 0),
-(481, 0, '充值规则', 'redpacket_fill .icon-redpacket_fill', '#', '', '_self', 90, 1, NULL, 1619597773, 1646361694, NULL, 1),
-(482, 481, '规则列表', '0', 'admin/recharge_index', '', '_self', NULL, 1, NULL, 1619597834, 1646361701, NULL, 1),
-(483, 482, '列表数据', '0', 'admin/recharge_list', '', '_self', NULL, 1, NULL, 1619597863, 1637744126, NULL, 0),
-(484, 482, '添加/修改', '0', 'admin/recharge_add', '', '_self', NULL, 1, NULL, 1619597916, 1637744132, NULL, 0),
-(485, 482, '删除', '0', 'admin/recharge_del', '', '_self', NULL, 1, NULL, 1619597989, 1637744137, NULL, 0),
-(517, 455, '普通赏列表', '0', 'admin/box_one_index', '', '_self', 2, 1, NULL, 1632468737, 1646712027, NULL, 1),
-(518, 517, '列表数据', '0', 'admin/box_one_list', '', '_self', NULL, 1, NULL, 1632468761, 1646712090, NULL, 0),
-(519, 517, '添加/编辑', '0', 'admin/box_one_add', '', '_self', NULL, 1, NULL, 1632468779, 1646712049, NULL, 0),
-(520, 517, '删除', '0', 'admin/box_one_del', '', '_self', NULL, 1, NULL, 1632468794, 1646712118, NULL, 0),
-(525, 0, '潮玩券管理', 'coupons_fill .icon-coupons_fill', '#', '', '_self', 93, 1, NULL, 1637895076, 1646794957, NULL, 1),
-(526, 525, '潮玩券列表', '0', 'admin/coupon_index', '', '_self', NULL, 1, NULL, 1637895560, 1646794964, NULL, 1),
-(527, 526, '列表数据', '0', 'admin/coupon_list', '', '_self', NULL, 1, NULL, 1637895616, NULL, NULL, 0),
-(528, 526, '编辑', '0', 'admin/coupon_add', '', '_self', NULL, 1, NULL, 1637895642, 1648628091, NULL, 0),
-(530, 474, '赏品列表', '0', 'admin/order_goods_index', '', '_self', NULL, 1, NULL, 1637918506, NULL, NULL, 1),
-(531, 530, '列表数据', '0', 'admin/order_goods_list', '', '_self', NULL, 1, NULL, 1637918526, NULL, NULL, 0),
-(533, 455, '赏品列表', '0', 'admin/goods_index', '', '_self', NULL, 1, NULL, 1638166673, 1646365216, NULL, 1),
-(534, 533, '列表数据', '0', 'admin/goods_list', '', '_self', NULL, 1, NULL, 1638166698, 1646365233, NULL, 0),
-(535, 533, '添加/编辑', '0', 'admin/goods_add', '', '_self', NULL, 1, NULL, 1638166716, 1646365227, NULL, 0),
-(536, 533, '删除', '0', 'admin/goods_del', '', '_self', NULL, 1, NULL, 1638166734, 1646365221, NULL, 0),
-(537, 455, '赏品级别', '0', 'admin/level_index', '', '_self', NULL, 1, NULL, 1646290035, NULL, NULL, 1),
-(538, 537, '列表数据', '0', 'admin/level_list', '', '_self', NULL, 1, NULL, 1646290055, NULL, NULL, 0),
-(539, 537, '添加/编辑', '0', 'admin/level_add', '', '_self', NULL, 1, NULL, 1646290077, NULL, NULL, 0),
-(540, 537, '删除', '0', 'admin/level_del', '', '_self', NULL, 1, NULL, 1646290094, NULL, NULL, 0),
-(541, 517, '上架/下架', '0', 'admin/box_one_state', '', '_self', NULL, 1, NULL, 1646365208, 1646712110, NULL, 0),
-(542, 533, '选择', '0', 'admin/goods_search', '', '_self', NULL, 1, NULL, 1646365261, NULL, NULL, 0),
-(543, 0, '分类管理', 'document_fill .icon-document_fill', '#', '', '_self', 94, 1, NULL, 1646708817, NULL, NULL, 1),
-(544, 543, '分类列表', '0', 'admin/category_index', '', '_self', NULL, 1, NULL, 1646708839, 1646788508, NULL, 1),
-(545, 544, '列表数据', '0', 'admin/category_list', '', '_self', NULL, 1, NULL, 1646708859, NULL, NULL, 0),
-(546, 544, '添加/编辑', '0', 'admin/category_add', '', '_self', NULL, 1, NULL, 1646708875, NULL, NULL, 0),
-(547, 544, '删除', '0', 'admin/category_del', '', '_self', NULL, 1, NULL, 1646708890, NULL, NULL, 0),
-(548, 455, '竞技赏列表', '0', 'admin/box_two_index', '', '_self', 2, 1, NULL, 1646730997, NULL, NULL, 1),
-(549, 548, '列表数据', '0', 'admin/box_two_list', '', '_self', NULL, 1, NULL, 1646731018, NULL, NULL, 0),
-(550, 548, '添加/编辑', '0', 'admin/box_two_add', '', '_self', NULL, 1, NULL, 1646731039, NULL, NULL, 0),
-(551, 548, '删除', '0', 'admin/box_two_del', '', '_self', NULL, 1, NULL, 1646731057, NULL, NULL, 0),
-(552, 548, '上架/下架', '0', 'admin/box_two_state', '', '_self', NULL, 1, NULL, 1646731076, NULL, NULL, 0),
-(553, 455, '无限赏列表', '0', 'admin/box_three_index', '', '_self', 2, 1, NULL, 1646733858, NULL, NULL, 1),
-(554, 553, '列表数据', '0', 'admin/box_three_list', '', '_self', NULL, 1, NULL, 1646733877, NULL, NULL, 0),
-(555, 553, '添加/编辑', '0', 'admin/box_three_add', '', '_self', NULL, 1, NULL, 1646733894, NULL, NULL, 0),
-(556, 553, '删除', '0', 'admin/box_three_del', '', '_self', NULL, 1, NULL, 1646733908, NULL, NULL, 0),
-(557, 553, '上架/下架', '0', 'admin/box_three_state', '', '_self', NULL, 1, NULL, 1646733926, NULL, NULL, 0),
-(558, 553, '概率列表', '0', 'admin/box_level_index', '', '_self', NULL, 1, NULL, 1646798421, NULL, NULL, 1),
-(559, 558, '列表数据', '0', 'admin/box_level_list', '', '_self', NULL, 1, NULL, 1646798439, NULL, NULL, 0),
-(560, 558, '添加/编辑', '0', 'admin/box_level_add', '', '_self', NULL, 1, NULL, 1646798462, NULL, NULL, 0),
-(561, 558, '删除', '0', 'admin/box_level_del', '', '_self', NULL, 1, NULL, 1646798479, NULL, NULL, 0),
-(562, 474, '发货列表', '0', 'admin/order_deliver_index', '', '_self', NULL, 1, NULL, 1647249647, NULL, NULL, 1),
-(563, 562, '列表数据', '0', 'admin/order_deliver_list', '', '_self', NULL, 1, NULL, 1647249740, NULL, NULL, 0),
-(564, 562, '发货', '0', 'admin/order_deliver', '', '_self', NULL, 1, NULL, 1647249757, NULL, NULL, 0),
-(565, 251, '充值/扣除', '0', 'admin/user_conf', '', '_self', NULL, 1, NULL, 1648544672, NULL, NULL, 0),
-(566, 533, '竞技赏选择', '0', 'admin/goods_three_search', '', '_self', NULL, 1, NULL, 1648713527, NULL, NULL, 0),
-(567, 533, '扭蛋机选择', '0', 'admin/goods_egg_search', '', '_self', NULL, 1, NULL, 1648713546, NULL, NULL, 0),
-(568, 455, '扭蛋机列表', '0', 'admin/box_egg_index', '', '_self', 2, 1, NULL, 1648713590, NULL, NULL, 1),
-(569, 568, '列表数据', '0', 'admin/box_egg_list', '', '_self', NULL, 1, NULL, 1648713621, NULL, NULL, 0),
-(570, 568, '添加/编辑', '0', 'admin/box_egg_add', '', '_self', NULL, 1, NULL, 1648713644, NULL, NULL, 0),
-(571, 568, '删除', '0', 'admin/box_egg_del', '', '_self', NULL, 1, NULL, 1648713670, NULL, NULL, 0),
-(572, 568, '上架/下架', '0', 'admin/box_egg_state', '', '_self', NULL, 1, NULL, 1648713687, NULL, NULL, 0),
-(573, 0, '消费统计', 'barrage_fill .icon-barrage_fill', '#', '', '_self', 98, 1, NULL, 1649921751, NULL, NULL, 1),
-(574, 573, '消费日流水', '0', 'admin/consume_day_index', '', '_self', NULL, 1, NULL, 1649921770, NULL, NULL, 1),
-(575, 574, '列表数据', '0', 'admin/consume_day_list', '', '_self', NULL, 1, NULL, 1649921785, NULL, NULL, 0),
-(576, 573, '消费周流水', '0', 'admin/consume_week_index', '', '_self', NULL, 1, NULL, 1649926479, NULL, NULL, 1),
-(577, 576, '列表数据', '0', 'admin/consume_week_list', '', '_self', NULL, 1, NULL, 1649926531, NULL, NULL, 0),
-(578, 573, '消费月流水', '0', 'admin/consume_month_index', '', '_self', NULL, 1, NULL, 1649926553, NULL, NULL, 1),
-(579, 578, '列表数据', '0', 'admin/consume_month_list', '', '_self', NULL, 1, NULL, 1649926569, NULL, NULL, 0),
-(580, 573, '打拳日流水', '0', 'admin/times_day_index', '', '_self', NULL, 1, NULL, 1649927500, 1649927601, NULL, 1),
-(581, 580, '列表数据', '0', 'admin/times_day_list', '', '_self', NULL, 1, NULL, 1649927515, NULL, NULL, 0),
-(582, 573, '打拳周流水', '0', 'admin/times_week_index', '', '_self', NULL, 1, NULL, 1649927533, NULL, NULL, 1),
-(583, 582, '列表数据', '0', 'admin/times_week_list', '', '_self', NULL, 1, NULL, 1649927550, NULL, NULL, 0),
-(584, 573, '打拳月流水', '0', 'admin/times_month_index', '', '_self', NULL, 1, NULL, 1649927564, NULL, NULL, 1),
-(585, 584, '列表数据', '0', 'admin/times_month_list', '', '_self', NULL, 1, NULL, 1649927578, NULL, NULL, 0),
-(586, 573, '无限日流水', '0', 'admin/infinite_day_index', '', '_self', NULL, 1, NULL, 1649927875, NULL, NULL, 1),
-(587, 586, '列表数据', '0', 'admin/infinite_day_list', '', '_self', NULL, 1, NULL, 1649927890, NULL, NULL, 0),
-(588, 573, '无限周流水', '0', 'admin/infinite_week_index', '', '_self', NULL, 1, NULL, 1649927906, NULL, NULL, 1),
-(589, 588, '列表数据', '0', 'admin/infinite_week_list', '', '_self', NULL, 1, NULL, 1649927922, NULL, NULL, 0),
-(590, 573, '无限月流水', '0', 'admin/infinite_month_index', '', '_self', NULL, 1, NULL, 1649927938, NULL, NULL, 1),
-(591, 590, '列表数据', '0', 'admin/infinite_month_list', '', '_self', NULL, 1, NULL, 1649927954, NULL, NULL, 0),
-(592, 526, '赠送', '0', 'admin/coupon_give', '', '_self', NULL, 1, NULL, 1650012720, NULL, NULL, 0),
-(594, 553, '发赏', '0', 'admin/box_three_prize', '', '_self', NULL, 1, NULL, 1650694120, NULL, NULL, 0),
-(595, 573, '日总流水', '0', 'admin/consume_total_day_index', '', '_self', NULL, 1, NULL, 1650878255, NULL, NULL, 1),
-(596, 595, '列表数据', '0', 'admin/consume_total_day_list', '', '_self', NULL, 1, NULL, 1650878269, NULL, NULL, 0),
-(597, 573, '周总流水', '0', 'admin/consume_total_week_index', '', '_self', NULL, 1, NULL, 1650878292, NULL, NULL, 1),
-(598, 597, '列表数据', '0', 'admin/consume_total_week_list', '', '_self', NULL, 1, NULL, 1650878314, NULL, NULL, 0),
-(599, 573, '月总流水', '0', 'admin/consume_total_month_index', '', '_self', NULL, 1, NULL, 1650878333, NULL, NULL, 1),
-(600, 599, '列表数据', '0', 'admin/consume_total_month_list', '', '_self', NULL, 1, NULL, 1650878349, NULL, NULL, 0);
-
--- --------------------------------------------------------
+LOCK TABLES `dl_admin_menu` WRITE;
+/*!40000 ALTER TABLE `dl_admin_menu` DISABLE KEYS */;
+INSERT INTO `dl_admin_menu` VALUES (228,0,'系统管理','setup_fill','#','','_self',0,1,'',NULL,1617006047,NULL,1),(234,228,'菜单管理','fa fa-tree','admin/menu_index','','_self',10,1,'',NULL,1588228555,NULL,1),(244,228,'管理员管理','fa fa-user','admin/admin_index','','_self',12,1,'',1573185011,1608167926,NULL,1),(245,228,'角色管理','fa fa-bitbucket-square','admin/auth_index','','_self',11,1,'',1573435877,1608167968,NULL,1),(247,228,'配置管理','fa fa-asterisk','admin/config_index','','_self',8,1,'',1573457448,1608168069,NULL,1),(249,0,'用户管理','people_fill','#','','_self',100,1,'',1589439884,1628579842,NULL,1),(251,249,'用户列表','fa fa-list','admin/user_index','','_self',0,1,'',1589439931,1606801177,NULL,1),(255,0,'轮播图管理','picture_fill','#','','_self',95,1,NULL,1608186891,1628580002,NULL,1),(256,255,'轮播图列表','upload/category/20201217/1608186941783812.jpg','admin/ad_index','','_self',NULL,1,NULL,1608186942,NULL,NULL,1),(278,0,'协议管理','activity_fill','#','','_self',91,1,NULL,1611546588,1630391639,NULL,1),(279,278,'协议列表','0','admin/single_index','','_self',NULL,1,NULL,1611546626,NULL,NULL,1),(284,0,'控制面板','0','admin/index','','_self',0,1,NULL,1614332322,NULL,NULL,0),(285,284,'控制面板数据','0','admin/welcome','','_self',0,1,NULL,1614332351,NULL,NULL,0),(288,251,'列表数据','0','admin/user_list','','_self',0,1,NULL,1614332631,NULL,NULL,0),(289,251,'增加/编辑','0','admin/user_add','','_self',0,1,NULL,1614332697,1614332762,NULL,0),(291,251,'封禁','0','admin/user_state','','_self',0,1,NULL,1614332818,NULL,NULL,0),(292,256,'列表数据','0','admin/ad_list','','_self',0,1,NULL,1614332890,NULL,NULL,0),(293,256,'添加/编辑','0','admin/ad_add','','_self',0,1,NULL,1614332922,NULL,NULL,0),(294,256,'删除','0','admin/ad_del','','_self',0,1,NULL,1614332953,NULL,NULL,0),(296,234,'列表数据','0','admin/menu_list','','_self',0,1,NULL,1614333053,NULL,NULL,0),(297,234,'添加','0','admin/menu_add','','_self',0,1,NULL,1614333090,NULL,NULL,0),(299,234,'编辑','0','admin/menu_edit','','_self',0,1,NULL,1614333139,NULL,NULL,0),(300,234,'删除','0','admin/menu_del','','_self',0,1,NULL,1614333168,NULL,NULL,0),(301,234,'状态','0','admin/menu_status','','_self',0,1,NULL,1614333194,NULL,NULL,0),(302,234,'是否列表','0','admin/menu_list_status','','_self',0,1,NULL,1614333215,NULL,NULL,0),(303,244,'列表数据','0','admin/admin_list','','_self',0,1,NULL,1614333268,NULL,NULL,0),(304,244,'添加','0','admin/admin_add','','_self',0,1,NULL,1614333302,NULL,NULL,0),(305,244,'编辑','0','admin/admin_edit','','_self',0,1,NULL,1614333330,NULL,NULL,0),(306,244,'封号','0','admin/admin_status','','_self',0,1,NULL,1614333396,NULL,NULL,0),(307,245,'列表数据','0','admin/auth_list','','_self',0,1,NULL,1614333493,NULL,NULL,0),(308,245,'添加','0','admin/auth_add','','_self',0,1,NULL,1614333519,NULL,NULL,0),(309,245,'编辑','0','admin/auth_edit','','_self',0,1,NULL,1614333596,NULL,NULL,0),(310,245,'授权管理','0','admin/auth_node','','_self',0,1,NULL,1614333621,NULL,NULL,0),(311,245,'状态','0','admin/auth_state','','_self',0,1,NULL,1614333654,NULL,NULL,0),(331,279,'列表数据','0','admin/single_list','','_self',0,1,NULL,1614394172,NULL,NULL,0),(332,279,'添加/编辑','0','admin/single_add','','_self',0,1,NULL,1614394212,NULL,NULL,0),(333,247,'添加/编辑','0','admin/config_save','','_self',0,1,NULL,1614394291,NULL,NULL,0),(376,234,'排序','0','admin/menu_sort','','_self',0,1,NULL,1616742691,NULL,NULL,1),(442,234,'图标选择','0','admin/menu_icon','','_self',0,1,NULL,1617006887,NULL,NULL,0),(455,0,'盲盒管理','manage_fill .icon-manage_fill','#','','_self',93,1,NULL,1618986530,1637895034,NULL,1),(474,0,'订单管理','order .icon-order','#','','_self',99,1,NULL,1619492920,1649921664,NULL,1),(475,474,'订单列表','0','admin/order_index','','_self',1,1,NULL,1619492943,1647247961,NULL,1),(476,475,'列表数据','0','admin/order_list','','_self',NULL,1,NULL,1619492960,NULL,NULL,0),(481,0,'充值规则','redpacket_fill .icon-redpacket_fill','#','','_self',90,1,NULL,1619597773,1646361694,NULL,1),(482,481,'规则列表','0','admin/recharge_index','','_self',NULL,1,NULL,1619597834,1646361701,NULL,1),(483,482,'列表数据','0','admin/recharge_list','','_self',NULL,1,NULL,1619597863,1637744126,NULL,0),(484,482,'添加/修改','0','admin/recharge_add','','_self',NULL,1,NULL,1619597916,1637744132,NULL,0),(485,482,'删除','0','admin/recharge_del','','_self',NULL,1,NULL,1619597989,1637744137,NULL,0),(517,455,'普通赏列表','0','admin/box_one_index','','_self',2,1,NULL,1632468737,1646712027,NULL,1),(518,517,'列表数据','0','admin/box_one_list','','_self',NULL,1,NULL,1632468761,1646712090,NULL,0),(519,517,'添加/编辑','0','admin/box_one_add','','_self',NULL,1,NULL,1632468779,1646712049,NULL,0),(520,517,'删除','0','admin/box_one_del','','_self',NULL,1,NULL,1632468794,1646712118,NULL,0),(525,0,'潮玩券管理','coupons_fill .icon-coupons_fill','#','','_self',93,1,NULL,1637895076,1646794957,NULL,1),(526,525,'潮玩券列表','0','admin/coupon_index','','_self',NULL,1,NULL,1637895560,1646794964,NULL,1),(527,526,'列表数据','0','admin/coupon_list','','_self',NULL,1,NULL,1637895616,NULL,NULL,0),(528,526,'编辑','0','admin/coupon_add','','_self',NULL,1,NULL,1637895642,1648628091,NULL,0),(530,474,'赏品列表','0','admin/order_goods_index','','_self',NULL,1,NULL,1637918506,NULL,NULL,1),(531,530,'列表数据','0','admin/order_goods_list','','_self',NULL,1,NULL,1637918526,NULL,NULL,0),(533,455,'赏品列表','0','admin/goods_index','','_self',NULL,1,NULL,1638166673,1646365216,NULL,1),(534,533,'列表数据','0','admin/goods_list','','_self',NULL,1,NULL,1638166698,1646365233,NULL,0),(535,533,'添加/编辑','0','admin/goods_add','','_self',NULL,1,NULL,1638166716,1646365227,NULL,0),(536,533,'删除','0','admin/goods_del','','_self',NULL,1,NULL,1638166734,1646365221,NULL,0),(537,455,'赏品级别','0','admin/level_index','','_self',NULL,1,NULL,1646290035,NULL,NULL,1),(538,537,'列表数据','0','admin/level_list','','_self',NULL,1,NULL,1646290055,NULL,NULL,0),(539,537,'添加/编辑','0','admin/level_add','','_self',NULL,1,NULL,1646290077,NULL,NULL,0),(540,537,'删除','0','admin/level_del','','_self',NULL,1,NULL,1646290094,NULL,NULL,0),(541,517,'上架/下架','0','admin/box_one_state','','_self',NULL,1,NULL,1646365208,1646712110,NULL,0),(542,533,'选择','0','admin/goods_search','','_self',NULL,1,NULL,1646365261,NULL,NULL,0),(543,0,'分类管理','document_fill .icon-document_fill','#','','_self',94,1,NULL,1646708817,NULL,NULL,1),(544,543,'分类列表','0','admin/category_index','','_self',NULL,1,NULL,1646708839,1646788508,NULL,1),(545,544,'列表数据','0','admin/category_list','','_self',NULL,1,NULL,1646708859,NULL,NULL,0),(546,544,'添加/编辑','0','admin/category_add','','_self',NULL,1,NULL,1646708875,NULL,NULL,0),(547,544,'删除','0','admin/category_del','','_self',NULL,1,NULL,1646708890,NULL,NULL,0),(548,455,'竞技赏列表','0','admin/box_two_index','','_self',2,1,NULL,1646730997,NULL,NULL,1),(549,548,'列表数据','0','admin/box_two_list','','_self',NULL,1,NULL,1646731018,NULL,NULL,0),(550,548,'添加/编辑','0','admin/box_two_add','','_self',NULL,1,NULL,1646731039,NULL,NULL,0),(551,548,'删除','0','admin/box_two_del','','_self',NULL,1,NULL,1646731057,NULL,NULL,0),(552,548,'上架/下架','0','admin/box_two_state','','_self',NULL,1,NULL,1646731076,NULL,NULL,0),(553,455,'无限赏列表','0','admin/box_three_index','','_self',2,1,NULL,1646733858,NULL,NULL,1),(554,553,'列表数据','0','admin/box_three_list','','_self',NULL,1,NULL,1646733877,NULL,NULL,0),(555,553,'添加/编辑','0','admin/box_three_add','','_self',NULL,1,NULL,1646733894,NULL,NULL,0),(556,553,'删除','0','admin/box_three_del','','_self',NULL,1,NULL,1646733908,NULL,NULL,0),(557,553,'上架/下架','0','admin/box_three_state','','_self',NULL,1,NULL,1646733926,NULL,NULL,0),(558,553,'概率列表','0','admin/box_level_index','','_self',NULL,1,NULL,1646798421,NULL,NULL,1),(559,558,'列表数据','0','admin/box_level_list','','_self',NULL,1,NULL,1646798439,NULL,NULL,0),(560,558,'添加/编辑','0','admin/box_level_add','','_self',NULL,1,NULL,1646798462,NULL,NULL,0),(561,558,'删除','0','admin/box_level_del','','_self',NULL,1,NULL,1646798479,NULL,NULL,0),(562,474,'发货列表','0','admin/order_deliver_index','','_self',NULL,1,NULL,1647249647,NULL,NULL,1),(563,562,'列表数据','0','admin/order_deliver_list','','_self',NULL,1,NULL,1647249740,NULL,NULL,0),(564,562,'发货','0','admin/order_deliver','','_self',NULL,1,NULL,1647249757,NULL,NULL,0),(565,251,'充值/扣除','0','admin/user_conf','','_self',NULL,1,NULL,1648544672,NULL,NULL,0),(566,533,'竞技赏选择','0','admin/goods_three_search','','_self',NULL,1,NULL,1648713527,NULL,NULL,0),(567,533,'扭蛋机选择','0','admin/goods_egg_search','','_self',NULL,1,NULL,1648713546,NULL,NULL,0),(568,455,'扭蛋机列表','0','admin/box_egg_index','','_self',2,1,NULL,1648713590,NULL,NULL,1),(569,568,'列表数据','0','admin/box_egg_list','','_self',NULL,1,NULL,1648713621,NULL,NULL,0),(570,568,'添加/编辑','0','admin/box_egg_add','','_self',NULL,1,NULL,1648713644,NULL,NULL,0),(571,568,'删除','0','admin/box_egg_del','','_self',NULL,1,NULL,1648713670,NULL,NULL,0),(572,568,'上架/下架','0','admin/box_egg_state','','_self',NULL,1,NULL,1648713687,NULL,NULL,0),(573,0,'消费统计','barrage_fill .icon-barrage_fill','#','','_self',98,1,NULL,1649921751,NULL,NULL,1),(574,573,'消费日流水','0','admin/consume_day_index','','_self',NULL,1,NULL,1649921770,NULL,NULL,1),(575,574,'列表数据','0','admin/consume_day_list','','_self',NULL,1,NULL,1649921785,NULL,NULL,0),(576,573,'消费周流水','0','admin/consume_week_index','','_self',NULL,1,NULL,1649926479,NULL,NULL,1),(577,576,'列表数据','0','admin/consume_week_list','','_self',NULL,1,NULL,1649926531,NULL,NULL,0),(578,573,'消费月流水','0','admin/consume_month_index','','_self',NULL,1,NULL,1649926553,NULL,NULL,1),(579,578,'列表数据','0','admin/consume_month_list','','_self',NULL,1,NULL,1649926569,NULL,NULL,0),(580,573,'打拳日流水','0','admin/times_day_index','','_self',NULL,1,NULL,1649927500,1649927601,NULL,1),(581,580,'列表数据','0','admin/times_day_list','','_self',NULL,1,NULL,1649927515,NULL,NULL,0),(582,573,'打拳周流水','0','admin/times_week_index','','_self',NULL,1,NULL,1649927533,NULL,NULL,1),(583,582,'列表数据','0','admin/times_week_list','','_self',NULL,1,NULL,1649927550,NULL,NULL,0),(584,573,'打拳月流水','0','admin/times_month_index','','_self',NULL,1,NULL,1649927564,NULL,NULL,1),(585,584,'列表数据','0','admin/times_month_list','','_self',NULL,1,NULL,1649927578,NULL,NULL,0),(586,573,'无限日流水','0','admin/infinite_day_index','','_self',NULL,1,NULL,1649927875,NULL,NULL,1),(587,586,'列表数据','0','admin/infinite_day_list','','_self',NULL,1,NULL,1649927890,NULL,NULL,0),(588,573,'无限周流水','0','admin/infinite_week_index','','_self',NULL,1,NULL,1649927906,NULL,NULL,1),(589,588,'列表数据','0','admin/infinite_week_list','','_self',NULL,1,NULL,1649927922,NULL,NULL,0),(590,573,'无限月流水','0','admin/infinite_month_index','','_self',NULL,1,NULL,1649927938,NULL,NULL,1),(591,590,'列表数据','0','admin/infinite_month_list','','_self',NULL,1,NULL,1649927954,NULL,NULL,0),(592,526,'赠送','0','admin/coupon_give','','_self',NULL,1,NULL,1650012720,NULL,NULL,0),(594,553,'发赏','0','admin/box_three_prize','','_self',NULL,1,NULL,1650694120,NULL,NULL,0),(595,573,'日总流水','0','admin/consume_total_day_index','','_self',NULL,1,NULL,1650878255,NULL,NULL,1),(596,595,'列表数据','0','admin/consume_total_day_list','','_self',NULL,1,NULL,1650878269,NULL,NULL,0),(597,573,'周总流水','0','admin/consume_total_week_index','','_self',NULL,1,NULL,1650878292,NULL,NULL,1),(598,597,'列表数据','0','admin/consume_total_week_list','','_self',NULL,1,NULL,1650878314,NULL,NULL,0),(599,573,'月总流水','0','admin/consume_total_month_index','','_self',NULL,1,NULL,1650878333,NULL,NULL,1),(600,599,'列表数据','0','admin/consume_total_month_list','','_self',NULL,1,NULL,1650878349,NULL,NULL,0);
+/*!40000 ALTER TABLE `dl_admin_menu` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_box`
 --
 
+DROP TABLE IF EXISTS `dl_box`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_box` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `c_id` tinyint(3) DEFAULT '0' COMMENT '分类ID',
   `type` tinyint(3) NOT NULL COMMENT '1普通赏 2竞技赏 3无限赏',
   `name` varchar(150) NOT NULL COMMENT '名称',
   `image` varchar(150) NOT NULL COMMENT '图片',
   `cover_image` varchar(150) NOT NULL COMMENT '封面图',
-  `price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '价格',
+  `price` float NOT NULL DEFAULT '0' COMMENT '价格',
   `num` int(10) NOT NULL DEFAULT '1' COMMENT '箱子数量',
   `sale` int(10) DEFAULT '0' COMMENT '卖出数量后可全收',
   `consume` decimal(10,2) DEFAULT '0.00' COMMENT '累计消费',
@@ -520,289 +199,311 @@ CREATE TABLE `dl_box` (
   `sort` int(10) NOT NULL DEFAULT '1' COMMENT '排序值',
   `is_del` tinyint(3) NOT NULL DEFAULT '0' COMMENT '是否删除',
   `create_time` int(10) NOT NULL COMMENT '添加时间',
-  `hot` int(10) DEFAULT '0' COMMENT '抽赏热度'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='盲盒表' ROW_FORMAT=DYNAMIC;
+  `hot` int(10) DEFAULT '0' COMMENT '抽赏热度',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='盲盒表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_box`
 --
 
-INSERT INTO `dl_box` (`id`, `c_id`, `type`, `name`, `image`, `cover_image`, `price`, `num`, `sale`, `consume`, `state`, `sort`, `is_del`, `create_time`, `hot`) VALUES
-(1, 1, 1, '海贼梦想的开始', '/upload/images/20220528/165371767514501.jpg', '/upload/images/20220528/1653717678762424.jpg', '88.00', 100, 20, '0.00', 1, 1, 0, 1653717914, 0),
-(2, 2, 1, '龙珠梦想套', '/upload/images/20220528/1653717967632950.png', '/upload/images/20220528/1653717970379214.png', '13.00', 50, 200, '0.00', 1, 1, 0, 1653718206, 0),
-(3, 3, 2, '太空人', '/upload/images/20220528/165371830785476.jpg', '/upload/images/20220528/16537183102159.jpg', '56.00', 100, 0, '0.00', 1, 1, 0, 1653718370, 0),
-(4, 3, 2, '点亮心灵的美', '/upload/images/20220528/1653718427331894.png', '/upload/images/20220528/16537184307279.png', '44.00', 200, 0, '0.00', 1, 1, 0, 1653718514, 0),
-(5, 4, 2, '你的丝滑', '/upload/images/20220528/1653718603163122.png', '/upload/images/20220528/1653718605917087.png', '9.00', 100, 0, '0.00', 1, 1, 0, 1653718735, 0),
-(6, 7, 3, '爱上高达', '/upload/images/20220528/1653718942259324.png', '/upload/images/20220528/1653718945144213.png', '5.00', 1, 0, '0.00', 1, 1, 0, 1653719197, 12),
-(7, 7, 3, '泡泡玛特', '/upload/images/20220528/1653719484734018.gif', '/upload/images/20220528/165371948669887.gif', '5.00', 1, 0, '0.00', 1, 1, 0, 1653719885, 0);
-
--- --------------------------------------------------------
+LOCK TABLES `dl_box` WRITE;
+/*!40000 ALTER TABLE `dl_box` DISABLE KEYS */;
+INSERT INTO `dl_box` VALUES (49,1,1,'S1','/upload/images/20220814/1660420256241691.jpg','/upload/images/20220814/1660420259839988.jpg',1,1,1,0.00,1,1,0,1660420369,0),(50,2,1,'A1','/upload/images/20220814/1660420434639426.png','/upload/images/20220814/1660420438673178.png',1,1,1,0.00,1,1,0,1660420443,0);
+/*!40000 ALTER TABLE `dl_box` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_box_award`
 --
 
+DROP TABLE IF EXISTS `dl_box_award`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_box_award` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `box_id` int(10) UNSIGNED NOT NULL COMMENT '盲盒ID',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `box_id` int(10) unsigned NOT NULL COMMENT '盲盒ID',
   `number` int(10) NOT NULL COMMENT '编号',
   `is_award` tinyint(3) DEFAULT '0' COMMENT '是否发奖',
-  `create_time` int(10) NOT NULL COMMENT '添加时间'
+  `create_time` int(10) NOT NULL COMMENT '添加时间',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='发奖记录表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- --------------------------------------------------------
+--
+-- Dumping data for table `dl_box_award`
+--
+
+LOCK TABLES `dl_box_award` WRITE;
+/*!40000 ALTER TABLE `dl_box_award` DISABLE KEYS */;
+/*!40000 ALTER TABLE `dl_box_award` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_box_level`
 --
 
+DROP TABLE IF EXISTS `dl_box_level`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_box_level` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `box_id` int(10) NOT NULL COMMENT '盲盒ID',
   `level` varchar(20) NOT NULL COMMENT '等级',
   `ratio` decimal(10,2) NOT NULL DEFAULT '0.01' COMMENT '概率',
-  `create_time` int(10) NOT NULL COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='盲盒等级表';
+  `create_time` int(10) NOT NULL COMMENT '添加时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8 COMMENT='盲盒等级表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_box_level`
 --
 
-INSERT INTO `dl_box_level` (`id`, `box_id`, `level`, `ratio`, `create_time`) VALUES
-(1, 6, 'SP', '0.02', 1653719221),
-(2, 6, 'A', '0.03', 1653719250),
-(3, 6, 'B', '0.04', 1653719258),
-(4, 6, 'C', '0.05', 1653719267),
-(5, 6, 'D', '0.05', 1653719274),
-(6, 6, 'E', '0.05', 1653719281),
-(7, 6, 'F', '0.10', 1653719292),
-(8, 6, 'G', '0.10', 1653719302),
-(9, 6, 'H', '0.10', 1653719310),
-(10, 6, 'I', '0.15', 1653719321),
-(11, 6, 'J', '0.15', 1653719329),
-(12, 6, 'K', '0.15', 1653719337),
-(13, 6, 'L', '0.20', 1653719348),
-(14, 6, 'M', '0.20', 1653719366),
-(15, 6, 'N', '0.20', 1653719372),
-(16, 6, 'O', '98.41', 1653719380),
-(17, 7, 'SP', '0.03', 1653719924),
-(18, 7, 'A', '0.06', 1653719930),
-(19, 7, 'B', '1.70', 1653719936),
-(20, 7, 'C', '4.01', 1653719943),
-(21, 7, 'D', '31.40', 1653719951),
-(22, 7, 'E', '31.40', 1653719961),
-(23, 7, 'F', '31.40', 1653719969);
-
--- --------------------------------------------------------
+LOCK TABLES `dl_box_level` WRITE;
+/*!40000 ALTER TABLE `dl_box_level` DISABLE KEYS */;
+INSERT INTO `dl_box_level` VALUES (1,6,'SP',0.02,1653719221),(2,6,'A',0.03,1653719250),(3,6,'B',0.04,1653719258),(4,6,'C',0.05,1653719267),(5,6,'D',0.05,1653719274),(6,6,'E',0.05,1653719281),(7,6,'F',0.10,1653719292),(8,6,'G',0.10,1653719302),(9,6,'H',0.10,1653719310),(10,6,'I',0.15,1653719321),(11,6,'J',0.15,1653719329),(12,6,'K',0.15,1653719337),(13,6,'L',0.20,1653719348),(14,6,'M',0.20,1653719366),(15,6,'N',0.20,1653719372),(16,6,'O',98.41,1653719380),(17,7,'SP',0.03,1653719924),(18,7,'A',0.06,1653719930),(19,7,'B',1.70,1653719936),(20,7,'C',4.01,1653719943),(21,7,'D',31.40,1653719951),(22,7,'E',31.40,1653719961),(23,7,'F',31.40,1653719969);
+/*!40000 ALTER TABLE `dl_box_level` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_card`
 --
 
+DROP TABLE IF EXISTS `dl_card`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_card` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `uid` int(10) UNSIGNED NOT NULL COMMENT '用户ID',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uid` int(10) unsigned NOT NULL COMMENT '用户ID',
   `name` varchar(100) NOT NULL COMMENT '姓名',
   `qrcode` varchar(150) DEFAULT '' COMMENT '收款码',
-  `create_time` int(10) NOT NULL COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='提现账号表' ROW_FORMAT=DYNAMIC;
+  `create_time` int(10) NOT NULL COMMENT '添加时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='提现账号表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- --------------------------------------------------------
+--
+-- Dumping data for table `dl_card`
+--
+
+LOCK TABLES `dl_card` WRITE;
+/*!40000 ALTER TABLE `dl_card` DISABLE KEYS */;
+/*!40000 ALTER TABLE `dl_card` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_cash`
 --
 
+DROP TABLE IF EXISTS `dl_cash`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_cash` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `uid` int(10) UNSIGNED NOT NULL COMMENT '用户ID',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uid` int(10) unsigned NOT NULL COMMENT '用户ID',
   `amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '提现金额',
   `service_ratio` varchar(10) NOT NULL COMMENT '提现费率',
   `service_fee` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '手续费',
   `real_amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '实际到账金额',
-  `state` tinyint(3) UNSIGNED NOT NULL DEFAULT '0' COMMENT '0未审核 1已审核 2已拒绝',
-  `card_id` int(10) UNSIGNED NOT NULL COMMENT '提现账号ID',
-  `create_time` int(10) UNSIGNED NOT NULL COMMENT '申请时间',
-  `admin_id` int(10) UNSIGNED DEFAULT '0' COMMENT '审核人',
-  `update_time` int(10) UNSIGNED DEFAULT '0' COMMENT '审核时间',
-  `remark` varchar(100) DEFAULT NULL COMMENT '审核说明'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='提现表' ROW_FORMAT=DYNAMIC;
+  `state` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '0未审核 1已审核 2已拒绝',
+  `card_id` int(10) unsigned NOT NULL COMMENT '提现账号ID',
+  `create_time` int(10) unsigned NOT NULL COMMENT '申请时间',
+  `admin_id` int(10) unsigned DEFAULT '0' COMMENT '审核人',
+  `update_time` int(10) unsigned DEFAULT '0' COMMENT '审核时间',
+  `remark` varchar(100) DEFAULT NULL COMMENT '审核说明',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='提现表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- --------------------------------------------------------
+--
+-- Dumping data for table `dl_cash`
+--
+
+LOCK TABLES `dl_cash` WRITE;
+/*!40000 ALTER TABLE `dl_cash` DISABLE KEYS */;
+/*!40000 ALTER TABLE `dl_cash` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_category`
 --
 
+DROP TABLE IF EXISTS `dl_category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_category` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL COMMENT '类型名称',
   `type` tinyint(3) NOT NULL COMMENT '1一番赏 2无限赏',
   `is_del` tinyint(3) DEFAULT '0' COMMENT '是否删除',
-  `create_time` int(10) DEFAULT NULL COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='盲盒分类表' ROW_FORMAT=DYNAMIC;
+  `create_time` int(10) DEFAULT NULL COMMENT '添加时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='盲盒分类表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_category`
 --
 
-INSERT INTO `dl_category` (`id`, `name`, `type`, `is_del`, `create_time`) VALUES
-(1, '热门推荐', 1, 0, 1646358303),
-(2, '梦想家园', 1, 0, 1646358316),
-(3, '多人竞技', 1, 0, 1646358330),
-(4, '百人竞技', 1, 0, 1646358340),
-(5, '无限赏', 1, 0, 1646358350),
-(6, '扭蛋机', 1, 0, 1646788518),
-(7, '潮玩', 2, 0, 1646788526),
-(8, '手办', 2, 0, 1646788526);
-
--- --------------------------------------------------------
+LOCK TABLES `dl_category` WRITE;
+/*!40000 ALTER TABLE `dl_category` DISABLE KEYS */;
+INSERT INTO `dl_category` VALUES (1,'SINGLE',1,0,1646358303),(2,'ARENA',1,0,1646358316);
+/*!40000 ALTER TABLE `dl_category` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_collection`
 --
 
+DROP TABLE IF EXISTS `dl_collection`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_collection` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `uid` int(10) NOT NULL COMMENT '用户ID',
   `box_id` int(10) NOT NULL COMMENT '盲盒ID',
   `type` tinyint(3) NOT NULL COMMENT '1普通赏 2竞技赏 3无限赏',
-  `create_time` int(10) NOT NULL COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='收藏表';
+  `create_time` int(10) NOT NULL COMMENT '添加时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COMMENT='收藏表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_collection`
 --
 
-INSERT INTO `dl_collection` (`id`, `uid`, `box_id`, `type`, `create_time`) VALUES
-(1, 3, 4, 2, 1653902476);
-
--- --------------------------------------------------------
+LOCK TABLES `dl_collection` WRITE;
+/*!40000 ALTER TABLE `dl_collection` DISABLE KEYS */;
+INSERT INTO `dl_collection` VALUES (1,3,4,2,1653902476),(10,3,9,1,1658243595),(11,3,1,1,1658331504);
+/*!40000 ALTER TABLE `dl_collection` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_config`
 --
 
+DROP TABLE IF EXISTS `dl_config`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_config` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL DEFAULT '' COMMENT '变量名',
   `value` text COMMENT '变量值',
-  `remark` varchar(100) DEFAULT '' COMMENT '备注信息'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统配置表' ROW_FORMAT=COMPACT;
+  `remark` varchar(100) DEFAULT '' COMMENT '备注信息',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `name` (`name`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='系统配置表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_config`
 --
 
-INSERT INTO `dl_config` (`id`, `name`, `value`, `remark`) VALUES
-(7, 'site_name', 'Gamifly', '网站名称'),
-(8, 'site_logo', '/images/logo.png', '网站LOGO'),
-(12, 'site_domain', 'http://box.gamifly.co/', '网站域名'),
-(110, 'site_bg', '/images/bg.png', '登录背景'),
-(121, 'site_deliver', '运费10元,满5件包邮（偏远地区除外）。预售商品到货后才可发货', '发货说明'),
-(122, 'site_freight', '10', '运费'),
-(126, 'site_free_num', '5', '免邮费件数'),
-(129, 'site_notice', '开业准备中，帅Liu潮玩，祝大家一发入魂，客服在线时间12：00--24：00', '系统公告'),
-(130, 'box_free', '0.2', '特殊赏比例'),
-(131, 'coupon_achieve', '400', '消费可得券'),
-(132, 'site_group', '/upload/images/20220415/1650036091105593.jpg', '福利群'),
-(133, 'site_share', '/upload/images/20220406/1649239587639014.png', '分享图片'),
-(134, 'is_coupon', '0', '是否送券');
-
--- --------------------------------------------------------
+LOCK TABLES `dl_config` WRITE;
+/*!40000 ALTER TABLE `dl_config` DISABLE KEYS */;
+INSERT INTO `dl_config` VALUES (7,'site_name','Gamifly','网站名称'),(8,'site_logo','/images/logo.png','网站LOGO'),(12,'site_domain','http://box.gamifly.co/','网站域名'),(110,'site_bg','/images/bg.png','登录背景'),(121,'site_deliver','运费10元,满5件包邮（偏远地区除外）。预售商品到货后才可发货','发货说明'),(122,'site_freight','10','运费'),(126,'site_free_num','5','免邮费件数'),(129,'site_notice','开业准备中，帅Liu潮玩，祝大家一发入魂，客服在线时间12：00--24：00','系统公告'),(130,'box_free','0.2','特殊赏比例'),(131,'coupon_achieve','400','消费可得券'),(132,'site_group','/upload/images/20220415/1650036091105593.jpg','福利群'),(133,'site_share','/upload/images/20220406/1649239587639014.png','分享图片'),(134,'is_coupon','0','是否送券');
+/*!40000 ALTER TABLE `dl_config` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_consume`
 --
 
+DROP TABLE IF EXISTS `dl_consume`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_consume` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `uid` int(10) NOT NULL COMMENT '用户ID',
   `year` varchar(20) NOT NULL COMMENT '年',
   `month` varchar(20) NOT NULL COMMENT '月',
   `day` varchar(20) NOT NULL COMMENT '日',
   `achieve` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '消费金额',
   `type` tinyint(3) NOT NULL COMMENT '1普通消费金额 2无限消费金额 3竞技打拳次数',
-  `create_time` int(10) NOT NULL COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `create_time` int(10) NOT NULL COMMENT '添加时间',
+  PRIMARY KEY (`id`),
+  KEY `uid` (`uid`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_consume`
 --
 
-INSERT INTO `dl_consume` (`id`, `uid`, `year`, `month`, `day`, `achieve`, `type`, `create_time`) VALUES
-(1, 2, '2022', '05', '28', '880.00', 1, 1653722051),
-(2, 3, '2022', '05', '30', '1.00', 3, 1653902739),
-(3, 3, '2022', '05', '30', '7940.00', 1, 1653902739),
-(4, 1, '2022', '05', '30', '1144.00', 1, 1653905444),
-(5, 1, '2022', '05', '30', '25.00', 2, 1653906042),
-(6, 2, '2022', '05', '31', '2506.00', 1, 1653965641),
-(7, 4, '2022', '05', '31', '616.00', 1, 1653983169),
-(8, 1, '2022', '05', '31', '880.00', 1, 1653985601),
-(9, 3, '2022', '06', '01', '1199.00', 1, 1654076279),
-(10, 3, '2022', '06', '01', '4.00', 3, 1654077486),
-(11, 3, '2022', '06', '01', '25.00', 2, 1654077653),
-(12, 4, '2022', '06', '01', '493.00', 1, 1654078272),
-(13, 4, '2022', '06', '01', '2.00', 3, 1654079742),
-(14, 4, '2022', '06', '01', '10.00', 2, 1654080136),
-(15, 1, '2022', '06', '01', '968.00', 1, 1654080267),
-(16, 3, '2022', '06', '04', '88.00', 1, 1654331859);
-
--- --------------------------------------------------------
+LOCK TABLES `dl_consume` WRITE;
+/*!40000 ALTER TABLE `dl_consume` DISABLE KEYS */;
+INSERT INTO `dl_consume` VALUES (1,2,'2022','05','28',880.00,1,1653722051),(2,3,'2022','05','30',1.00,3,1653902739),(3,3,'2022','05','30',7940.00,1,1653902739),(4,1,'2022','05','30',1144.00,1,1653905444),(5,1,'2022','05','30',25.00,2,1653906042),(6,2,'2022','05','31',2506.00,1,1653965641),(7,4,'2022','05','31',616.00,1,1653983169),(8,1,'2022','05','31',880.00,1,1653985601),(9,3,'2022','06','01',1199.00,1,1654076279),(10,3,'2022','06','01',4.00,3,1654077486),(11,3,'2022','06','01',25.00,2,1654077653),(12,4,'2022','06','01',493.00,1,1654078272),(13,4,'2022','06','01',2.00,3,1654079742),(14,4,'2022','06','01',10.00,2,1654080136),(15,1,'2022','06','01',968.00,1,1654080267),(16,3,'2022','06','04',88.00,1,1654331859),(17,3,'2022','06','20',233.00,1,1655702899),(18,3,'2022','06','21',437.00,1,1655814489),(19,3,'2022','06','21',3.00,3,1655814505),(20,3,'2022','06','21',5.00,2,1655815706),(21,3,'2022','06','23',1.00,1,1655923240),(22,3,'2022','07','06',5.00,2,1657117457),(23,3,'2022','07','09',2.00,1,1657330617),(24,3,'2022','07','12',1.00,1,1657635005),(25,3,'2022','07','19',0.10,1,1658238316),(26,3,'2022','07','20',1.00,1,1658301554);
+/*!40000 ALTER TABLE `dl_consume` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_coupon`
 --
 
+DROP TABLE IF EXISTS `dl_coupon`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_coupon` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `level` varchar(50) NOT NULL COMMENT '级别',
   `image` varchar(150) NOT NULL COMMENT '图片',
   `image_merge` varchar(150) NOT NULL COMMENT '合并图片',
   `min_score` int(10) NOT NULL COMMENT '最少潮玩币',
   `max_score` int(10) NOT NULL COMMENT '最大潮玩币',
-  `create_time` int(10) NOT NULL COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='优惠券表';
+  `create_time` int(10) NOT NULL COMMENT '添加时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='优惠券表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_coupon`
 --
 
-INSERT INTO `dl_coupon` (`id`, `level`, `image`, `image_merge`, `min_score`, `max_score`, `create_time`) VALUES
-(1, 'C', '/upload/images/20220406/1649238519347876.png', '/upload/images/20220406/1649238524466696.png', 1, 2, 1650004636);
-
--- --------------------------------------------------------
+LOCK TABLES `dl_coupon` WRITE;
+/*!40000 ALTER TABLE `dl_coupon` DISABLE KEYS */;
+INSERT INTO `dl_coupon` VALUES (1,'C','/upload/images/20220406/1649238519347876.png','/upload/images/20220406/1649238524466696.png',1,2,1650004636);
+/*!40000 ALTER TABLE `dl_coupon` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_customer`
 --
 
+DROP TABLE IF EXISTS `dl_customer`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_customer` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL COMMENT '客服名称',
   `number` varchar(20) NOT NULL COMMENT '联系方式',
   `type` tinyint(3) NOT NULL COMMENT '1手机号 2微信号',
   `create_time` int(10) NOT NULL COMMENT '添加时间',
-  `image` varchar(100) NOT NULL COMMENT '图标'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='客服表' ROW_FORMAT=DYNAMIC;
+  `image` varchar(100) NOT NULL COMMENT '图标',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='客服表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_customer`
 --
 
-INSERT INTO `dl_customer` (`id`, `name`, `number`, `type`, `create_time`, `image`) VALUES
-(1, '电话客服', '4000000000', 1, 1631266261, '/upload/images/20211013/1634090752371351.png'),
-(2, '微信客服', 'JXT782766473', 2, 1631266261, '/upload/images/20211013/1634090739208870.png'),
-(3, '心想盲盒', '在线联系', 3, 1634646180, '/upload/images/20211019/1634646176385474.png');
-
--- --------------------------------------------------------
+LOCK TABLES `dl_customer` WRITE;
+/*!40000 ALTER TABLE `dl_customer` DISABLE KEYS */;
+INSERT INTO `dl_customer` VALUES (1,'电话客服','4000000000',1,1631266261,'/upload/images/20211013/1634090752371351.png'),(2,'微信客服','JXT782766473',2,1631266261,'/upload/images/20211013/1634090739208870.png'),(3,'心想盲盒','在线联系',3,1634646180,'/upload/images/20211019/1634646176385474.png');
+/*!40000 ALTER TABLE `dl_customer` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_deliver`
 --
 
+DROP TABLE IF EXISTS `dl_deliver`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_deliver` (
-  `id` int(10) NOT NULL,
+  `id` int(10) NOT NULL AUTO_INCREMENT,
   `oid` longtext NOT NULL COMMENT '赏品ID',
   `uid` int(10) NOT NULL COMMENT '用户ID',
   `state` tinyint(3) NOT NULL DEFAULT '1' COMMENT '1已申请 2已发货',
@@ -817,36 +518,30 @@ CREATE TABLE `dl_deliver` (
   `express_name` varchar(50) DEFAULT NULL COMMENT '物流方式',
   `express_number` varchar(50) DEFAULT NULL COMMENT '物流单号',
   `create_time` int(10) NOT NULL COMMENT '时间',
-  `data` longtext NOT NULL COMMENT '数据'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='发货记录';
+  `data` longtext NOT NULL COMMENT '数据',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COMMENT='发货记录';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_deliver`
 --
 
-INSERT INTO `dl_deliver` (`id`, `oid`, `uid`, `state`, `username`, `mobile`, `province`, `city`, `area`, `address`, `remark`, `express_id`, `express_name`, `express_number`, `create_time`, `data`) VALUES
-(1, '11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,41,42,43,44,45,46,47,48,49,50,52,53,55,56,57,58,60,61,62,63,64,65,66,67,68,69,70,71,72,74,75,76,77,78,79,80,81,82,83,84,85,86,51,54,59,73,87,88,90', 3, 1, '778', '17777888877', '北京市', '市辖区', '西城区', '古城一节', NULL, NULL, NULL, NULL, 1653902855, '[{\"gid\":\"42\",\"num\":5},{\"gid\":\"38\",\"num\":1},{\"gid\":\"39\",\"num\":1},{\"gid\":\"40\",\"num\":1},{\"gid\":\"41\",\"num\":1},{\"gid\":\"11\",\"num\":62},{\"gid\":\"1\",\"num\":1},{\"gid\":\"5\",\"num\":1},{\"gid\":\"6\",\"num\":1},{\"gid\":\"7\",\"num\":1},{\"gid\":\"8\",\"num\":1},{\"gid\":\"10\",\"num\":1},{\"gid\":\"9\",\"num\":1}]'),
-(2, '40', 3, 1, '778', '17777888877', '北京市', '市辖区', '西城区', '古城一节', NULL, NULL, NULL, NULL, 1653902999, '[{\"gid\":\"3\",\"num\":1}]'),
-(3, '89', 3, 1, '778', '17777888877', '北京市', '市辖区', '西城区', '古城一节', NULL, NULL, NULL, NULL, 1653903072, '[{\"gid\":\"4\",\"num\":1}]'),
-(4, '92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211', 3, 1, '778', '17777888877', '北京市', '市辖区', '西城区', '古城一节', NULL, NULL, NULL, NULL, 1653903918, '[{\"gid\":\"55\",\"num\":119}]'),
-(5, '212,213,214', 1, 1, '康逍遥', '18749814010', '河南省', '郑州市', '金水区', '商务外环路王鼎国际1408', NULL, NULL, NULL, NULL, 1653905539, '[{\"gid\":\"11\",\"num\":3}]'),
-(6, '1,2,3,4,5,6,7,8,9,10', 2, 1, '李基', '13592611824', '北京市', '市辖区', '西城区', '王鼎国际1408', NULL, NULL, NULL, NULL, 1653965585, '[{\"gid\":\"11\",\"num\":10}]'),
-(7, '230', 2, 1, '李基', '13592611824', '北京市', '市辖区', '西城区', '王鼎国际1408', NULL, NULL, NULL, NULL, 1653965654, '[{\"gid\":\"7\",\"num\":1}]'),
-(8, '231', 2, 1, '李基', '13592611824', '北京市', '市辖区', '西城区', '王鼎国际1408', NULL, NULL, NULL, NULL, 1653965910, '[{\"gid\":\"11\",\"num\":1}]'),
-(9, '223,225,226,227,228,229', 1, 1, '康逍遥', '18749814010', '河南省', '郑州市', '金水区', '商务外环路王鼎国际1408', NULL, NULL, NULL, NULL, 1653980764, '[{\"gid\":\"11\",\"num\":1},{\"gid\":\"121\",\"num\":5}]'),
-(10, '268,269,270,271,272', 4, 1, '刘', '15236981852', '北京市', '市辖区', '西城区', '121561561', NULL, NULL, NULL, NULL, 1653983599, '[{\"gid\":\"11\",\"num\":5}]'),
-(11, '273', 4, 1, '刘', '15236981852', '北京市', '市辖区', '西城区', '121561561', NULL, NULL, NULL, NULL, 1653983804, '[{\"gid\":\"11\",\"num\":1}]'),
-(12, '274', 4, 1, '刘', '15236981852', '北京市', '市辖区', '西城区', '121561561', NULL, NULL, NULL, NULL, 1653984739, '[{\"gid\":\"11\",\"num\":1}]'),
-(13, '275,276,277,278,279,281,283,284,280,282', 1, 1, '康逍遥', '18749814010', '河南省', '郑州市', '金水区', '商务外环路王鼎国际1408', NULL, NULL, NULL, NULL, 1653985614, '[{\"gid\":\"11\",\"num\":8},{\"gid\":\"5\",\"num\":1},{\"gid\":\"10\",\"num\":1}]');
-
--- --------------------------------------------------------
+LOCK TABLES `dl_deliver` WRITE;
+/*!40000 ALTER TABLE `dl_deliver` DISABLE KEYS */;
+INSERT INTO `dl_deliver` VALUES (1,'11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,41,42,43,44,45,46,47,48,49,50,52,53,55,56,57,58,60,61,62,63,64,65,66,67,68,69,70,71,72,74,75,76,77,78,79,80,81,82,83,84,85,86,51,54,59,73,87,88,90',3,1,'778','17777888877','北京市','市辖区','西城区','古城一节',NULL,NULL,NULL,NULL,1653902855,'[{\"gid\":\"42\",\"num\":5},{\"gid\":\"38\",\"num\":1},{\"gid\":\"39\",\"num\":1},{\"gid\":\"40\",\"num\":1},{\"gid\":\"41\",\"num\":1},{\"gid\":\"11\",\"num\":62},{\"gid\":\"1\",\"num\":1},{\"gid\":\"5\",\"num\":1},{\"gid\":\"6\",\"num\":1},{\"gid\":\"7\",\"num\":1},{\"gid\":\"8\",\"num\":1},{\"gid\":\"10\",\"num\":1},{\"gid\":\"9\",\"num\":1}]'),(2,'40',3,1,'778','17777888877','北京市','市辖区','西城区','古城一节',NULL,NULL,NULL,NULL,1653902999,'[{\"gid\":\"3\",\"num\":1}]'),(3,'89',3,1,'778','17777888877','北京市','市辖区','西城区','古城一节',NULL,NULL,NULL,NULL,1653903072,'[{\"gid\":\"4\",\"num\":1}]'),(4,'92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211',3,1,'778','17777888877','北京市','市辖区','西城区','古城一节',NULL,NULL,NULL,NULL,1653903918,'[{\"gid\":\"55\",\"num\":119}]'),(5,'212,213,214',1,1,'康逍遥','18749814010','河南省','郑州市','金水区','商务外环路王鼎国际1408',NULL,NULL,NULL,NULL,1653905539,'[{\"gid\":\"11\",\"num\":3}]'),(6,'1,2,3,4,5,6,7,8,9,10',2,1,'李基','13592611824','北京市','市辖区','西城区','王鼎国际1408',NULL,NULL,NULL,NULL,1653965585,'[{\"gid\":\"11\",\"num\":10}]'),(7,'230',2,1,'李基','13592611824','北京市','市辖区','西城区','王鼎国际1408',NULL,NULL,NULL,NULL,1653965654,'[{\"gid\":\"7\",\"num\":1}]'),(8,'231',2,1,'李基','13592611824','北京市','市辖区','西城区','王鼎国际1408',NULL,NULL,NULL,NULL,1653965910,'[{\"gid\":\"11\",\"num\":1}]'),(9,'223,225,226,227,228,229',1,1,'康逍遥','18749814010','河南省','郑州市','金水区','商务外环路王鼎国际1408',NULL,NULL,NULL,NULL,1653980764,'[{\"gid\":\"11\",\"num\":1},{\"gid\":\"121\",\"num\":5}]'),(10,'268,269,270,271,272',4,1,'刘','15236981852','北京市','市辖区','西城区','121561561',NULL,NULL,NULL,NULL,1653983599,'[{\"gid\":\"11\",\"num\":5}]'),(11,'273',4,1,'刘','15236981852','北京市','市辖区','西城区','121561561',NULL,NULL,NULL,NULL,1653983804,'[{\"gid\":\"11\",\"num\":1}]'),(12,'274',4,1,'刘','15236981852','北京市','市辖区','西城区','121561561',NULL,NULL,NULL,NULL,1653984739,'[{\"gid\":\"11\",\"num\":1}]'),(13,'275,276,277,278,279,281,283,284,280,282',1,1,'康逍遥','18749814010','河南省','郑州市','金水区','商务外环路王鼎国际1408',NULL,NULL,NULL,NULL,1653985614,'[{\"gid\":\"11\",\"num\":8},{\"gid\":\"5\",\"num\":1},{\"gid\":\"10\",\"num\":1}]');
+/*!40000 ALTER TABLE `dl_deliver` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_egg`
 --
 
+DROP TABLE IF EXISTS `dl_egg`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_egg` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `box_id` int(10) NOT NULL COMMENT '盲盒ID',
   `goods_id` int(10) DEFAULT NULL COMMENT '商品id',
   `sort` int(10) NOT NULL DEFAULT '1' COMMENT '排序值',
@@ -854,356 +549,205 @@ CREATE TABLE `dl_egg` (
   `surplus` int(10) NOT NULL COMMENT '剩余',
   `create_time` int(10) NOT NULL COMMENT '添加时间',
   `ratio` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '概率',
-  `is_special` tinyint(3) NOT NULL DEFAULT '0' COMMENT '是否隐藏款'
+  `is_special` tinyint(3) NOT NULL DEFAULT '0' COMMENT '是否隐藏款',
+  PRIMARY KEY (`id`),
+  KEY `goods_id` (`goods_id`) USING BTREE,
+  KEY `box_id` (`box_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='盲盒商品表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- --------------------------------------------------------
+--
+-- Dumping data for table `dl_egg`
+--
+
+LOCK TABLES `dl_egg` WRITE;
+/*!40000 ALTER TABLE `dl_egg` DISABLE KEYS */;
+/*!40000 ALTER TABLE `dl_egg` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_express`
 --
 
+DROP TABLE IF EXISTS `dl_express`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_express` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL COMMENT '快递名称',
-  `code` varchar(50) NOT NULL COMMENT '快递编码'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='快递表';
+  `code` varchar(50) NOT NULL COMMENT '快递编码',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COMMENT='快递表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_express`
 --
 
-INSERT INTO `dl_express` (`id`, `name`, `code`) VALUES
-(1, '中通快递', 'ZTO'),
-(2, '申通快递', 'STO'),
-(3, '圆通速递', 'YTO'),
-(4, '韵达速递', 'YD'),
-(5, '顺丰速运', 'SF'),
-(6, '百世快递', 'HTKY'),
-(7, 'EMS', 'EMS');
-
--- --------------------------------------------------------
+LOCK TABLES `dl_express` WRITE;
+/*!40000 ALTER TABLE `dl_express` DISABLE KEYS */;
+INSERT INTO `dl_express` VALUES (1,'中通快递','ZTO'),(2,'申通快递','STO'),(3,'圆通速递','YTO'),(4,'韵达速递','YD'),(5,'顺丰速运','SF'),(6,'百世快递','HTKY'),(7,'EMS','EMS');
+/*!40000 ALTER TABLE `dl_express` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_goods`
 --
 
+DROP TABLE IF EXISTS `dl_goods`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_goods` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(150) NOT NULL COMMENT '商品名称',
   `image` varchar(150) NOT NULL COMMENT '图片',
-  `price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '售价',
+  `price` float NOT NULL DEFAULT '0' COMMENT '售价',
   `cost_price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '回收价',
   `sort` int(10) NOT NULL DEFAULT '1' COMMENT '排序值',
   `is_del` tinyint(3) NOT NULL DEFAULT '0' COMMENT '是否删除',
   `create_time` int(10) NOT NULL COMMENT '添加时间',
   `is_book` tinyint(3) NOT NULL COMMENT '是否预售',
   `book_time` int(10) DEFAULT '0' COMMENT '预售时间',
-  `content` text NOT NULL COMMENT '详情'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品表' ROW_FORMAT=DYNAMIC;
+  `content` text NOT NULL COMMENT '详情',
+  `contract_address` varchar(50) DEFAULT NULL,
+  `reward_type` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=251 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='商品表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_goods`
 --
 
-INSERT INTO `dl_goods` (`id`, `name`, `image`, `price`, `cost_price`, `sort`, `is_del`, `create_time`, `is_book`, `book_time`, `content`) VALUES
-(1, 'popmax老沙', '/upload/images/20220416/1650039333687705.jpg', '88.00', '1599.00', 1, 0, 1650039354, 0, 0, '<p>1</p>'),
-(2, 'popwa罗', '/upload/images/20220416/1650039365546039.jpg', '88.00', '1299.00', 1, 0, 1650039372, 0, 0, '<p>1</p>'),
-(3, 'popwa乔巴', '/upload/images/20220416/1650039390951194.jpg', '88.00', '888.00', 1, 0, 1650039400, 0, 0, '<p>1</p>'),
-(4, 'zero女帝芳香脚', '/upload/images/20220416/1650039411266671.jpg', '88.00', '700.00', 1, 0, 1650039425, 0, 0, '<p>1</p>'),
-(5, 'zero黄猿', '/upload/images/20220416/1650039441976891.png', '88.00', '450.00', 1, 0, 1650039449, 0, 0, '<p>1<br/></p>'),
-(6, 'zero赤犬', '/upload/images/20220416/1650039458682457.jpg', '88.00', '400.00', 1, 0, 1650039466, 0, 1650038400, '<p>1</p>'),
-(7, 'zero青雉', '/upload/images/20220416/1650039478232589.jpg', '88.00', '350.00', 1, 0, 1650039489, 0, 0, '<p>1</p>'),
-(8, 'zero罗杰', '/upload/images/20220416/165003951511349.jpg', '88.00', '320.00', 1, 0, 1650039524, 0, 0, '<p>1</p>'),
-(9, 'zero御田', '/upload/images/20220416/1650039534611656.png', '88.00', '220.00', 1, 0, 1650039541, 0, 0, '<p>1</p>'),
-(10, '女帝景品', '/upload/images/20220416/1650039551128762.jpg', '88.00', '100.00', 1, 0, 1650039558, 0, 0, '<p>1</p>'),
-(11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 0, 1650039601, 0, 0, '<p>1</p>'),
-(12, '钥匙扣', '/upload/images/20220416/1650040455430395.png', '16.60', '20.00', 1, 0, 1650040465, 0, 1650038400, '<p>1</p>'),
-(13, '钥匙扣', '/upload/images/20220416/1650040476252074.png', '16.60', '20.00', 1, 0, 1650040486, 0, 1650038400, '<p>1</p>'),
-(14, '钥匙扣', '/upload/images/20220416/1650040501724796.png', '16.60', '10.00', 1, 0, 1650040512, 0, 1650038400, '<p>1</p>'),
-(15, '钥匙扣', '/upload/images/20220416/1650040522775303.png', '16.60', '10.00', 1, 0, 1650040530, 0, 1650038400, '<p>1</p>'),
-(16, '钥匙扣', '/upload/images/20220416/1650040539954824.png', '16.60', '10.00', 1, 0, 1650040547, 0, 1650038400, '<p>1</p>'),
-(17, '帅LIU潮卷', '/upload/images/20220416/1650040556356447.jpg', '16.60', '1.00', 1, 0, 1650040563, 0, 1650038400, '<p>1</p>'),
-(18, '九龙玉玺', '/upload/images/20220416/1650042230667675.png', '145.00', '260.00', 1, 0, 1650042245, 0, 0, '<p>1</p>'),
-(19, '黄龙玉玺', '/upload/images/20220416/165004225985969.png', '145.00', '180.00', 1, 0, 1650042268, 0, 0, '<p>1</p>'),
-(20, '白龙玉玺', '/upload/images/20220416/1650042277969456.png', '145.00', '130.00', 1, 0, 1650042284, 0, 0, '<p>1</p>'),
-(21, '貔貅玉玺', '/upload/images/20220416/1650042292687657.png', '145.00', '90.00', 1, 0, 1650042301, 0, 0, '<p>1</p>'),
-(22, '帅LIU潮卷', '/upload/images/20220416/165004232095794.jpg', '145.00', '1.00', 1, 0, 1650042326, 0, 0, '<p>1</p>'),
-(23, '太空人钓星星', '/upload/images/20220416/1650042874549382.jpg', '56.00', '85.00', 1, 0, 1650042901, 0, 1650038400, '<p>1</p>'),
-(24, '星空太空人深思', '/upload/images/20220416/1650042909443830.jpg', '56.00', '65.00', 1, 0, 1650042918, 0, 1650038400, '<p>1</p>'),
-(25, '帅LIU潮卷', '/upload/images/20220416/1650042926262367.jpg', '56.00', '1.00', 1, 0, 1650042934, 0, 1650038400, '<p>1</p>'),
-(26, 'gps无人机航拍器高清6k', '/upload/images/20220416/1650043520400503.png', '308.00', '500.00', 1, 0, 1650043595, 0, 0, '<p>1</p>'),
-(27, '避障无人机航拍器4K', '/upload/images/20220416/1650043604653765.png', '308.00', '450.00', 1, 0, 1650043615, 0, 0, '<p>1</p>'),
-(28, '无人机高清航拍器', '/upload/images/20220416/1650043623190953.png', '308.00', '180.00', 1, 0, 1650043631, 0, 0, '<p>1</p>'),
-(29, '帅LIU潮卷', '/upload/images/20220416/1650043645965188.jpg', '308.00', '1.00', 1, 0, 1650043653, 0, 0, '<p>1</p>'),
-(30, '转业竞速赛车', '/upload/images/20220416/1650045008978124.png', '269.00', '500.00', 1, 0, 1650045017, 0, 0, '<p>1</p>'),
-(31, '梅赛德斯遥控车F1方程式', '/upload/images/20220416/1650045066732828.png', '269.00', '420.00', 1, 0, 1650045074, 0, 0, '<p>1</p>'),
-(32, '专业rc遥控车漂移汽车', '/upload/images/20220416/1650045082825009.png', '269.00', '280.00', 1, 0, 1650045089, 0, 0, '<p>1</p>'),
-(33, '四驱越野车遥控版', '/upload/images/20220416/1650045097101774.png', '269.00', '160.00', 1, 0, 1650045104, 0, 0, '<p>1</p>'),
-(34, '专业漂移货车', '/upload/images/20220416/1650045112406359.png', '269.00', '130.00', 1, 0, 1650045119, 0, 0, '<p>1</p>'),
-(35, '帅LIU潮卷', '/upload/images/20220416/1650045128445595.jpg', '269.00', '1.00', 1, 0, 1650045137, 0, 0, '<p>1</p>'),
-(36, '随机蜡笔小新食材盲盒系列', '/upload/images/20220416/1650045794378234.png', '56.00', '56.00', 1, 0, 1650045810, 0, 0, '<p>1</p>'),
-(37, '帅LIU潮卷', '/upload/images/20220416/1650045820315675.jpg', '56.00', '1.00', 1, 0, 1650045827, 0, 0, '<p>1</p>'),
-(38, '雕像香薰蜡烛', '/upload/images/20220416/1650047394907810.png', '44.00', '85.00', 1, 0, 1650047402, 0, 0, '<p>1</p>'),
-(39, '香薰蜡烛', '/upload/images/20220416/1650047411323103.png', '44.00', '55.00', 1, 0, 1650047419, 0, 0, '<p>1</p>'),
-(40, '蜡烛无烟熏香', '/upload/images/20220416/1650047428220155.png', '44.00', '35.00', 1, 0, 1650047434, 0, 0, '<p>1</p>'),
-(41, '浪漫无烟蜡烛灯', '/upload/images/20220416/1650047442603558.png', '44.00', '20.00', 1, 0, 1650047449, 0, 0, '<p>1</p>'),
-(42, '帅LIU潮卷', '/upload/images/20220416/1650047457838881.jpg', '44.00', '1.00', 1, 0, 1650047464, 0, 0, '<p>1</p>'),
-(43, '龙珠之恋悟空琪琪', '/upload/images/20220416/1650047903371687.png', '13.00', '2200.00', 1, 0, 1650047914, 0, 0, '<p>1</p>'),
-(44, '贝吉塔', '/upload/images/20220416/1650047935618253.jpg', '13.00', '3000.00', 1, 0, 1650047942, 0, 0, '<p>1</p>'),
-(45, '人造人18号站姿潮流', '/upload/images/20220416/1650047960729026.png', '13.00', '1100.00', 1, 0, 1650047967, 0, 0, '<p>1</p>'),
-(46, '猎手悟空', '/upload/images/20220416/1650047979994229.jpg', '13.00', '850.00', 1, 0, 1650047986, 0, 0, '<p>1</p>'),
-(47, '那美克星神龙', '/upload/images/20220416/1650047997888614.png', '13.00', '750.00', 1, 0, 1650048006, 0, 0, '<p>1</p>'),
-(48, '写作业 孙悟饭', '/upload/images/20220416/1650048019346398.png', '13.00', '600.00', 1, 0, 1650048025, 0, 0, '<p>1</p>'),
-(49, '布罗利gk', '/upload/images/20220416/1650048037924962.png', '13.00', '550.00', 1, 0, 1650048043, 0, 0, '<p>1</p>'),
-(50, '自在极意功孙悟空', '/upload/images/20220416/1650048058744664.png', '13.00', '480.00', 1, 0, 1650048065, 0, 0, '<p>1</p>'),
-(51, '睡觉布欧', '/upload/images/20220416/1650048076181632.jpg', '13.00', '450.00', 1, 0, 1650048083, 0, 0, '<p>1</p>'),
-(52, '布尔玛摩托车', '/upload/images/20220416/1650048093873817.png', '13.00', '350.00', 1, 0, 1650048100, 0, 0, '<p>1</p>'),
-(53, '胖布欧', '/upload/images/20220416/165004811167256.png', '13.00', '300.00', 1, 0, 1650048118, 0, 0, '<p>1<br/></p>'),
-(54, '弗利萨', '/upload/images/20220416/1650048132361590.png', '13.00', '280.00', 1, 0, 1650048138, 0, 0, '<p>1</p>'),
-(55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 1, 0, 1650048152, 0, 0, '<p>1</p>'),
-(56, '旺旺雪饼', '/upload/images/20220416/1650119167965398.png', '20.00', '25.00', 1, 0, 1650119182, 0, 0, '<p>1</p>'),
-(57, '旺仔牛奶', '/upload/images/20220416/1650119194645454.png', '20.00', '6.00', 1, 0, 1650119202, 0, 1650038400, '<p>1</p>'),
-(58, '帅LIU潮卷', '/upload/images/20220416/1650119561669247.jpg', '20.00', '1.00', 1, 0, 1650119567, 0, 0, '<p>1</p>'),
-(59, '白色迷你镜面数显宝', '/upload/images/20220416/1650120233436543.jpg', '66.00', '95.00', 1, 0, 1650120244, 0, 0, '<p>1</p>'),
-(60, '深海蓝超薄迷你充电宝', '/upload/images/20220416/16501204767496.jpg', '66.00', '85.00', 1, 0, 1650120484, 0, 0, '<p>1</p>'),
-(61, '湖水绿小巧便捷专用宝', '/upload/images/20220416/1650120497270516.jpg', '66.00', '75.00', 1, 0, 1650120506, 0, 0, '<p>1</p>'),
-(62, '胶囊充电宝', '/upload/images/20220416/1650120516464948.jpg', '66.00', '44.00', 1, 0, 1650120522, 0, 0, '<p>1</p>'),
-(63, '帅LIU潮卷', '/upload/images/20220416/1650120531699167.jpg', '66.00', '1.00', 1, 0, 1650120537, 0, 0, '<p>1</p>'),
-(64, '铁侠漫威拼装', '/upload/images/20220417/1650208759264003.png', '480.00', '800.00', 1, 0, 1650208770, 0, 0, '<p>1</p>'),
-(65, 'mk7钢铁侠', '/upload/images/20220417/1650208780715552.png', '480.00', '700.00', 1, 0, 1650208791, 0, 0, '<p>1</p>'),
-(66, '钢铁蜘蛛侠豪华版', '/upload/images/20220417/165020880038617.png', '480.00', '600.00', 1, 0, 1650208808, 0, 0, '<p>1</p>'),
-(67, '发光格纳库', '/upload/images/20220417/165020881763608.png', '480.00', '110.00', 1, 0, 1650208824, 0, 0, '<p>1</p>'),
-(68, '帅LIU潮卷', '/upload/images/20220417/165020883575010.jpg', '480.00', '1.00', 1, 0, 1650208843, 0, 0, '<p>1</p>'),
-(69, 'mg牛高达', '/upload/images/20220417/1650209247908026.png', '385.00', '640.00', 1, 0, 1650209259, 0, 0, '<p>1</p>'),
-(70, 'mg沙扎比', '/upload/images/20220417/1650209268352110.png', '385.00', '600.00', 1, 0, 1650209278, 0, 0, '<p>1</p>'),
-(71, 'rg自由', '/upload/images/20220417/1650209286102757.png', '385.00', '180.00', 1, 0, 1650209296, 0, 0, '<p>1</p>'),
-(72, '帅LIU潮卷', '/upload/images/20220417/1650209306495876.jpg', '385.00', '1.00', 1, 0, 1650209313, 0, 0, '<p>1</p>'),
-(73, '歌帝梵GODIVA巧克力礼盒装金装15颗比利时原装进口', '/upload/images/20220417/1650210143834072.png', '9.00', '300.00', 1, 0, 1650210164, 0, 0, '<p>1</p>'),
-(74, '歌帝梵红色手拎巧克力', '/upload/images/20220417/1650210173288687.png', '9.00', '120.00', 1, 0, 1650210190, 0, 0, '<p>1</p>'),
-(75, '德芙Dove牛奶巧克力礼盒装', '/upload/images/20220417/1650210215110204.png', '9.00', '60.00', 1, 0, 1650210224, 0, 0, '<p>1</p>'),
-(76, '德芙Dove巧克力礼盒装', '/upload/images/20220417/1650210233604565.png', '9.00', '55.00', 1, 0, 1650210240, 0, 0, '<p>1</p>'),
-(77, '费列罗(FERRERO)榛果威化糖果巧克力', '/upload/images/20220417/1650210251245902.png', '9.00', '50.00', 1, 0, 1650210259, 0, 0, '<p>1</p>'),
-(78, '紫皮糖风味夹心巧克力', '/upload/images/20220417/165021026910296.png', '9.00', '45.00', 1, 0, 1650210277, 0, 0, '<p>1</p>'),
-(79, 'Kinder健达儿童牛奶夹心巧克力', '/upload/images/20220417/1650210290125467.png', '9.00', '40.00', 1, 0, 1650210303, 0, 0, '<p>1</p>'),
-(80, '德芙Dove代言人同款奶香白巧克力', '/upload/images/20220417/1650210321492879.png', '9.00', '30.00', 1, 0, 1650210328, 0, 0, '<p>1</p>'),
-(81, '德芙士力架8条', '/upload/images/20220417/1650210355294571.png', '9.00', '25.00', 1, 0, 1650210361, 0, 0, '<p>1</p>'),
-(82, '德芙巧克力', '/upload/images/20220417/1650210373173348.png', '9.00', '10.00', 1, 0, 1650210381, 0, 0, '<p>1</p>'),
-(83, '帅LIU潮卷', '/upload/images/20220417/1650210391920032.jpg', '9.00', '1.00', 1, 0, 1650210399, 0, 0, '<p>1</p>'),
-(84, '千幻魔镜10代vr眼镜', '/upload/images/20220417/1650210974609331.png', '171.00', '300.00', 1, 0, 1650210986, 0, 0, '<p>1</p>'),
-(85, '千幻魔镜9代vr眼镜', '/upload/images/20220417/1650210994105535.png', '171.00', '260.00', 1, 0, 1650211004, 0, 0, '<p>1</p>'),
-(86, 'VR虚拟现实3d眼镜', '/upload/images/20220417/1650211011797991.png', '171.00', '70.00', 1, 0, 1650211019, 0, 0, '<p>1</p>'),
-(87, 'VR虚拟现实3d眼镜', '/upload/images/20220417/1650211011797991.png', '171.00', '70.00', 1, 0, 1650211019, 0, 0, '<p>1</p>'),
-(88, '帅LIU潮卷', '/upload/images/20220417/1650211025724748.jpg', '171.00', '1.00', 1, 0, 1650211032, 0, 0, '<p>1</p>'),
-(89, '帅LIU潮卷', '/upload/images/20220417/1650211025724748.jpg', '171.00', '1.00', 1, 0, 1650211032, 0, 0, '<p>1</p>'),
-(90, '岩灰浸塑哑铃4KG', '/upload/images/20220418/1650211449772874.png', '88.00', '145.00', 1, 0, 1650211456, 0, 0, '<p>1</p>'),
-(91, '紫灰浸塑哑铃3KG', '/upload/images/20220418/1650211467853929.png', '88.00', '115.00', 1, 0, 1650211479, 0, 0, '<p>1</p>'),
-(92, '水蓝浸塑哑铃2KG', '/upload/images/20220418/1650211488828524.png', '88.00', '85.00', 1, 0, 1650211502, 0, 0, '<p>1</p>'),
-(93, '樱粉浸塑哑铃1KG', '/upload/images/20220418/1650211510756915.png', '88.00', '50.00', 1, 0, 1650211522, 0, 0, '<p>1</p>'),
-(94, '帅LIU潮卷', '/upload/images/20220418/1650211530995972.jpg', '88.00', '1.00', 1, 0, 1650211538, 0, 0, '<p>1</p>'),
-(95, '炒饭', '/upload/images/20220418/1650211976782163.png', '22.00', '30.00', 1, 0, 1650211991, 0, 0, '<p>1</p>'),
-(96, '饺子', '/upload/images/20220418/165021199778063.png', '22.00', '25.00', 1, 0, 1650212008, 0, 0, '<p>1<br/></p>'),
-(97, '帅LIU潮卷', '/upload/images/20220418/1650212017275696.jpg', '22.00', '1.00', 1, 0, 1650212026, 0, 0, '<p>1</p>'),
-(98, '数码宝贝盲盒', '/upload/images/20220418/1650212661250573.png', '61.00', '69.00', 1, 0, 1650212694, 0, 0, '<p>1</p>'),
-(99, '帅LIU潮卷', '/upload/images/20220418/165021270524036.jpg', '61.00', '1.00', 1, 0, 1650212713, 0, 0, '<p>1</p>'),
-(100, 'Zippo牛气冲天', '/upload/images/20220418/1650213907346280.png', '288.00', '420.00', 1, 0, 1650213918, 0, 0, '<p>1</p>'),
-(101, 'Zippo精雕黑冰', '/upload/images/20220418/165021393433329.png', '288.00', '360.00', 1, 0, 1650213945, 0, 0, '<p>1</p>'),
-(102, 'Zippo幻彩经典', '/upload/images/20220418/1650213953288642.png', '288.00', '300.00', 1, 0, 1650213962, 0, 0, '<p>1</p>'),
-(103, 'Zippo经典磨砂', '/upload/images/20220418/1650213970785755.png', '288.00', '140.00', 1, 0, 1650213981, 0, 0, '<p>1</p>'),
-(104, 'Zippo棉芯', '/upload/images/20220418/1650213991608688.png', '288.00', '30.00', 1, 0, 1650214000, 0, 0, '<p>1</p>'),
-(105, '帅LIU潮卷', '/upload/images/20220418/1650214008923454.jpg', '288.00', '1.00', 1, 0, 1650214020, 0, 0, '<p>1</p>'),
-(106, 'PBremrx-0独角兽胸像', '/upload/images/20220418/1650214634920192.jpg', '5.00', '3200.00', 1, 0, 1650214641, 0, 1650211200, '<p>1</p>'),
-(107, 'mg完美独角兽', '/upload/images/20220418/1650214655538009.jpg', '5.00', '1100.00', 1, 0, 1650214664, 0, 1650211200, '<p>1</p>'),
-(108, 'mg牛高达', '/upload/images/20220418/1650214675679779.png', '5.00', '640.00', 1, 0, 1650214684, 0, 1650211200, '<p>1</p>'),
-(109, 'rg全武装独角兽', '/upload/images/20220418/1650214716167263.png', '5.00', '350.00', 1, 0, 1650214726, 0, 1650211200, '<p>1</p>'),
-(110, 'mg神意高达', '/upload/images/20220418/1650214736342200.png', '5.00', '330.00', 1, 0, 1650214743, 0, 1650211200, '<p>1</p>'),
-(111, 'mg巴巴托斯', '/upload/images/20220418/1650214777908949.png', '5.00', '300.00', 1, 0, 1650214784, 0, 1650211200, '<p>1</p>'),
-(112, 'rg独角兽', '/upload/images/20220418/165021479712286.png', '5.00', '220.00', 1, 0, 1650214804, 0, 1650211200, '<p>1</p>'),
-(113, 'rg自由', '/upload/images/20220418/1650214816750334.png', '5.00', '180.00', 1, 0, 1650214823, 0, 1650211200, '<p>1</p>'),
-(114, 'hg境界战机', '/upload/images/20220418/1650214833768801.jpg', '5.00', '120.00', 1, 0, 1650214840, 0, 1650211200, '<p>1</p>'),
-(115, '命运女神', '/upload/images/20220418/1650214848387207.png', '5.00', '90.00', 1, 0, 1650214856, 0, 1650211200, '<p>1</p>'),
-(116, '能天使', '/upload/images/20220418/1650214873742209.png', '5.00', '65.00', 1, 0, 1650214883, 0, 1650211200, '<p>1</p>'),
-(117, '巴巴托斯', '/upload/images/20220418/1650214903199750.png', '5.00', '60.00', 1, 0, 1650214909, 0, 1650211200, '<p>1</p>'),
-(118, '独角兽', '/upload/images/20220418/1650214919955485.png', '5.00', '45.00', 1, 0, 1650214924, 0, 1650211200, '<p>1</p>'),
-(119, '沙扎比', '/upload/images/20220418/1650214941766925.png', '5.00', '40.00', 1, 0, 1650214950, 0, 1650211200, '<p>1</p>'),
-(120, 'MB 强袭自由高达原色初版', '/upload/images/20220418/1650215172925887.png', '5.00', '4000.00', 1, 0, 1650215181, 0, 0, '<p>1</p>'),
-(121, '多啦A梦卡贴', '/upload/images/20220418/1650215451379227.jpg', '5.00', '1.00', 1, 0, 1650215459, 0, 0, '<p>1</p>'),
-(122, '苹果13星光色 128g', '/upload/images/20220418/1650272511940905.jpg', '15.00', '6000.00', 1, 0, 1650272520, 0, 0, '<p>1</p>'),
-(123, 'Apple MacBook Air', '/upload/images/20220418/1650272532559426.png', '15.00', '8000.00', 1, 0, 1650272541, 0, 0, '<p>1</p>'),
-(124, 'Switch红蓝主机续航增强版', '/upload/images/20220418/1650272653536079.jpg', '15.00', '2200.00', 1, 0, 1650272661, 0, 0, '<p>1</p>'),
-(125, 'Switch Lite', '/upload/images/20220418/165027268298812.png', '14.00', '1400.00', 1, 0, 1650272690, 0, 0, '<p>1</p>'),
-(126, 'Apple Magic Keyboard 妙控键盘', '/upload/images/20220418/1650272710234924.png', '15.00', '700.00', 1, 0, 1650272719, 0, 0, '<p>1</p>'),
-(127, 'Apple Magic Mouse 妙控鼠标', '/upload/images/20220418/1650272730329786.png', '15.00', '550.00', 1, 0, 1650272740, 0, 0, '<p>1</p>'),
-(128, 'Apple 20W USB-C充电器插头+15W无线充电器套装', '/upload/images/20220418/1650272750879849.png', '15.00', '450.00', 1, 0, 1650272758, 0, 0, '<p>1</p>'),
-(129, '塞尔达传说荒野之息', '/upload/images/20220418/1650272769291269.png', '15.00', '350.00', 1, 0, 1650272777, 0, 0, '<p>1</p>'),
-(130, '卡丁车豪华版', '/upload/images/20220418/1650272788602794.png', '15.00', '300.00', 1, 0, 1650272795, 0, 0, '<p>1</p>'),
-(131, '多啦A梦牧场物语', '/upload/images/20220418/1650272806963981.png', '15.00', '250.00', 1, 0, 1650272815, 0, 0, '<p>1</p>'),
-(132, '蝰蛇标准版白色', '/upload/images/20220418/1650272825708623.png', '15.00', '95.00', 1, 0, 1650272833, 0, 0, '<p>1</p>'),
-(133, '初音未来', '/upload/images/20220418/1650272844937162.png', '15.00', '80.00', 1, 0, 1650272851, 0, 0, '<p>1</p>'),
-(134, '钥匙扣', '/upload/images/20220418/1650272860806835.png', '15.00', '20.00', 1, 0, 1650272870, 0, 0, '<p>1</p>'),
-(135, '钥匙扣1', '/upload/images/20220418/1650272880398241.png', '15.00', '10.00', 1, 0, 1650272888, 0, 0, '<p>1</p>'),
-(136, '5米毛巾', '/upload/images/20220418/1650272901147863.png', '15.00', '5.00', 1, 0, 1650272913, 0, 0, '<p>1</p>'),
-(137, '铅笔盒', '/upload/images/20220418/165027292160333.png', '15.00', '5.00', 1, 0, 1650272929, 0, 0, '<p>1</p>'),
-(138, '帅LIU潮卷', '/upload/images/20220418/1650272956301724.jpg', '15.00', '1.00', 1, 0, 1650272963, 0, 0, '<p>1</p>'),
-(139, '钥匙扣大', '/upload/images/20220418/1650274375343764.png', '39.00', '20.00', 1, 0, 1650274413, 0, 0, '<p>1</p>'),
-(140, '钥匙扣小', '/upload/images/20220418/1650274421922872.png', '39.00', '10.00', 1, 0, 1650274434, 0, 0, '<p>1</p>'),
-(141, '帅LIU潮卷', '/upload/images/20220418/1650274442885414.jpg', '39.00', '1.00', 1, 0, 1650274449, 0, 0, '<p>1</p>'),
-(142, '漫画色极易功悟空', '/upload/images/20220418/165028475581489.png', '188.00', '325.00', 1, 0, 1650284765, 0, 0, '<p>1</p>'),
-(143, '夏洛特', '/upload/images/20220418/1650284781136150.png', '188.00', '220.00', 1, 0, 1650284793, 0, 0, '<p>1</p>'),
-(144, '超三悟空', '/upload/images/20220418/1650284811705839.png', '188.00', '158.00', 1, 0, 1650284829, 0, 0, '<p>1</p>'),
-(145, '悟天克斯', '/upload/images/20220418/1650284844461644.png', '188.00', '90.00', 1, 0, 1650284853, 0, 0, '<p>1</p>'),
-(146, '猫仙人', '/upload/images/20220418/1650284878967564.png', '188.00', '66.00', 1, 0, 1650284888, 0, 0, '<p>1</p>'),
-(147, '帅LIU潮卷', '/upload/images/20220418/1650284898815515.jpg', '188.00', '1.00', 1, 0, 1650284904, 0, 0, '<p>1</p>'),
-(148, 'G5炎帝艾斯', '/upload/images/20220418/1650287664539243.png', '435.00', '650.00', 1, 0, 1650287690, 0, 0, '<p>1</p>'),
-(149, 'g5五皇路飞', '/upload/images/20220418/1650287698278955.png', '435.00', '550.00', 1, 0, 1650287707, 0, 0, '<p>1</p>'),
-(150, '帅LIU潮卷', '/upload/images/20220418/1650287716942134.jpg', '435.00', '1.00', 1, 0, 1650287725, 0, 0, '<p>1</p>'),
-(151, '纯欲古风寝服', '/upload/images/20220419/1650344237890293.jpg', '65.00', '100.00', 1, 0, 1650344245, 0, 0, '<p>1</p>'),
-(152, '纯欲夜色寝服', '/upload/images/20220419/1650344266316659.jpg', '65.00', '80.00', 1, 0, 1650344273, 0, 0, '<p>1</p>'),
-(153, '纯欲日系寝服', '/upload/images/20220419/1650344281549358.jpg', '65.00', '65.00', 1, 0, 1650344288, 0, 0, '<p>1</p>'),
-(154, '纯欲性感寝服', '/upload/images/20220419/1650344295372770.jpg', '65.00', '45.00', 1, 0, 1650344302, 0, 0, '<p>1</p>'),
-(155, '帅LIU潮卷', '/upload/images/20220419/1650344310689251.jpg', '65.00', '1.00', 1, 0, 1650344317, 0, 0, '<p>1</p>'),
-(156, '憨豆熊 每日坚果全坚果罐装400g罐装', '/upload/images/20220419/165034695023102.png', '55.00', '60.00', 1, 0, 1650346958, 0, 0, '<p>1</p>'),
-(157, '三只松鼠焦糖瓜子', '/upload/images/20220419/1650346967490086.png', '55.00', '36.00', 1, 0, 1650346975, 0, 0, '<p>1</p>'),
-(158, '百草味 甘栗仁栗子休闲零食', '/upload/images/20220419/1650346984902694.png', '55.00', '15.00', 1, 0, 1650346997, 0, 0, '<p>1</p>'),
-(159, '帅LIU潮卷', '/upload/images/20220419/1650347007736610.jpg', '55.00', '1.00', 1, 0, 1650347013, 0, 0, '<p>1</p>'),
-(160, '佩罗斯佩罗G-5', '/upload/images/20220422/1650615653834286.png', '5.00', '400.00', 1, 0, 1650615660, 0, 0, '<p>1</p>'),
-(161, '斯慕吉 G-5', '/upload/images/20220422/1650615669197216.png', '5.00', '450.00', 1, 0, 1650615677, 0, 0, '<p>1</p>'),
-(162, '马尔科', '/upload/images/20220422/16506156912915.jpg', '5.00', '300.00', 1, 0, 1650615697, 0, 0, '<p>1</p>'),
-(163, 'zero御田', '/upload/images/20220422/1650615706208608.png', '5.00', '200.00', 1, 0, 1650615712, 0, 0, '<p>1</p>'),
-(164, '编年史艾斯', '/upload/images/20220422/1650615726863830.jpg', '5.00', '150.00', 1, 0, 1650615733, 0, 0, '<p>1</p>'),
-(165, '女帝景品', '/upload/images/20220422/1650615741508754.jpg', '5.00', '100.00', 1, 0, 1650615748, 0, 0, '<p>1</p>'),
-(166, '海贼王定制手机壳', '/upload/images/20220422/1650615756457226.png', '5.00', '50.00', 1, 0, 1650615763, 0, 0, '<p>1</p>'),
-(167, '海贼王钥匙扣', '/upload/images/20220422/1650615771494737.png', '5.00', '40.00', 1, 0, 1650615776, 0, 0, '<p>1</p>'),
-(168, '帅LIU潮卷', '/upload/images/20220422/1650615785173062.jpg', '5.00', '1.00', 1, 0, 1650615791, 0, 0, '<p>1</p>'),
-(169, '精灵社-王下七武海-沙 克洛克达尔', '/upload/images/20220424/1650781072517563.jpg', '15.00', '6000.00', 1, 0, 1650781080, 0, 0, '<p>1</p>'),
-(170, '精灵社-王下七武海-鹰眼 米霍克', '/upload/images/20220424/165078109058776.jpg', '15.00', '5800.00', 1, 0, 1650781096, 0, 0, '<p>1</p>'),
-(171, '王下七海武- 天瞳女帝 汉克库', '/upload/images/20220424/1650781111464489.jpg', '15.00', '4000.00', 1, 0, 1650781216, 0, 0, '<p>1</p>'),
-(172, '王下七海武-Dt喜小明哥 多弗朗明哥', '/upload/images/20220424/1650781227523012.jpg', '15.00', '3800.00', 1, 0, 1650781234, 0, 0, '<p>1</p>'),
-(173, '王下七海武-大熊 暴君熊', '/upload/images/20220424/1650781243377315.jpg', '15.00', '3600.00', 1, 0, 1650781250, 0, 0, '<p>1</p>'),
-(174, '王下七海武- 海侠   甚平', '/upload/images/20220424/1650781259985710.jpg', '15.00', '3300.00', 1, 0, 1650781266, 0, 0, '<p>1</p>'),
-(175, '王下七海武-月光莫利亚', '/upload/images/20220424/1650781274578788.jpg', '15.00', '3000.00', 1, 0, 1650781281, 0, 0, '<p>1</p>'),
-(176, '电话虫七武海--阿明电话虫', '/upload/images/20220424/1650781292406010.jpg', '15.00', '600.00', 1, 0, 1650781297, 0, 0, '<p>1</p>'),
-(177, '电话虫七武海--暴君熊电话虫', '/upload/images/20220424/1650781305984419.jpg', '15.00', '600.00', 1, 0, 1650781318, 0, 0, '<p>1</p>'),
-(178, '电话虫七武海--鹰眼电话虫', '/upload/images/20220424/1650781330345435.jpg', '15.00', '600.00', 1, 0, 1650781341, 0, 0, '<p>1</p>'),
-(179, '电话虫七武海--黑胡子电话虫', '/upload/images/20220424/1650781357421280.jpg', '15.00', '600.00', 1, 0, 1650781362, 0, 0, '<p>1</p>'),
-(180, '编年史-汉库克 女帝', '/upload/images/20220424/1650781379750377.jpg', '15.00', '300.00', 1, 0, 1650781386, 0, 0, '<p>1</p>'),
-(181, '狂热行动 女帝汉库克', '/upload/images/20220424/1650781397646003.jpg', '15.00', '240.00', 1, 0, 1650781403, 0, 0, '<p>1</p>'),
-(182, '汉库克 女帝-白色婚纱', '/upload/images/20220424/1650781413522606.jpg', '15.00', '180.00', 1, 0, 1650781427, 0, 0, '<p>1</p>'),
-(183, '坐姿女帝 汉库克', '/upload/images/20220424/1650781438841605.jpg', '15.00', '150.00', 1, 0, 1650781444, 0, 0, '<p>1</p>'),
-(184, '女帝景品', '/upload/images/20220424/1650781451857160.jpg', '15.00', '100.00', 1, 0, 1650781459, 0, 0, '<p>1</p>'),
-(185, '顶上战争盲盒', '/upload/images/20220424/1650781468955310.jpg', '15.00', '70.00', 1, 0, 1650781474, 0, 0, '<p>1</p>'),
-(186, '海贼王定制手机壳', '/upload/images/20220424/1650781482938626.png', '15.00', '50.00', 1, 0, 1650781496, 0, 0, '<p>1</p>'),
-(187, '海贼王钥匙扣', '/upload/images/20220424/1650781503795614.png', '15.00', '30.00', 1, 0, 1650781509, 0, 0, '<p>1</p>'),
-(188, '毛巾', '/upload/images/20220424/1650781531883234.png', '15.00', '5.00', 1, 0, 1650781537, 0, 0, '<p>1</p>'),
-(189, '帅LIU潮卷', '/upload/images/20220424/1650781565733699.jpg', '15.00', '1.00', 1, 0, 1650781570, 0, 0, '<p>1</p>'),
-(190, 'SP', '/upload/images/20220427/1650989577910945.png', '10.00', '6500.00', 1, 0, 1650989591, 0, 0, '<p>1</p>'),
-(191, 'A', '/upload/images/20220427/1650989597596273.png', '10.00', '4000.00', 1, 0, 1650989609, 0, 0, '<p>1</p>'),
-(192, 'B', '/upload/images/20220427/1650989629720142.png', '10.00', '3000.00', 1, 0, 1650989638, 0, 0, '<p>1</p>'),
-(193, 'C', '/upload/images/20220427/165098965499803.png', '10.00', '2500.00', 1, 0, 1650989669, 0, 0, '<p>1</p>'),
-(194, 'D', '/upload/images/20220427/165098967671317.png', '10.00', '1500.00', 1, 0, 1650989698, 0, 0, '<p>1</p>'),
-(195, 'D', '/upload/images/20220427/165098967671317.png', '10.00', '1500.00', 1, 0, 1650989698, 0, 0, '<p>1</p>'),
-(196, 'D', '/upload/images/20220427/165098967671317.png', '10.00', '1500.00', 1, 0, 1650989698, 0, 0, '<p>1</p>'),
-(197, 'E', '/upload/images/20220427/1650989703127737.png', '10.00', '1000.00', 1, 0, 1650989714, 0, 0, '<p>1</p>'),
-(198, 'F', '/upload/images/20220427/1650989720482332.png', '10.00', '500.00', 1, 0, 1650989731, 0, 0, '<p>1</p>'),
-(199, 'G', '/upload/images/20220427/1650989737419632.png', '10.00', '300.00', 1, 0, 1650989748, 0, 0, '<p>1</p>'),
-(200, 'H', '/upload/images/20220427/1650989753418666.png', '10.00', '250.00', 1, 0, 1650989764, 0, 0, '<p>1</p>'),
-(201, 'I', '/upload/images/20220427/1650989770496238.png', '10.00', '200.00', 1, 0, 1650989781, 0, 0, '<p>1</p>'),
-(202, 'J', '/upload/images/20220427/1650989787934955.png', '10.00', '150.00', 1, 0, 1650989798, 0, 0, '<p>1</p>'),
-(203, 'K', '/upload/images/20220427/1650989807715494.png', '10.00', '120.00', 1, 0, 1650989819, 0, 0, '<p>1</p>'),
-(204, 'L', '/upload/images/20220427/1650989826752080.png', '10.00', '100.00', 1, 0, 1650989839, 0, 0, '<p>1</p>'),
-(205, 'M', '/upload/images/20220427/1650989845286167.png', '10.00', '80.00', 1, 0, 1650989855, 0, 0, '<p>1</p>'),
-(206, 'N', '/upload/images/20220427/1650989861617046.png', '10.00', '40.00', 1, 0, 1650989872, 0, 0, '<p>1</p>'),
-(207, 'O', '/upload/images/20220427/1650989891304712.png', '10.00', '30.00', 1, 0, 1650989900, 0, 0, '<p>1</p>'),
-(208, 'P', '/upload/images/20220427/165098990592863.png', '10.00', '10.00', 1, 0, 1650989923, 0, 0, '<p>1</p>'),
-(209, '帅LIU潮卷', '/upload/images/20220427/1650989940249576.jpg', '10.00', '1.00', 1, 0, 1650989944, 0, 0, '<p>1</p>'),
-(210, '泡泡玛特MEGA珍藏系列海绵宝宝400%28cm', '/upload/images/20220429/1651171550212750.jpg', '5.00', '2600.00', 1, 0, 1651171559, 0, 0, '<p>1</p>'),
-(211, '泡泡玛特MEGA珍藏系列大久保博人400%29.5cm', '/upload/images/20220429/1651171572785536.jpg', '5.00', '2000.00', 1, 0, 1651171580, 0, 0, '<p>1</p>'),
-(212, '泡泡玛特MOLLY过年唐装公仔', '/upload/images/20220429/1651171589996175.jpg', '5.00', '1000.00', 1, 0, 1651171599, 0, 0, '<p>1</p>'),
-(213, '泡泡玛特LABUBU情人节毛绒公仔礼盒30cm', '/upload/images/20220429/1651171609651044.jpg', '5.00', '800.00', 1, 0, 1651171623, 0, 0, '<p>1</p>'),
-(214, '泡泡玛特DIMOO  小黄公仔', '/upload/images/20220429/1651171635826953.jpg', '5.00', '600.00', 1, 0, 1651171641, 0, 0, '<p>1</p>'),
-(215, '泡泡玛特娃娃装侵蚀系列盲盒单个', '/upload/images/20220429/1651171651942745.jpg', '5.00', '150.00', 1, 0, 1651171661, 0, 0, '<p>1</p>'),
-(216, '泡泡玛特小甜豆秋叶原系列盲盒', '/upload/images/20220429/1651171670696296.jpg', '5.00', '100.00', 1, 0, 1651171683, 0, 0, '<p>1</p>'),
-(217, '泡泡玛特生肖数据线', '/upload/images/20220429/1651171698615575.jpg', '5.00', '50.00', 1, 0, 1651171705, 0, 0, '<p>1</p>'),
-(218, '宝可梦公仔', '/upload/images/20220429/1651171713440630.png', '5.00', '10.00', 1, 0, 1651171720, 0, 0, '<p>1</p>'),
-(219, '多啦A梦卡贴', '/upload/images/20220429/1651171730186558.jpg', '5.00', '1.00', 1, 0, 1651171735, 0, 0, '<p>1</p>'),
-(220, '滑行小车一个', '/upload/images/20220429/1651171741783505.jpg', '5.00', '1.00', 1, 0, 1651171746, 0, 0, '<p>1</p>'),
-(221, '限量弹珠一个', '/upload/images/20220429/1651171753517563.jpg', '5.00', '1.00', 1, 0, 1651171758, 0, 0, '<p>1</p>');
-
--- --------------------------------------------------------
+LOCK TABLES `dl_goods` WRITE;
+/*!40000 ALTER TABLE `dl_goods` DISABLE KEYS */;
+INSERT INTO `dl_goods` VALUES (244,'B-nft-1','/upload/images/20220814/1660419490174283.jpg',1,30.00,1,1,1660419652,0,0,'<p>This is NFT item</p>','0xf9880797DBa08A05B9862C0e28CEe2fC76eFA8DA',0),(245,'B-nft-2','/upload/images/20220814/1660419672359463.jpg',1,30.00,1,1,1660419755,0,0,'<p>This is NFT item</p>','0xd36D5426733e53FC7ad2048041585FC6b39bB279',0),(246,'B-bitcoin-1','/upload/images/20220814/1660419791903833.jpg',0.0001,30.00,1,0,1660419821,0,0,'<p>This is Bitcoin item</p>',NULL,1),(247,'B-ether-1','/upload/images/20220814/1660419856104686.jpg',0.0001,30.00,1,0,1660419963,0,0,'<p>This is Ethereum item</p>',NULL,2),(248,'B-sol-1','/upload/images/20220814/166042002227131.jpg',0.001,30.00,1,0,1660420052,0,0,'<p>This is Sol item</p>',NULL,3),(249,'B-matic-1','/upload/images/20220814/1660420071212611.jpg',0.01,30.00,1,0,1660420125,0,1660406400,'<p>This is Matic item</p>',NULL,4),(250,'B-usdc-1','/upload/images/20220814/1660420142953123.png',0.01,30.00,1,0,1660420169,0,1660406400,'<p>This is USDC item</p>',NULL,5);
+/*!40000 ALTER TABLE `dl_goods` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_help`
 --
 
+DROP TABLE IF EXISTS `dl_help`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_help` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL COMMENT '标题',
   `content` text NOT NULL COMMENT '内容',
-  `create_time` int(10) NOT NULL COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='客服问题表' ROW_FORMAT=DYNAMIC;
+  `create_time` int(10) NOT NULL COMMENT '添加时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='客服问题表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_help`
 --
 
-INSERT INTO `dl_help` (`id`, `title`, `content`, `create_time`) VALUES
-(1, '获取优惠券', '购买186后，未获得店主身份的可获得店主身份，并且可获得800未用优惠券，已获得店主身份的可再次获得800未用优惠券。', 1630315515),
-(2, '赠送好友', '进入我的，点邀请好友，生成优惠券二维码图片，保存本地，发给亲友。对方扫码注册，下载享优汇APP，进入领取优惠券，充值成功即可。', 1631007439),
-(3, '运营商选择', '对应自己的手机号码选择，联通，移动，电信，不要选错，如果选错此次充值不成功，所支付金额会原路退回。', 1631007652);
-
--- --------------------------------------------------------
+LOCK TABLES `dl_help` WRITE;
+/*!40000 ALTER TABLE `dl_help` DISABLE KEYS */;
+INSERT INTO `dl_help` VALUES (1,'获取优惠券','购买186后，未获得店主身份的可获得店主身份，并且可获得800未用优惠券，已获得店主身份的可再次获得800未用优惠券。',1630315515),(2,'赠送好友','进入我的，点邀请好友，生成优惠券二维码图片，保存本地，发给亲友。对方扫码注册，下载享优汇APP，进入领取优惠券，充值成功即可。',1631007439),(3,'运营商选择','对应自己的手机号码选择，联通，移动，电信，不要选错，如果选错此次充值不成功，所支付金额会原路退回。',1631007652);
+/*!40000 ALTER TABLE `dl_help` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_level`
 --
 
+DROP TABLE IF EXISTS `dl_level`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_level` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL COMMENT '等级名称',
   `sort` int(10) NOT NULL COMMENT '排序值',
   `level` varchar(50) NOT NULL COMMENT '级别',
-  `create_time` int(10) DEFAULT NULL COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='翻赏等级表' ROW_FORMAT=DYNAMIC;
+  `create_time` int(10) DEFAULT NULL COMMENT '添加时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='翻赏等级表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_level`
 --
 
-INSERT INTO `dl_level` (`id`, `name`, `sort`, `level`, `create_time`) VALUES
-(2, '全局赏', 2, 'W', 1646290186),
-(3, 'First赏', 3, 'First', 1646290474),
-(4, 'Last赏', 4, 'Last', 1646290474),
-(5, 'SP赏', 5, 'SP', 1646290562),
-(6, 'A赏', 6, 'A', 1646290577),
-(7, 'B赏', 7, 'B', 1646290595),
-(8, 'C赏', 8, 'C', 1646290617),
-(9, 'D赏', 9, 'D', 1646290633),
-(10, 'E赏', 10, 'E', 1646290648),
-(11, 'F赏', 11, 'F', 1646290661),
-(12, 'G赏', 12, 'G', 1646290661),
-(13, '战利品', 2, 'War', 1646290661),
-(14, '挑战者', 14, 'Challenge', 1646290661),
-(15, 'H赏', 14, 'H', 1646290661),
-(16, 'I赏', 15, 'I', 1648299211),
-(17, 'J赏', 16, 'J', 1648383732),
-(18, 'K赏', 17, 'K', 1650048481),
-(19, 'L赏', 19, 'L', 1650216019),
-(20, 'M赏', 20, 'M', 1650216035),
-(21, 'N赏', 21, 'N', 1650216044),
-(22, 'O赏', 22, 'O', 1650216057),
-(23, 'P赏', 23, 'P', 1650216067),
-(24, 'Q赏', 24, 'Q', 1650216085),
-(25, 'R赏', 25, 'R', 1650216098);
+LOCK TABLES `dl_level` WRITE;
+/*!40000 ALTER TABLE `dl_level` DISABLE KEYS */;
+INSERT INTO `dl_level` VALUES (2,'全局赏',2,'W',1646290186),(3,'First赏',3,'First',1646290474),(4,'Last赏',4,'Last',1646290474),(5,'SP赏',5,'SP',1646290562),(6,'A赏',6,'A',1646290577),(7,'B赏',7,'B',1646290595),(8,'C赏',8,'C',1646290617),(9,'D赏',9,'D',1646290633),(10,'E赏',10,'E',1646290648),(11,'F赏',11,'F',1646290661),(12,'G赏',12,'G',1646290661),(13,'战利品',2,'War',1646290661),(14,'挑战者',14,'Challenge',1646290661),(15,'H赏',14,'H',1646290661),(16,'I赏',15,'I',1648299211),(17,'J赏',16,'J',1648383732),(18,'K赏',17,'K',1650048481),(19,'L赏',19,'L',1650216019),(20,'M赏',20,'M',1650216035),(21,'N赏',21,'N',1650216044),(22,'O赏',22,'O',1650216057),(23,'P赏',23,'P',1650216067),(24,'Q赏',24,'Q',1650216085),(25,'R赏',25,'R',1650216098);
+/*!40000 ALTER TABLE `dl_level` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
+--
+-- Table structure for table `dl_nft_returnList`
+--
+
+DROP TABLE IF EXISTS `dl_nft_returnList`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `dl_nft_returnList` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `goods_id` int(11) NOT NULL,
+  `price` float NOT NULL DEFAULT '0',
+  `img` tinytext NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `returnTime` int(11) NOT NULL,
+  `quantity` float NOT NULL DEFAULT '0',
+  `integral` float NOT NULL DEFAULT '0',
+  `description` tinytext NOT NULL,
+  `level` varchar(50) NOT NULL,
+  `uid` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `dl_nft_returnList`
+--
+
+LOCK TABLES `dl_nft_returnList` WRITE;
+/*!40000 ALTER TABLE `dl_nft_returnList` DISABLE KEYS */;
+INSERT INTO `dl_nft_returnList` VALUES (3,237,0.7,'/upload/images/20220812/1660236970869039.jpg','TestGood1',1660305373,1,0.7,'<p>This is NFT - 1 item</p>','A',28),(4,237,0.7,'/upload/images/20220812/1660236970869039.jpg','TestGood1',1660306366,1,0.7,'<p>This is NFT - 1 item</p>','A',28),(5,237,0.7,'/upload/images/20220812/1660236970869039.jpg','TestGood1',1660306366,1,0.7,'<p>This is NFT - 1 item</p>','A',28),(6,237,0.7,'/upload/images/20220812/1660236970869039.jpg','TestGood1',1660329918,1,0.7,'<p>This is NFT - 1 item</p>','A',28),(7,244,0.7,'/upload/images/20220814/1660419490174283.jpg','B-nft-1',1660421153,1,0.7,'<p>This is NFT item</p>','A',35);
+/*!40000 ALTER TABLE `dl_nft_returnList` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `dl_nft_withdrawList`
+--
+
+DROP TABLE IF EXISTS `dl_nft_withdrawList`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `dl_nft_withdrawList` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `goods_id` int(11) NOT NULL,
+  `img` tinytext NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `address` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `dl_nft_withdrawList`
+--
+
+LOCK TABLES `dl_nft_withdrawList` WRITE;
+/*!40000 ALTER TABLE `dl_nft_withdrawList` DISABLE KEYS */;
+INSERT INTO `dl_nft_withdrawList` VALUES (2,237,'/upload/images/20220812/1660236970869039.jpg','TestGood1','0xa8A86B82AeFbf31e9DFFB7C53dD1b3c2ad9A591f'),(3,244,'/upload/images/20220814/1660419490174283.jpg','B-nft-1','0x5Da6D29C69Ac99f99dB2da64b115e267F08C3bE4');
+/*!40000 ALTER TABLE `dl_nft_withdrawList` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_order`
 --
 
+DROP TABLE IF EXISTS `dl_order`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_order` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `uid` int(10) UNSIGNED NOT NULL COMMENT '用户ID',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uid` int(10) unsigned NOT NULL COMMENT '用户ID',
   `order_no` varchar(50) NOT NULL COMMENT '订单号',
   `type` tinyint(3) NOT NULL COMMENT '1普通盲盒 2邮费 3充值',
   `total_price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '订单金额',
@@ -1215,82 +759,30 @@ CREATE TABLE `dl_order` (
   `deliver_id` varchar(50) DEFAULT '' COMMENT '待发货ID',
   `suit_id` int(10) DEFAULT NULL COMMENT '箱子ID',
   `num` int(10) NOT NULL COMMENT '数量',
-  `is_prize` tinyint(3) NOT NULL DEFAULT '1' COMMENT '是否开奖'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单表' ROW_FORMAT=DYNAMIC;
+  `is_prize` tinyint(3) NOT NULL DEFAULT '1' COMMENT '是否开奖',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='订单表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_order`
 --
 
-INSERT INTO `dl_order` (`id`, `uid`, `order_no`, `type`, `total_price`, `pay_status`, `pay_time`, `create_time`, `box_id`, `transaction_id`, `deliver_id`, `suit_id`, `num`, `is_prize`) VALUES
-(1, 2, '522051376151411', 1, '880.00', 1, 1653722051, 1653722051, '1', NULL, '', 1, 10, 1),
-(2, 3, '5027393424172539', 1, '220.00', 1, 1653902739, 1653902739, '4', NULL, '', 251, 5, 1),
-(3, 3, '502758103172558', 1, '88.00', 1, 1653902758, 1653902758, '1', NULL, '', 1, 1, 1),
-(4, 3, '5027727586172612', 1, '880.00', 1, 1653902772, 1653902772, '1', NULL, '', 1, 10, 1),
-(5, 3, '5027775931172617', 1, '880.00', 1, 1653902777, 1653902777, '1', NULL, '', 1, 10, 1),
-(6, 3, '5027824014172622', 1, '880.00', 1, 1653902782, 1653902782, '1', NULL, '', 1, 10, 1),
-(7, 3, '502788102172628', 1, '3432.00', 1, 1653902788, 1653902788, '1', NULL, '', 1, 39, 1),
-(8, 3, '5032379579173357', 1, '130.00', 1, 1653903237, 1653903237, '2', NULL, '', 101, 10, 1),
-(9, 3, '5032435962173403', 1, '130.00', 1, 1653903243, 1653903243, '2', NULL, '', 101, 10, 1),
-(10, 3, '5032504922173410', 1, '130.00', 1, 1653903250, 1653903250, '2', NULL, '', 101, 10, 1),
-(11, 3, '5032541009173414', 1, '130.00', 1, 1653903254, 1653903254, '2', NULL, '', 101, 10, 1),
-(12, 3, '5032587105173418', 1, '130.00', 1, 1653903258, 1653903258, '2', NULL, '', 101, 10, 1),
-(13, 3, '5032619955173421', 1, '130.00', 1, 1653903261, 1653903261, '2', NULL, '', 101, 10, 1),
-(14, 3, '5032659066173425', 1, '130.00', 1, 1653903265, 1653903265, '2', NULL, '', 101, 10, 1),
-(15, 3, '5032683450173428', 1, '130.00', 1, 1653903268, 1653903268, '2', NULL, '', 101, 10, 1),
-(16, 3, '5032715076173431', 1, '130.00', 1, 1653903271, 1653903271, '2', NULL, '', 101, 10, 1),
-(17, 3, '5032756799173435', 1, '130.00', 1, 1653903275, 1653903275, '2', NULL, '', 101, 10, 1),
-(18, 3, '5032788442173438', 1, '130.00', 1, 1653903278, 1653903278, '2', NULL, '', 101, 10, 1),
-(19, 3, '5032822958173442', 1, '130.00', 1, 1653903282, 1653903282, '2', NULL, '', 101, 10, 1),
-(20, 1, '5054443476181044', 1, '88.00', 1, 1653905444, 1653905444, '1', NULL, '', 2, 1, 1),
-(21, 1, '5054514370181051', 1, '88.00', 1, 1653905451, 1653905451, '1', NULL, '', 2, 1, 1),
-(22, 1, '5054804491181120', 1, '88.00', 1, 1653905480, 1653905480, '1', NULL, '', 2, 1, 1),
-(23, 1, '5057548333181554', 1, '880.00', 1, 1653905754, 1653905754, '1', NULL, '', 2, 10, 1),
-(24, 1, '5060426165182042', 1, '25.00', 1, 1653906042, 1653906042, '6', NULL, '', 0, 5, 1),
-(25, 2, '5656412288105401', 1, '88.00', 1, 1653965641, 1653965641, '1', NULL, '', 2, 1, 1),
-(26, 2, '5658814457105801', 1, '88.00', 1, 1653965881, 1653965881, '1', NULL, '', 2, 1, 1),
-(27, 2, '5659443100105904', 1, '440.00', 1, 1653965944, 1653965944, '1', NULL, '', 2, 5, 1),
-(28, 2, '565959890105919', 1, '130.00', 1, 1653965959, 1653965959, '2', NULL, '', 101, 10, 1),
-(29, 2, '5660238483110023', 1, '880.00', 1, 1653966023, 1653966023, '1', NULL, '', 2, 10, 1),
-(30, 2, '5780558300142055', 1, '880.00', 1, 1653978055, 1653978055, '1', NULL, '', 2, 10, 1),
-(31, 4, '5831685866154608', 1, '440.00', 1, 1653983168, 1653983168, '1', NULL, '', 2, 5, 1),
-(32, 4, '5837914448155631', 1, '88.00', 1, 1653983791, 1653983791, '1', NULL, '', 2, 1, 1),
-(33, 4, '5847291737161209', 1, '88.00', 1, 1653984729, 1653984729, '1', NULL, '', 2, 1, 1),
-(34, 1, '58560114162641', 1, '880.00', 1, 1653985601, 1653985601, '1', NULL, '', 2, 10, 1),
-(35, 3, '6762797955173759', 1, '440.00', 1, 1654076279, 1654076279, '1', NULL, '', 2, 5, 1),
-(36, 3, '677486699175806', 1, '90.00', 1, 1654077486, 1654077486, '5', NULL, '', 451, 10, 1),
-(37, 3, '6775115063175831', 1, '45.00', 1, 1654077511, 1654077511, '5', NULL, '', 451, 5, 1),
-(38, 3, '6775178594175837', 1, '90.00', 1, 1654077517, 1654077517, '5', NULL, '', 451, 10, 1),
-(39, 3, '6776201007180020', 1, '88.00', 1, 1654077620, 1654077620, '4', NULL, '', 252, 2, 1),
-(40, 3, '6776531972180053', 1, '25.00', 1, 1654077653, 1654077653, '6', NULL, '', 0, 5, 1),
-(41, 3, '6779121561180512', 1, '112.00', 1, 1654077912, 1654077912, '3', NULL, '', 151, 2, 1),
-(42, 3, '6779218204180521', 1, '56.00', 1, 1654077921, 1654077921, '3', NULL, '', 151, 1, 1),
-(43, 3, '6779971388180637', 1, '13.00', 1, 1654077997, 1654077997, '2', NULL, '', 101, 1, 1),
-(44, 3, '6780397871180719', 1, '65.00', 1, 1654078039, 1654078039, '2', NULL, '', 101, 5, 1),
-(45, 4, '6782729476181112', 1, '88.00', 1, 1654078272, 1654078272, '1', NULL, '', 2, 1, 1),
-(46, 4, '6797429319183542', 1, '44.00', 1, 1654079742, 1654079742, '4', NULL, '', 252, 1, 1),
-(47, 4, '6799316117183851', 1, '88.00', 1, 1654079931, 1654079931, '1', NULL, '', 2, 1, 1),
-(48, 4, '679977685183937', 1, '88.00', 1, 1654079977, 1654079977, '1', NULL, '', 2, 1, 1),
-(49, 4, '6800289591184028', 1, '9.00', 1, 1654080028, 1654080028, '5', NULL, '', 451, 1, 1),
-(50, 4, '6801362041184216', 1, '5.00', 1, 1654080136, 1654080136, '6', NULL, '', 0, 1, 1),
-(51, 4, '6801637832184243', 1, '88.00', 1, 1654080163, 1654080163, '1', NULL, '', 2, 1, 1),
-(52, 4, '6802595968184419', 1, '88.00', 1, 1654080259, 1654080259, '1', NULL, '', 2, 1, 1),
-(53, 1, '6802673966184427', 1, '440.00', 1, 1654080267, 1654080267, '1', NULL, '', 2, 5, 1),
-(54, 1, '6803467796184546', 1, '440.00', 1, 1654080346, 1654080346, '1', NULL, '', 2, 5, 1),
-(55, 1, '680437939184717', 1, '88.00', 1, 1654080437, 1654080437, '1', NULL, '', 2, 1, 1),
-(56, 3, '680509155184829', 1, '88.00', 1, 1654080509, 1654080509, '1', NULL, '', 2, 1, 1),
-(57, 4, '6805275787184847', 1, '5.00', 1, 1654080527, 1654080527, '6', NULL, '', 0, 1, 1),
-(58, 3, '6865915395202951', 1, '112.00', 1, 1654086591, 1654086591, '3', NULL, '', 152, 2, 1),
-(59, 3, '631859480163739', 1, '88.00', 1, 1654331859, 1654331859, '1', NULL, '', 2, 1, 1);
-
--- --------------------------------------------------------
+LOCK TABLES `dl_order` WRITE;
+/*!40000 ALTER TABLE `dl_order` DISABLE KEYS */;
+INSERT INTO `dl_order` VALUES (1,2,'522051376151411',1,880.00,1,1653722051,1653722051,'1',NULL,'',1,10,1),(2,3,'5027393424172539',1,220.00,1,1653902739,1653902739,'4',NULL,'',251,5,1),(3,3,'502758103172558',1,88.00,1,1653902758,1653902758,'1',NULL,'',1,1,1),(4,3,'5027727586172612',1,880.00,1,1653902772,1653902772,'1',NULL,'',1,10,1),(5,3,'5027775931172617',1,880.00,1,1653902777,1653902777,'1',NULL,'',1,10,1),(6,3,'5027824014172622',1,880.00,1,1653902782,1653902782,'1',NULL,'',1,10,1),(7,3,'502788102172628',1,3432.00,1,1653902788,1653902788,'1',NULL,'',1,39,1),(8,3,'5032379579173357',1,130.00,1,1653903237,1653903237,'2',NULL,'',101,10,1),(9,3,'5032435962173403',1,130.00,1,1653903243,1653903243,'2',NULL,'',101,10,1),(10,3,'5032504922173410',1,130.00,1,1653903250,1653903250,'2',NULL,'',101,10,1),(11,3,'5032541009173414',1,130.00,1,1653903254,1653903254,'2',NULL,'',101,10,1),(12,3,'5032587105173418',1,130.00,1,1653903258,1653903258,'2',NULL,'',101,10,1),(13,3,'5032619955173421',1,130.00,1,1653903261,1653903261,'2',NULL,'',101,10,1),(14,3,'5032659066173425',1,130.00,1,1653903265,1653903265,'2',NULL,'',101,10,1),(15,3,'5032683450173428',1,130.00,1,1653903268,1653903268,'2',NULL,'',101,10,1),(16,3,'5032715076173431',1,130.00,1,1653903271,1653903271,'2',NULL,'',101,10,1),(17,3,'5032756799173435',1,130.00,1,1653903275,1653903275,'2',NULL,'',101,10,1),(18,3,'5032788442173438',1,130.00,1,1653903278,1653903278,'2',NULL,'',101,10,1),(19,3,'5032822958173442',1,130.00,1,1653903282,1653903282,'2',NULL,'',101,10,1),(20,1,'5054443476181044',1,88.00,1,1653905444,1653905444,'1',NULL,'',2,1,1),(21,1,'5054514370181051',1,88.00,1,1653905451,1653905451,'1',NULL,'',2,1,1),(22,1,'5054804491181120',1,88.00,1,1653905480,1653905480,'1',NULL,'',2,1,1),(23,1,'5057548333181554',1,880.00,1,1653905754,1653905754,'1',NULL,'',2,10,1),(24,1,'5060426165182042',1,25.00,1,1653906042,1653906042,'6',NULL,'',0,5,1),(25,2,'5656412288105401',1,88.00,1,1653965641,1653965641,'1',NULL,'',2,1,1),(26,2,'5658814457105801',1,88.00,1,1653965881,1653965881,'1',NULL,'',2,1,1),(27,2,'5659443100105904',1,440.00,1,1653965944,1653965944,'1',NULL,'',2,5,1),(28,2,'565959890105919',1,130.00,1,1653965959,1653965959,'2',NULL,'',101,10,1),(29,2,'5660238483110023',1,880.00,1,1653966023,1653966023,'1',NULL,'',2,10,1),(30,2,'5780558300142055',1,880.00,1,1653978055,1653978055,'1',NULL,'',2,10,1),(31,4,'5831685866154608',1,440.00,1,1653983168,1653983168,'1',NULL,'',2,5,1),(32,4,'5837914448155631',1,88.00,1,1653983791,1653983791,'1',NULL,'',2,1,1),(33,4,'5847291737161209',1,88.00,1,1653984729,1653984729,'1',NULL,'',2,1,1),(34,1,'58560114162641',1,880.00,1,1653985601,1653985601,'1',NULL,'',2,10,1),(35,3,'6762797955173759',1,440.00,1,1654076279,1654076279,'1',NULL,'',2,5,1),(36,3,'677486699175806',1,90.00,1,1654077486,1654077486,'5',NULL,'',451,10,1),(37,3,'6775115063175831',1,45.00,1,1654077511,1654077511,'5',NULL,'',451,5,1),(38,3,'6775178594175837',1,90.00,1,1654077517,1654077517,'5',NULL,'',451,10,1),(39,3,'6776201007180020',1,88.00,1,1654077620,1654077620,'4',NULL,'',252,2,1),(40,3,'6776531972180053',1,25.00,1,1654077653,1654077653,'6',NULL,'',0,5,1),(41,3,'6779121561180512',1,112.00,1,1654077912,1654077912,'3',NULL,'',151,2,1),(42,3,'6779218204180521',1,56.00,1,1654077921,1654077921,'3',NULL,'',151,1,1),(43,3,'6779971388180637',1,13.00,1,1654077997,1654077997,'2',NULL,'',101,1,1),(44,3,'6780397871180719',1,65.00,1,1654078039,1654078039,'2',NULL,'',101,5,1),(45,4,'6782729476181112',1,88.00,1,1654078272,1654078272,'1',NULL,'',2,1,1),(46,4,'6797429319183542',1,44.00,1,1654079742,1654079742,'4',NULL,'',252,1,1),(47,4,'6799316117183851',1,88.00,1,1654079931,1654079931,'1',NULL,'',2,1,1),(48,4,'679977685183937',1,88.00,1,1654079977,1654079977,'1',NULL,'',2,1,1),(49,4,'6800289591184028',1,9.00,1,1654080028,1654080028,'5',NULL,'',451,1,1),(50,4,'6801362041184216',1,5.00,1,1654080136,1654080136,'6',NULL,'',0,1,1),(51,4,'6801637832184243',1,88.00,1,1654080163,1654080163,'1',NULL,'',2,1,1),(52,4,'6802595968184419',1,88.00,1,1654080259,1654080259,'1',NULL,'',2,1,1),(53,1,'6802673966184427',1,440.00,1,1654080267,1654080267,'1',NULL,'',2,5,1),(54,1,'6803467796184546',1,440.00,1,1654080346,1654080346,'1',NULL,'',2,5,1),(55,1,'680437939184717',1,88.00,1,1654080437,1654080437,'1',NULL,'',2,1,1),(56,3,'680509155184829',1,88.00,1,1654080509,1654080509,'1',NULL,'',2,1,1),(57,4,'6805275787184847',1,5.00,1,1654080527,1654080527,'6',NULL,'',0,1,1),(58,3,'6865915395202951',1,112.00,1,1654086591,1654086591,'3',NULL,'',152,2,1),(59,3,'631859480163739',1,88.00,1,1654331859,1654331859,'1',NULL,'',2,1,1),(60,3,'6028993150132819',1,13.00,1,1655702899,1655702899,'2',NULL,'',141,1,1),(61,3,'6319295615213209',1,44.00,1,1655731929,1655731929,'4',NULL,'',252,1,1),(62,3,'6320123999213332',1,88.00,1,1655732012,1655732012,'1',NULL,'',3,1,1),(63,3,'6320429531213402',1,88.00,1,1655732042,1655732042,'1',NULL,'',3,1,1),(64,3,'6144893669202809',1,56.00,1,1655814489,1655814489,'3',NULL,'',152,1,1),(65,3,'61450594202825',1,56.00,1,1655814505,1655814505,'3',NULL,'',202,1,1),(66,3,'614511872202831',1,112.00,1,1655814511,1655814511,'3',NULL,'',202,2,1),(67,3,'6145812269202941',1,112.00,1,1655814581,1655814581,'3',NULL,'',211,2,1),(68,3,'6146878905203127',1,45.00,1,1655814687,1655814687,'5',NULL,'',451,5,1),(69,3,'6147255232203205',1,56.00,1,1655814725,1655814725,'3',NULL,'',153,1,1),(70,3,'6157061482204826',1,5.00,1,1655815706,1655815706,'6',NULL,'',0,1,1),(71,3,'6232404536024040',1,1.00,1,1655923240,1655923240,'8',NULL,'',551,1,1),(72,3,'7174578871222417',1,5.00,1,1657117457,1657117457,'6',NULL,'',0,1,1),(73,3,'7306179551093657',1,1.00,1,1657330617,1657330617,'8',NULL,'',552,1,1),(74,3,'7470428300141042',1,1.00,1,1657347042,1657347042,'8',NULL,'',553,1,1),(75,3,'735005143221005',1,1.00,1,1657635005,1657635005,'8',NULL,'',554,1,1),(76,3,'7383162574214516',1,0.10,1,1658238316,1658238316,'9',NULL,'',561,1,1),(77,3,'7015544082151914',1,1.00,1,1658301554,1658301554,'8',NULL,'',555,1,1);
+/*!40000 ALTER TABLE `dl_order` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_order_address`
 --
 
+DROP TABLE IF EXISTS `dl_order_address`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_order_address` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `og_id` int(10) NOT NULL COMMENT '订单商品ID',
   `username` varchar(100) NOT NULL COMMENT '收货人',
   `mobile` varchar(20) NOT NULL COMMENT '手机号',
@@ -1298,17 +790,29 @@ CREATE TABLE `dl_order_address` (
   `city` varchar(100) NOT NULL COMMENT '市',
   `area` varchar(100) NOT NULL COMMENT '区',
   `address` varchar(150) NOT NULL COMMENT '详细地址',
-  `create_time` int(10) NOT NULL COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单地址表' ROW_FORMAT=DYNAMIC;
+  `create_time` int(10) NOT NULL COMMENT '添加时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='订单地址表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- --------------------------------------------------------
+--
+-- Dumping data for table `dl_order_address`
+--
+
+LOCK TABLES `dl_order_address` WRITE;
+/*!40000 ALTER TABLE `dl_order_address` DISABLE KEYS */;
+/*!40000 ALTER TABLE `dl_order_address` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_order_goods`
 --
 
+DROP TABLE IF EXISTS `dl_order_goods`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_order_goods` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `oid` int(10) NOT NULL COMMENT '订单ID',
   `uid` int(10) NOT NULL COMMENT '用户ID',
   `gid` int(10) NOT NULL COMMENT '盲盒商品ID',
@@ -1323,1177 +827,225 @@ CREATE TABLE `dl_order_goods` (
   `level` varchar(50) DEFAULT '' COMMENT '等级',
   `level_name` varchar(100) DEFAULT NULL COMMENT '级别名称',
   `is_special` tinyint(3) NOT NULL DEFAULT '0' COMMENT '是否特殊赏',
-  `number` int(10) NOT NULL COMMENT '次数'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='订单商品表' ROW_FORMAT=DYNAMIC;
+  `number` int(10) NOT NULL COMMENT '次数',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=386 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='订单商品表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_order_goods`
 --
 
-INSERT INTO `dl_order_goods` (`id`, `oid`, `uid`, `gid`, `name`, `image`, `price`, `cost_price`, `status`, `create_time`, `box_id`, `suit_id`, `level`, `level_name`, `is_special`, `number`) VALUES
-(1, 1, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653722051, 1, 1, 'H', 'H赏', 0, 1),
-(2, 1, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653722051, 1, 1, 'H', 'H赏', 0, 2),
-(3, 1, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653722051, 1, 1, 'H', 'H赏', 0, 3),
-(4, 1, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653722051, 1, 1, 'H', 'H赏', 0, 4),
-(5, 1, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653722051, 1, 1, 'H', 'H赏', 0, 5),
-(6, 1, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653722051, 1, 1, 'H', 'H赏', 0, 6),
-(7, 1, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653722051, 1, 1, 'H', 'H赏', 0, 7),
-(8, 1, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653722051, 1, 1, 'H', 'H赏', 0, 8),
-(9, 1, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653722051, 1, 1, 'H', 'H赏', 0, 9),
-(10, 1, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653722051, 1, 1, 'H', 'H赏', 0, 10),
-(11, 2, 3, 42, '帅LIU潮卷', '/upload/images/20220416/1650047457838881.jpg', '44.00', '1.00', 3, 1653902739, 4, 251, 'Challenge', '挑战者', 0, 4),
-(12, 2, 3, 42, '帅LIU潮卷', '/upload/images/20220416/1650047457838881.jpg', '44.00', '1.00', 3, 1653902739, 4, 251, 'Challenge', '挑战者', 0, 5),
-(13, 2, 3, 42, '帅LIU潮卷', '/upload/images/20220416/1650047457838881.jpg', '44.00', '1.00', 3, 1653902739, 4, 251, 'Challenge', '挑战者', 0, 3),
-(14, 2, 3, 42, '帅LIU潮卷', '/upload/images/20220416/1650047457838881.jpg', '44.00', '1.00', 3, 1653902739, 4, 251, 'Challenge', '挑战者', 0, 1),
-(15, 2, 3, 42, '帅LIU潮卷', '/upload/images/20220416/1650047457838881.jpg', '44.00', '1.00', 3, 1653902739, 4, 251, 'Challenge', '挑战者', 0, 2),
-(16, 2, 3, 38, '雕像香薰蜡烛', '/upload/images/20220416/1650047394907810.png', '44.00', '85.00', 3, 1653902739, 4, 251, 'War', '战利品', 1, 6),
-(17, 2, 3, 39, '香薰蜡烛', '/upload/images/20220416/1650047411323103.png', '44.00', '55.00', 3, 1653902739, 4, 251, 'War', '战利品', 1, 7),
-(18, 2, 3, 40, '蜡烛无烟熏香', '/upload/images/20220416/1650047428220155.png', '44.00', '35.00', 3, 1653902739, 4, 251, 'War', '战利品', 1, 8),
-(19, 2, 3, 41, '浪漫无烟蜡烛灯', '/upload/images/20220416/1650047442603558.png', '44.00', '20.00', 3, 1653902739, 4, 251, 'War', '战利品', 1, 9),
-(20, 3, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902758, 1, 1, 'H', 'H赏', 0, 11),
-(21, 4, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902772, 1, 1, 'H', 'H赏', 0, 12),
-(22, 4, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902772, 1, 1, 'H', 'H赏', 0, 13),
-(23, 4, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902772, 1, 1, 'H', 'H赏', 0, 14),
-(24, 4, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902772, 1, 1, 'H', 'H赏', 0, 15),
-(25, 4, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902772, 1, 1, 'H', 'H赏', 0, 16),
-(26, 4, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902772, 1, 1, 'H', 'H赏', 0, 17),
-(27, 4, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902772, 1, 1, 'H', 'H赏', 0, 18),
-(28, 4, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902772, 1, 1, 'H', 'H赏', 0, 19),
-(29, 4, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902772, 1, 1, 'H', 'H赏', 0, 20),
-(30, 4, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902772, 1, 1, 'H', 'H赏', 0, 21),
-(31, 5, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902777, 1, 1, 'H', 'H赏', 0, 22),
-(32, 5, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902777, 1, 1, 'H', 'H赏', 0, 23),
-(33, 5, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902777, 1, 1, 'H', 'H赏', 0, 24),
-(34, 5, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902777, 1, 1, 'H', 'H赏', 0, 25),
-(35, 5, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902777, 1, 1, 'H', 'H赏', 0, 26),
-(36, 5, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902777, 1, 1, 'H', 'H赏', 0, 27),
-(37, 5, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902777, 1, 1, 'H', 'H赏', 0, 28),
-(38, 5, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902777, 1, 1, 'H', 'H赏', 0, 29),
-(39, 5, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902777, 1, 1, 'H', 'H赏', 0, 30),
-(40, 5, 3, 3, 'popwa乔巴', '/upload/images/20220416/1650039390951194.jpg', '88.00', '888.00', 3, 1653902777, 1, 1, 'SP', 'SP赏', 0, 31),
-(41, 6, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902782, 1, 1, 'H', 'H赏', 0, 32),
-(42, 6, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902782, 1, 1, 'H', 'H赏', 0, 33),
-(43, 6, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902782, 1, 1, 'H', 'H赏', 0, 34),
-(44, 6, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902782, 1, 1, 'H', 'H赏', 0, 35),
-(45, 6, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902782, 1, 1, 'H', 'H赏', 0, 36),
-(46, 6, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902782, 1, 1, 'H', 'H赏', 0, 37),
-(47, 6, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902782, 1, 1, 'H', 'H赏', 0, 38),
-(48, 6, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902782, 1, 1, 'H', 'H赏', 0, 39),
-(49, 6, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902782, 1, 1, 'H', 'H赏', 0, 40),
-(50, 6, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902782, 1, 1, 'H', 'H赏', 0, 41),
-(51, 5, 3, 1, 'popmax老沙', '/upload/images/20220416/1650039333687705.jpg', '88.00', '1599.00', 3, 1653902782, 1, 1, 'First', 'First赏', 1, 81),
-(52, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 42),
-(53, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 43),
-(54, 7, 3, 5, 'zero黄猿', '/upload/images/20220416/1650039441976891.png', '88.00', '450.00', 3, 1653902788, 1, 1, 'B', 'B赏', 0, 44),
-(55, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 45),
-(56, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 46),
-(57, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 47),
-(58, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 48),
-(59, 7, 3, 6, 'zero赤犬', '/upload/images/20220416/1650039458682457.jpg', '88.00', '400.00', 3, 1653902788, 1, 1, 'C', 'C赏', 0, 49),
-(60, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 50),
-(61, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 51),
-(62, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 52),
-(63, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 53),
-(64, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 54),
-(65, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 55),
-(66, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 56),
-(67, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 57),
-(68, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 58),
-(69, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 59),
-(70, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 60),
-(71, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 61),
-(72, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 62),
-(73, 7, 3, 7, 'zero青雉', '/upload/images/20220416/1650039478232589.jpg', '88.00', '350.00', 3, 1653902788, 1, 1, 'D', 'D赏', 0, 63),
-(74, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 64),
-(75, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 65),
-(76, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 66),
-(77, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 67),
-(78, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 68),
-(79, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 69),
-(80, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 70),
-(81, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 71),
-(82, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 72),
-(83, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 73),
-(84, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 74),
-(85, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 75),
-(86, 7, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653902788, 1, 1, 'H', 'H赏', 0, 76),
-(87, 7, 3, 8, 'zero罗杰', '/upload/images/20220416/165003951511349.jpg', '88.00', '320.00', 3, 1653902788, 1, 1, 'E', 'E赏', 0, 77),
-(88, 7, 3, 10, '女帝景品', '/upload/images/20220416/1650039551128762.jpg', '88.00', '100.00', 3, 1653902788, 1, 1, 'G', 'G赏', 0, 78),
-(89, 7, 3, 4, 'zero女帝芳香脚', '/upload/images/20220416/1650039411266671.jpg', '88.00', '700.00', 3, 1653902788, 1, 1, 'A', 'A赏', 0, 79),
-(90, 7, 3, 9, 'zero御田', '/upload/images/20220416/1650039534611656.png', '88.00', '220.00', 3, 1653902788, 1, 1, 'F', 'F赏', 0, 80),
-(91, 7, 3, 2, 'popwa罗', '/upload/images/20220416/1650039365546039.jpg', '88.00', '1299.00', 2, 1653902788, 1, 1, 'Last', 'Last赏', 1, 82),
-(92, 8, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903237, 2, 101, 'J', 'J赏', 0, 1),
-(93, 8, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903237, 2, 101, 'J', 'J赏', 0, 2),
-(94, 8, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903237, 2, 101, 'J', 'J赏', 0, 3),
-(95, 8, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903237, 2, 101, 'J', 'J赏', 0, 4),
-(96, 8, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903237, 2, 101, 'J', 'J赏', 0, 5),
-(97, 8, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903237, 2, 101, 'J', 'J赏', 0, 6),
-(98, 8, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903237, 2, 101, 'J', 'J赏', 0, 7),
-(99, 8, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903237, 2, 101, 'J', 'J赏', 0, 8),
-(100, 8, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903237, 2, 101, 'J', 'J赏', 0, 9),
-(101, 8, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903237, 2, 101, 'J', 'J赏', 0, 10),
-(102, 9, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903243, 2, 101, 'J', 'J赏', 0, 11),
-(103, 9, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903243, 2, 101, 'J', 'J赏', 0, 12),
-(104, 9, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903243, 2, 101, 'J', 'J赏', 0, 13),
-(105, 9, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903243, 2, 101, 'J', 'J赏', 0, 14),
-(106, 9, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903243, 2, 101, 'J', 'J赏', 0, 15),
-(107, 9, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903243, 2, 101, 'J', 'J赏', 0, 16),
-(108, 9, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903243, 2, 101, 'J', 'J赏', 0, 17),
-(109, 9, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903243, 2, 101, 'J', 'J赏', 0, 18),
-(110, 9, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903243, 2, 101, 'J', 'J赏', 0, 19),
-(111, 9, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903243, 2, 101, 'J', 'J赏', 0, 20),
-(112, 10, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903250, 2, 101, 'J', 'J赏', 0, 21),
-(113, 10, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903250, 2, 101, 'J', 'J赏', 0, 22),
-(114, 10, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903250, 2, 101, 'J', 'J赏', 0, 23),
-(115, 10, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903250, 2, 101, 'J', 'J赏', 0, 24),
-(116, 10, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903250, 2, 101, 'J', 'J赏', 0, 25),
-(117, 10, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903250, 2, 101, 'J', 'J赏', 0, 26),
-(118, 10, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903250, 2, 101, 'J', 'J赏', 0, 27),
-(119, 10, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903250, 2, 101, 'J', 'J赏', 0, 28),
-(120, 10, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903250, 2, 101, 'J', 'J赏', 0, 29),
-(121, 10, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903250, 2, 101, 'J', 'J赏', 0, 30),
-(122, 11, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903254, 2, 101, 'J', 'J赏', 0, 31),
-(123, 11, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903254, 2, 101, 'J', 'J赏', 0, 32),
-(124, 11, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903254, 2, 101, 'J', 'J赏', 0, 33),
-(125, 11, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903254, 2, 101, 'J', 'J赏', 0, 34),
-(126, 11, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903254, 2, 101, 'J', 'J赏', 0, 35),
-(127, 11, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903254, 2, 101, 'J', 'J赏', 0, 36),
-(128, 11, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903254, 2, 101, 'J', 'J赏', 0, 37),
-(129, 11, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903254, 2, 101, 'J', 'J赏', 0, 38),
-(130, 11, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903254, 2, 101, 'J', 'J赏', 0, 39),
-(131, 11, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903254, 2, 101, 'J', 'J赏', 0, 40),
-(132, 12, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903258, 2, 101, 'J', 'J赏', 0, 41),
-(133, 12, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903258, 2, 101, 'J', 'J赏', 0, 42),
-(134, 12, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903258, 2, 101, 'J', 'J赏', 0, 43),
-(135, 12, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903258, 2, 101, 'J', 'J赏', 0, 44),
-(136, 12, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903258, 2, 101, 'J', 'J赏', 0, 45),
-(137, 12, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903258, 2, 101, 'J', 'J赏', 0, 46),
-(138, 12, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903258, 2, 101, 'J', 'J赏', 0, 47),
-(139, 12, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903258, 2, 101, 'J', 'J赏', 0, 48),
-(140, 12, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903258, 2, 101, 'J', 'J赏', 0, 49),
-(141, 12, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903258, 2, 101, 'J', 'J赏', 0, 50),
-(142, 13, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903261, 2, 101, 'J', 'J赏', 0, 51),
-(143, 13, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903261, 2, 101, 'J', 'J赏', 0, 52),
-(144, 13, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903261, 2, 101, 'J', 'J赏', 0, 53),
-(145, 13, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903261, 2, 101, 'J', 'J赏', 0, 54),
-(146, 13, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903261, 2, 101, 'J', 'J赏', 0, 55),
-(147, 13, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903261, 2, 101, 'J', 'J赏', 0, 56),
-(148, 13, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903261, 2, 101, 'J', 'J赏', 0, 57),
-(149, 13, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903261, 2, 101, 'J', 'J赏', 0, 58),
-(150, 13, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903261, 2, 101, 'J', 'J赏', 0, 59),
-(151, 13, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903261, 2, 101, 'J', 'J赏', 0, 60),
-(152, 14, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903265, 2, 101, 'J', 'J赏', 0, 61),
-(153, 14, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903265, 2, 101, 'J', 'J赏', 0, 62),
-(154, 14, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903265, 2, 101, 'J', 'J赏', 0, 63),
-(155, 14, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903265, 2, 101, 'J', 'J赏', 0, 64),
-(156, 14, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903265, 2, 101, 'J', 'J赏', 0, 65),
-(157, 14, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903265, 2, 101, 'J', 'J赏', 0, 66),
-(158, 14, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903265, 2, 101, 'J', 'J赏', 0, 67),
-(159, 14, 3, 49, '布罗利gk', '/upload/images/20220416/1650048037924962.png', '13.00', '550.00', 2, 1653903265, 2, 101, 'D', 'D赏', 0, 68),
-(160, 14, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903265, 2, 101, 'J', 'J赏', 0, 69),
-(161, 14, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903265, 2, 101, 'J', 'J赏', 0, 70),
-(162, 15, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903268, 2, 101, 'J', 'J赏', 0, 71),
-(163, 15, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903268, 2, 101, 'J', 'J赏', 0, 72),
-(164, 15, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903268, 2, 101, 'J', 'J赏', 0, 73),
-(165, 15, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903268, 2, 101, 'J', 'J赏', 0, 74),
-(166, 15, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903268, 2, 101, 'J', 'J赏', 0, 75),
-(167, 15, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903268, 2, 101, 'J', 'J赏', 0, 76),
-(168, 15, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903268, 2, 101, 'J', 'J赏', 0, 77),
-(169, 15, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903268, 2, 101, 'J', 'J赏', 0, 78),
-(170, 15, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903268, 2, 101, 'J', 'J赏', 0, 79),
-(171, 15, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903268, 2, 101, 'J', 'J赏', 0, 80),
-(172, 16, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903271, 2, 101, 'J', 'J赏', 0, 81),
-(173, 16, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903271, 2, 101, 'J', 'J赏', 0, 82),
-(174, 16, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903271, 2, 101, 'J', 'J赏', 0, 83),
-(175, 16, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903271, 2, 101, 'J', 'J赏', 0, 84),
-(176, 16, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903271, 2, 101, 'J', 'J赏', 0, 85),
-(177, 16, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903271, 2, 101, 'J', 'J赏', 0, 86),
-(178, 16, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903271, 2, 101, 'J', 'J赏', 0, 87),
-(179, 16, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903271, 2, 101, 'J', 'J赏', 0, 88),
-(180, 16, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903271, 2, 101, 'J', 'J赏', 0, 89),
-(181, 16, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903271, 2, 101, 'J', 'J赏', 0, 90),
-(182, 17, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903275, 2, 101, 'J', 'J赏', 0, 91),
-(183, 17, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903275, 2, 101, 'J', 'J赏', 0, 92),
-(184, 17, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903275, 2, 101, 'J', 'J赏', 0, 93),
-(185, 17, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903275, 2, 101, 'J', 'J赏', 0, 94),
-(186, 17, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903275, 2, 101, 'J', 'J赏', 0, 95),
-(187, 17, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903275, 2, 101, 'J', 'J赏', 0, 96),
-(188, 17, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903275, 2, 101, 'J', 'J赏', 0, 97),
-(189, 17, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903275, 2, 101, 'J', 'J赏', 0, 98),
-(190, 17, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903275, 2, 101, 'J', 'J赏', 0, 99),
-(191, 17, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903275, 2, 101, 'J', 'J赏', 0, 100),
-(192, 18, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903278, 2, 101, 'J', 'J赏', 0, 101),
-(193, 18, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903278, 2, 101, 'J', 'J赏', 0, 102),
-(194, 18, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903278, 2, 101, 'J', 'J赏', 0, 103),
-(195, 18, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903278, 2, 101, 'J', 'J赏', 0, 104),
-(196, 18, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903278, 2, 101, 'J', 'J赏', 0, 105),
-(197, 18, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903278, 2, 101, 'J', 'J赏', 0, 106),
-(198, 18, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903278, 2, 101, 'J', 'J赏', 0, 107),
-(199, 18, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903278, 2, 101, 'J', 'J赏', 0, 108),
-(200, 18, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903278, 2, 101, 'J', 'J赏', 0, 109),
-(201, 18, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903278, 2, 101, 'J', 'J赏', 0, 110),
-(202, 19, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903282, 2, 101, 'J', 'J赏', 0, 111),
-(203, 19, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903282, 2, 101, 'J', 'J赏', 0, 112),
-(204, 19, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903282, 2, 101, 'J', 'J赏', 0, 113),
-(205, 19, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903282, 2, 101, 'J', 'J赏', 0, 114),
-(206, 19, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903282, 2, 101, 'J', 'J赏', 0, 115),
-(207, 19, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903282, 2, 101, 'J', 'J赏', 0, 116),
-(208, 19, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903282, 2, 101, 'J', 'J赏', 0, 117),
-(209, 19, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903282, 2, 101, 'J', 'J赏', 0, 118),
-(210, 19, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903282, 2, 101, 'J', 'J赏', 0, 119),
-(211, 19, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 3, 1653903282, 2, 101, 'J', 'J赏', 0, 120),
-(212, 20, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653905444, 1, 2, 'H', 'H赏', 0, 1),
-(213, 21, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653905451, 1, 2, 'H', 'H赏', 0, 2),
-(214, 22, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653905480, 1, 2, 'H', 'H赏', 0, 3),
-(215, 23, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 5, 1653905754, 1, 2, 'H', 'H赏', 0, 4),
-(216, 23, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 5, 1653905754, 1, 2, 'H', 'H赏', 0, 5),
-(217, 23, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 5, 1653905754, 1, 2, 'H', 'H赏', 0, 6),
-(218, 23, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 5, 1653905754, 1, 2, 'H', 'H赏', 0, 7),
-(219, 23, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 5, 1653905754, 1, 2, 'H', 'H赏', 0, 8),
-(220, 23, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 5, 1653905754, 1, 2, 'H', 'H赏', 0, 9),
-(221, 23, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 5, 1653905754, 1, 2, 'H', 'H赏', 0, 10),
-(222, 23, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 5, 1653905754, 1, 2, 'H', 'H赏', 0, 11),
-(223, 23, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653905754, 1, 2, 'H', 'H赏', 0, 12),
-(224, 23, 1, 9, 'zero御田', '/upload/images/20220416/1650039534611656.png', '88.00', '220.00', 5, 1653905754, 1, 2, 'F', 'F赏', 0, 13),
-(225, 24, 1, 121, '多啦A梦卡贴', '/upload/images/20220418/1650215451379227.jpg', '5.00', '1.00', 3, 1653906042, 6, 0, 'O', 'O赏', 0, 1),
-(226, 24, 1, 121, '多啦A梦卡贴', '/upload/images/20220418/1650215451379227.jpg', '5.00', '1.00', 3, 1653906042, 6, 0, 'O', 'O赏', 0, 2),
-(227, 24, 1, 121, '多啦A梦卡贴', '/upload/images/20220418/1650215451379227.jpg', '5.00', '1.00', 3, 1653906042, 6, 0, 'O', 'O赏', 0, 3),
-(228, 24, 1, 121, '多啦A梦卡贴', '/upload/images/20220418/1650215451379227.jpg', '5.00', '1.00', 3, 1653906042, 6, 0, 'O', 'O赏', 0, 4),
-(229, 24, 1, 121, '多啦A梦卡贴', '/upload/images/20220418/1650215451379227.jpg', '5.00', '1.00', 3, 1653906042, 6, 0, 'O', 'O赏', 0, 5),
-(230, 25, 2, 7, 'zero青雉', '/upload/images/20220416/1650039478232589.jpg', '88.00', '350.00', 3, 1653965641, 1, 2, 'D', 'D赏', 0, 14),
-(231, 26, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653965881, 1, 2, 'H', 'H赏', 0, 15),
-(232, 27, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1653965945, 1, 2, 'H', 'H赏', 0, 16),
-(233, 27, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1653965945, 1, 2, 'H', 'H赏', 0, 17),
-(234, 27, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1653965945, 1, 2, 'H', 'H赏', 0, 18),
-(235, 27, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1653965945, 1, 2, 'H', 'H赏', 0, 19),
-(236, 27, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1653965945, 1, 2, 'H', 'H赏', 0, 20),
-(237, 28, 2, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 1, 1653965959, 2, 101, 'J', 'J赏', 0, 121),
-(238, 28, 2, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 1, 1653965959, 2, 101, 'J', 'J赏', 0, 122),
-(239, 28, 2, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 1, 1653965959, 2, 101, 'J', 'J赏', 0, 123),
-(240, 28, 2, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 1, 1653965959, 2, 101, 'J', 'J赏', 0, 124),
-(241, 28, 2, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 1, 1653965959, 2, 101, 'J', 'J赏', 0, 125),
-(242, 28, 2, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 1, 1653965959, 2, 101, 'J', 'J赏', 0, 126),
-(243, 28, 2, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 1, 1653965959, 2, 101, 'J', 'J赏', 0, 127),
-(244, 28, 2, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 1, 1653965959, 2, 101, 'J', 'J赏', 0, 128),
-(245, 28, 2, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 1, 1653965959, 2, 101, 'J', 'J赏', 0, 129),
-(246, 28, 2, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 1, 1653965959, 2, 101, 'J', 'J赏', 0, 130),
-(247, 29, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1653966023, 1, 2, 'H', 'H赏', 0, 21),
-(248, 29, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1653966023, 1, 2, 'H', 'H赏', 0, 22),
-(249, 29, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1653966023, 1, 2, 'H', 'H赏', 0, 23),
-(250, 29, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1653966023, 1, 2, 'H', 'H赏', 0, 24),
-(251, 29, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1653966023, 1, 2, 'H', 'H赏', 0, 25),
-(252, 29, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1653966023, 1, 2, 'H', 'H赏', 0, 26),
-(253, 29, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1653966023, 1, 2, 'H', 'H赏', 0, 27),
-(254, 29, 2, 3, 'popwa乔巴', '/upload/images/20220416/1650039390951194.jpg', '88.00', '888.00', 1, 1653966023, 1, 2, 'SP', 'SP赏', 0, 28),
-(255, 29, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1653966023, 1, 2, 'H', 'H赏', 0, 29),
-(256, 29, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1653966023, 1, 2, 'H', 'H赏', 0, 30),
-(257, 30, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1653978055, 1, 2, 'H', 'H赏', 0, 31),
-(258, 30, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1653978055, 1, 2, 'H', 'H赏', 0, 32),
-(259, 30, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1653978055, 1, 2, 'H', 'H赏', 0, 33),
-(260, 30, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1653978055, 1, 2, 'H', 'H赏', 0, 34),
-(261, 30, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1653978055, 1, 2, 'H', 'H赏', 0, 35),
-(262, 30, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1653978055, 1, 2, 'H', 'H赏', 0, 36),
-(263, 30, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1653978055, 1, 2, 'H', 'H赏', 0, 37),
-(264, 30, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1653978055, 1, 2, 'H', 'H赏', 0, 38),
-(265, 30, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1653978055, 1, 2, 'H', 'H赏', 0, 39),
-(266, 30, 2, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1653978055, 1, 2, 'H', 'H赏', 0, 40),
-(267, 29, 2, 1, 'popmax老沙', '/upload/images/20220416/1650039333687705.jpg', '88.00', '1599.00', 1, 1653978055, 1, 2, 'First', 'First赏', 1, 81),
-(268, 31, 4, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653983168, 1, 2, 'H', 'H赏', 0, 41),
-(269, 31, 4, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653983168, 1, 2, 'H', 'H赏', 0, 42),
-(270, 31, 4, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653983168, 1, 2, 'H', 'H赏', 0, 43),
-(271, 31, 4, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653983168, 1, 2, 'H', 'H赏', 0, 44),
-(272, 31, 4, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653983168, 1, 2, 'H', 'H赏', 0, 45),
-(273, 32, 4, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653983791, 1, 2, 'H', 'H赏', 0, 46),
-(274, 33, 4, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653984729, 1, 2, 'H', 'H赏', 0, 47),
-(275, 34, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653985601, 1, 2, 'H', 'H赏', 0, 48),
-(276, 34, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653985601, 1, 2, 'H', 'H赏', 0, 49),
-(277, 34, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653985601, 1, 2, 'H', 'H赏', 0, 50),
-(278, 34, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653985601, 1, 2, 'H', 'H赏', 0, 51),
-(279, 34, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653985601, 1, 2, 'H', 'H赏', 0, 52),
-(280, 34, 1, 5, 'zero黄猿', '/upload/images/20220416/1650039441976891.png', '88.00', '450.00', 3, 1653985601, 1, 2, 'B', 'B赏', 0, 53),
-(281, 34, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653985601, 1, 2, 'H', 'H赏', 0, 54),
-(282, 34, 1, 10, '女帝景品', '/upload/images/20220416/1650039551128762.jpg', '88.00', '100.00', 3, 1653985601, 1, 2, 'G', 'G赏', 0, 55),
-(283, 34, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653985601, 1, 2, 'H', 'H赏', 0, 56),
-(284, 34, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 3, 1653985601, 1, 2, 'H', 'H赏', 0, 57),
-(285, 35, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 2, 1654076279, 1, 2, 'H', 'H赏', 0, 58),
-(286, 35, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 2, 1654076279, 1, 2, 'H', 'H赏', 0, 59),
-(287, 35, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 2, 1654076279, 1, 2, 'H', 'H赏', 0, 60),
-(288, 35, 3, 6, 'zero赤犬', '/upload/images/20220416/1650039458682457.jpg', '88.00', '400.00', 2, 1654076279, 1, 2, 'C', 'C赏', 0, 61),
-(289, 35, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 2, 1654076279, 1, 2, 'H', 'H赏', 0, 62),
-(290, 36, 3, 83, '帅LIU潮卷', '/upload/images/20220417/1650210391920032.jpg', '9.00', '1.00', 2, 1654077486, 5, 451, 'Challenge', '挑战者', 0, 50),
-(291, 36, 3, 83, '帅LIU潮卷', '/upload/images/20220417/1650210391920032.jpg', '9.00', '1.00', 2, 1654077486, 5, 451, 'Challenge', '挑战者', 0, 72),
-(292, 36, 3, 83, '帅LIU潮卷', '/upload/images/20220417/1650210391920032.jpg', '9.00', '1.00', 2, 1654077486, 5, 451, 'Challenge', '挑战者', 0, 51),
-(293, 36, 3, 83, '帅LIU潮卷', '/upload/images/20220417/1650210391920032.jpg', '9.00', '1.00', 2, 1654077486, 5, 451, 'Challenge', '挑战者', 0, 78),
-(294, 36, 3, 83, '帅LIU潮卷', '/upload/images/20220417/1650210391920032.jpg', '9.00', '1.00', 2, 1654077486, 5, 451, 'Challenge', '挑战者', 0, 76),
-(295, 36, 3, 83, '帅LIU潮卷', '/upload/images/20220417/1650210391920032.jpg', '9.00', '1.00', 2, 1654077486, 5, 451, 'Challenge', '挑战者', 0, 95),
-(296, 36, 3, 83, '帅LIU潮卷', '/upload/images/20220417/1650210391920032.jpg', '9.00', '1.00', 2, 1654077486, 5, 451, 'Challenge', '挑战者', 0, 70),
-(297, 36, 3, 83, '帅LIU潮卷', '/upload/images/20220417/1650210391920032.jpg', '9.00', '1.00', 2, 1654077486, 5, 451, 'Challenge', '挑战者', 0, 49),
-(298, 36, 3, 83, '帅LIU潮卷', '/upload/images/20220417/1650210391920032.jpg', '9.00', '1.00', 2, 1654077486, 5, 451, 'Challenge', '挑战者', 0, 1),
-(299, 36, 3, 83, '帅LIU潮卷', '/upload/images/20220417/1650210391920032.jpg', '9.00', '1.00', 2, 1654077486, 5, 451, 'Challenge', '挑战者', 0, 44),
-(300, 37, 3, 83, '帅LIU潮卷', '/upload/images/20220417/1650210391920032.jpg', '9.00', '1.00', 2, 1654077511, 5, 451, 'Challenge', '挑战者', 0, 93),
-(301, 37, 3, 83, '帅LIU潮卷', '/upload/images/20220417/1650210391920032.jpg', '9.00', '1.00', 2, 1654077511, 5, 451, 'Challenge', '挑战者', 0, 84),
-(302, 37, 3, 83, '帅LIU潮卷', '/upload/images/20220417/1650210391920032.jpg', '9.00', '1.00', 2, 1654077511, 5, 451, 'Challenge', '挑战者', 0, 65),
-(303, 37, 3, 83, '帅LIU潮卷', '/upload/images/20220417/1650210391920032.jpg', '9.00', '1.00', 2, 1654077511, 5, 451, 'Challenge', '挑战者', 0, 37),
-(304, 37, 3, 83, '帅LIU潮卷', '/upload/images/20220417/1650210391920032.jpg', '9.00', '1.00', 2, 1654077511, 5, 451, 'Challenge', '挑战者', 0, 63),
-(305, 38, 3, 83, '帅LIU潮卷', '/upload/images/20220417/1650210391920032.jpg', '9.00', '1.00', 2, 1654077517, 5, 451, 'Challenge', '挑战者', 0, 31),
-(306, 38, 3, 83, '帅LIU潮卷', '/upload/images/20220417/1650210391920032.jpg', '9.00', '1.00', 2, 1654077517, 5, 451, 'Challenge', '挑战者', 0, 4),
-(307, 38, 3, 83, '帅LIU潮卷', '/upload/images/20220417/1650210391920032.jpg', '9.00', '1.00', 2, 1654077517, 5, 451, 'Challenge', '挑战者', 0, 29),
-(308, 38, 3, 83, '帅LIU潮卷', '/upload/images/20220417/1650210391920032.jpg', '9.00', '1.00', 2, 1654077517, 5, 451, 'Challenge', '挑战者', 0, 69),
-(309, 38, 3, 83, '帅LIU潮卷', '/upload/images/20220417/1650210391920032.jpg', '9.00', '1.00', 2, 1654077517, 5, 451, 'Challenge', '挑战者', 0, 30),
-(310, 38, 3, 83, '帅LIU潮卷', '/upload/images/20220417/1650210391920032.jpg', '9.00', '1.00', 2, 1654077517, 5, 451, 'Challenge', '挑战者', 0, 94),
-(311, 38, 3, 83, '帅LIU潮卷', '/upload/images/20220417/1650210391920032.jpg', '9.00', '1.00', 2, 1654077517, 5, 451, 'Challenge', '挑战者', 0, 77),
-(312, 38, 3, 83, '帅LIU潮卷', '/upload/images/20220417/1650210391920032.jpg', '9.00', '1.00', 2, 1654077517, 5, 451, 'Challenge', '挑战者', 0, 2),
-(313, 38, 3, 83, '帅LIU潮卷', '/upload/images/20220417/1650210391920032.jpg', '9.00', '1.00', 2, 1654077517, 5, 451, 'Challenge', '挑战者', 0, 88),
-(314, 38, 3, 83, '帅LIU潮卷', '/upload/images/20220417/1650210391920032.jpg', '9.00', '1.00', 2, 1654077517, 5, 451, 'Challenge', '挑战者', 0, 9),
-(315, 39, 3, 42, '帅LIU潮卷', '/upload/images/20220416/1650047457838881.jpg', '44.00', '1.00', 1, 1654077620, 4, 252, 'Challenge', '挑战者', 0, 4),
-(316, 39, 3, 42, '帅LIU潮卷', '/upload/images/20220416/1650047457838881.jpg', '44.00', '1.00', 1, 1654077620, 4, 252, 'Challenge', '挑战者', 0, 1),
-(317, 40, 3, 121, '多啦A梦卡贴', '/upload/images/20220418/1650215451379227.jpg', '5.00', '1.00', 1, 1654077653, 6, 0, 'O', 'O赏', 0, 6),
-(318, 40, 3, 121, '多啦A梦卡贴', '/upload/images/20220418/1650215451379227.jpg', '5.00', '1.00', 1, 1654077653, 6, 0, 'O', 'O赏', 0, 7),
-(319, 40, 3, 121, '多啦A梦卡贴', '/upload/images/20220418/1650215451379227.jpg', '5.00', '1.00', 1, 1654077653, 6, 0, 'O', 'O赏', 0, 8),
-(320, 40, 3, 119, '沙扎比', '/upload/images/20220418/1650214941766925.png', '5.00', '40.00', 1, 1654077653, 6, 0, 'N', 'N赏', 0, 9),
-(321, 40, 3, 121, '多啦A梦卡贴', '/upload/images/20220418/1650215451379227.jpg', '5.00', '1.00', 1, 1654077653, 6, 0, 'O', 'O赏', 0, 10),
-(322, 41, 3, 25, '帅LIU潮卷', '/upload/images/20220416/1650042926262367.jpg', '56.00', '1.00', 1, 1654077912, 3, 151, 'Challenge', '挑战者', 0, 2),
-(323, 41, 3, 25, '帅LIU潮卷', '/upload/images/20220416/1650042926262367.jpg', '56.00', '1.00', 1, 1654077912, 3, 151, 'Challenge', '挑战者', 0, 1),
-(324, 42, 3, 25, '帅LIU潮卷', '/upload/images/20220416/1650042926262367.jpg', '56.00', '1.00', 1, 1654077921, 3, 151, 'Challenge', '挑战者', 0, 3),
-(325, 41, 3, 23, '太空人钓星星', '/upload/images/20220416/1650042874549382.jpg', '56.00', '85.00', 1, 1654077921, 3, 151, 'War', '战利品', 1, 4),
-(326, 41, 3, 24, '星空太空人深思', '/upload/images/20220416/1650042909443830.jpg', '56.00', '65.00', 2, 1654077921, 3, 151, 'War', '战利品', 1, 5),
-(327, 43, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 1, 1654077997, 2, 101, 'J', 'J赏', 0, 131),
-(328, 44, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 1, 1654078039, 2, 101, 'J', 'J赏', 0, 132),
-(329, 44, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 1, 1654078039, 2, 101, 'J', 'J赏', 0, 133),
-(330, 44, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 1, 1654078039, 2, 101, 'J', 'J赏', 0, 134),
-(331, 44, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 1, 1654078039, 2, 101, 'J', 'J赏', 0, 135),
-(332, 44, 3, 55, '帅LIU潮卷', '/upload/images/20220416/1650048147875118.jpg', '13.00', '1.00', 1, 1654078039, 2, 101, 'J', 'J赏', 0, 136),
-(333, 45, 4, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1654078272, 1, 2, 'H', 'H赏', 0, 63),
-(334, 46, 4, 42, '帅LIU潮卷', '/upload/images/20220416/1650047457838881.jpg', '44.00', '1.00', 1, 1654079742, 4, 252, 'Challenge', '挑战者', 0, 2),
-(335, 47, 4, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1654079931, 1, 2, 'H', 'H赏', 0, 64),
-(336, 48, 4, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1654079977, 1, 2, 'H', 'H赏', 0, 65),
-(337, 49, 4, 83, '帅LIU潮卷', '/upload/images/20220417/1650210391920032.jpg', '9.00', '1.00', 1, 1654080028, 5, 451, 'Challenge', '挑战者', 0, 26),
-(338, 50, 4, 121, '多啦A梦卡贴', '/upload/images/20220418/1650215451379227.jpg', '5.00', '1.00', 1, 1654080136, 6, 0, 'O', 'O赏', 0, 11),
-(339, 51, 4, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1654080163, 1, 2, 'H', 'H赏', 0, 66),
-(340, 52, 4, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1654080259, 1, 2, 'H', 'H赏', 0, 67),
-(341, 53, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1654080267, 1, 2, 'H', 'H赏', 0, 68),
-(342, 53, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1654080267, 1, 2, 'H', 'H赏', 0, 69),
-(343, 53, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1654080267, 1, 2, 'H', 'H赏', 0, 70),
-(344, 53, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1654080267, 1, 2, 'H', 'H赏', 0, 71),
-(345, 53, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1654080267, 1, 2, 'H', 'H赏', 0, 72),
-(346, 54, 1, 4, 'zero女帝芳香脚', '/upload/images/20220416/1650039411266671.jpg', '88.00', '700.00', 1, 1654080346, 1, 2, 'A', 'A赏', 0, 73),
-(347, 54, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1654080346, 1, 2, 'H', 'H赏', 0, 74),
-(348, 54, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1654080346, 1, 2, 'H', 'H赏', 0, 75),
-(349, 54, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1654080346, 1, 2, 'H', 'H赏', 0, 76),
-(350, 54, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1654080346, 1, 2, 'H', 'H赏', 0, 77),
-(351, 55, 1, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1654080437, 1, 2, 'H', 'H赏', 0, 78),
-(352, 56, 3, 11, '帅LIU潮卷', '/upload/images/20220416/165003956756871.jpg', '88.00', '1.00', 1, 1654080509, 1, 2, 'H', 'H赏', 0, 79),
-(353, 57, 4, 121, '多啦A梦卡贴', '/upload/images/20220418/1650215451379227.jpg', '5.00', '1.00', 1, 1654080527, 6, 0, 'O', 'O赏', 0, 12),
-(354, 58, 3, 25, '帅LIU潮卷', '/upload/images/20220416/1650042926262367.jpg', '56.00', '1.00', 1, 1654086591, 3, 152, 'Challenge', '挑战者', 0, 1),
-(355, 58, 3, 25, '帅LIU潮卷', '/upload/images/20220416/1650042926262367.jpg', '56.00', '1.00', 1, 1654086591, 3, 152, 'Challenge', '挑战者', 0, 2),
-(356, 59, 3, 8, 'zero罗杰', '/upload/images/20220416/165003951511349.jpg', '88.00', '320.00', 1, 1654331859, 1, 2, 'E', 'E赏', 0, 80),
-(357, 45, 4, 2, 'popwa罗', '/upload/images/20220416/1650039365546039.jpg', '88.00', '1299.00', 1, 1654331859, 1, 2, 'Last', 'Last赏', 1, 82);
-
--- --------------------------------------------------------
+LOCK TABLES `dl_order_goods` WRITE;
+/*!40000 ALTER TABLE `dl_order_goods` DISABLE KEYS */;
+INSERT INTO `dl_order_goods` VALUES (1,1,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653722051,1,1,'H','H赏',0,1),(2,1,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653722051,1,1,'H','H赏',0,2),(3,1,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653722051,1,1,'H','H赏',0,3),(4,1,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653722051,1,1,'H','H赏',0,4),(5,1,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653722051,1,1,'H','H赏',0,5),(6,1,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653722051,1,1,'H','H赏',0,6),(7,1,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653722051,1,1,'H','H赏',0,7),(8,1,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653722051,1,1,'H','H赏',0,8),(9,1,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653722051,1,1,'H','H赏',0,9),(10,1,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653722051,1,1,'H','H赏',0,10),(11,2,3,42,'帅LIU潮卷','/upload/images/20220416/1650047457838881.jpg','44.00',1.00,3,1653902739,4,251,'Challenge','挑战者',0,4),(12,2,3,42,'帅LIU潮卷','/upload/images/20220416/1650047457838881.jpg','44.00',1.00,3,1653902739,4,251,'Challenge','挑战者',0,5),(13,2,3,42,'帅LIU潮卷','/upload/images/20220416/1650047457838881.jpg','44.00',1.00,3,1653902739,4,251,'Challenge','挑战者',0,3),(14,2,3,42,'帅LIU潮卷','/upload/images/20220416/1650047457838881.jpg','44.00',1.00,3,1653902739,4,251,'Challenge','挑战者',0,1),(15,2,3,42,'帅LIU潮卷','/upload/images/20220416/1650047457838881.jpg','44.00',1.00,3,1653902739,4,251,'Challenge','挑战者',0,2),(16,2,3,38,'雕像香薰蜡烛','/upload/images/20220416/1650047394907810.png','44.00',85.00,3,1653902739,4,251,'War','战利品',1,6),(17,2,3,39,'香薰蜡烛','/upload/images/20220416/1650047411323103.png','44.00',55.00,3,1653902739,4,251,'War','战利品',1,7),(18,2,3,40,'蜡烛无烟熏香','/upload/images/20220416/1650047428220155.png','44.00',35.00,3,1653902739,4,251,'War','战利品',1,8),(19,2,3,41,'浪漫无烟蜡烛灯','/upload/images/20220416/1650047442603558.png','44.00',20.00,3,1653902739,4,251,'War','战利品',1,9),(20,3,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902758,1,1,'H','H赏',0,11),(21,4,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902772,1,1,'H','H赏',0,12),(22,4,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902772,1,1,'H','H赏',0,13),(23,4,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902772,1,1,'H','H赏',0,14),(24,4,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902772,1,1,'H','H赏',0,15),(25,4,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902772,1,1,'H','H赏',0,16),(26,4,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902772,1,1,'H','H赏',0,17),(27,4,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902772,1,1,'H','H赏',0,18),(28,4,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902772,1,1,'H','H赏',0,19),(29,4,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902772,1,1,'H','H赏',0,20),(30,4,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902772,1,1,'H','H赏',0,21),(31,5,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902777,1,1,'H','H赏',0,22),(32,5,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902777,1,1,'H','H赏',0,23),(33,5,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902777,1,1,'H','H赏',0,24),(34,5,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902777,1,1,'H','H赏',0,25),(35,5,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902777,1,1,'H','H赏',0,26),(36,5,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902777,1,1,'H','H赏',0,27),(37,5,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902777,1,1,'H','H赏',0,28),(38,5,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902777,1,1,'H','H赏',0,29),(39,5,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902777,1,1,'H','H赏',0,30),(40,5,3,3,'popwa乔巴','/upload/images/20220416/1650039390951194.jpg','88.00',888.00,3,1653902777,1,1,'SP','SP赏',0,31),(41,6,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902782,1,1,'H','H赏',0,32),(42,6,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902782,1,1,'H','H赏',0,33),(43,6,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902782,1,1,'H','H赏',0,34),(44,6,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902782,1,1,'H','H赏',0,35),(45,6,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902782,1,1,'H','H赏',0,36),(46,6,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902782,1,1,'H','H赏',0,37),(47,6,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902782,1,1,'H','H赏',0,38),(48,6,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902782,1,1,'H','H赏',0,39),(49,6,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902782,1,1,'H','H赏',0,40),(50,6,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902782,1,1,'H','H赏',0,41),(51,5,3,1,'popmax老沙','/upload/images/20220416/1650039333687705.jpg','88.00',1599.00,3,1653902782,1,1,'First','First赏',1,81),(52,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,42),(53,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,43),(54,7,3,5,'zero黄猿','/upload/images/20220416/1650039441976891.png','88.00',450.00,3,1653902788,1,1,'B','B赏',0,44),(55,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,45),(56,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,46),(57,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,47),(58,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,48),(59,7,3,6,'zero赤犬','/upload/images/20220416/1650039458682457.jpg','88.00',400.00,3,1653902788,1,1,'C','C赏',0,49),(60,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,50),(61,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,51),(62,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,52),(63,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,53),(64,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,54),(65,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,55),(66,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,56),(67,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,57),(68,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,58),(69,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,59),(70,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,60),(71,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,61),(72,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,62),(73,7,3,7,'zero青雉','/upload/images/20220416/1650039478232589.jpg','88.00',350.00,3,1653902788,1,1,'D','D赏',0,63),(74,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,64),(75,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,65),(76,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,66),(77,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,67),(78,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,68),(79,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,69),(80,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,70),(81,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,71),(82,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,72),(83,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,73),(84,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,74),(85,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,75),(86,7,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653902788,1,1,'H','H赏',0,76),(87,7,3,8,'zero罗杰','/upload/images/20220416/165003951511349.jpg','88.00',320.00,3,1653902788,1,1,'E','E赏',0,77),(88,7,3,10,'女帝景品','/upload/images/20220416/1650039551128762.jpg','88.00',100.00,3,1653902788,1,1,'G','G赏',0,78),(89,7,3,4,'zero女帝芳香脚','/upload/images/20220416/1650039411266671.jpg','88.00',700.00,3,1653902788,1,1,'A','A赏',0,79),(90,7,3,9,'zero御田','/upload/images/20220416/1650039534611656.png','88.00',220.00,3,1653902788,1,1,'F','F赏',0,80),(91,7,3,2,'popwa罗','/upload/images/20220416/1650039365546039.jpg','88.00',1299.00,2,1653902788,1,1,'Last','Last赏',1,82),(92,8,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903237,2,101,'J','J赏',0,1),(93,8,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903237,2,101,'J','J赏',0,2),(94,8,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903237,2,101,'J','J赏',0,3),(95,8,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903237,2,101,'J','J赏',0,4),(96,8,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903237,2,101,'J','J赏',0,5),(97,8,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903237,2,101,'J','J赏',0,6),(98,8,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903237,2,101,'J','J赏',0,7),(99,8,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903237,2,101,'J','J赏',0,8),(100,8,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903237,2,101,'J','J赏',0,9),(101,8,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903237,2,101,'J','J赏',0,10),(102,9,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903243,2,101,'J','J赏',0,11),(103,9,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903243,2,101,'J','J赏',0,12),(104,9,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903243,2,101,'J','J赏',0,13),(105,9,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903243,2,101,'J','J赏',0,14),(106,9,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903243,2,101,'J','J赏',0,15),(107,9,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903243,2,101,'J','J赏',0,16),(108,9,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903243,2,101,'J','J赏',0,17),(109,9,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903243,2,101,'J','J赏',0,18),(110,9,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903243,2,101,'J','J赏',0,19),(111,9,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903243,2,101,'J','J赏',0,20),(112,10,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903250,2,101,'J','J赏',0,21),(113,10,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903250,2,101,'J','J赏',0,22),(114,10,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903250,2,101,'J','J赏',0,23),(115,10,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903250,2,101,'J','J赏',0,24),(116,10,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903250,2,101,'J','J赏',0,25),(117,10,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903250,2,101,'J','J赏',0,26),(118,10,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903250,2,101,'J','J赏',0,27),(119,10,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903250,2,101,'J','J赏',0,28),(120,10,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903250,2,101,'J','J赏',0,29),(121,10,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903250,2,101,'J','J赏',0,30),(122,11,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903254,2,101,'J','J赏',0,31),(123,11,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903254,2,101,'J','J赏',0,32),(124,11,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903254,2,101,'J','J赏',0,33),(125,11,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903254,2,101,'J','J赏',0,34),(126,11,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903254,2,101,'J','J赏',0,35),(127,11,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903254,2,101,'J','J赏',0,36),(128,11,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903254,2,101,'J','J赏',0,37),(129,11,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903254,2,101,'J','J赏',0,38),(130,11,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903254,2,101,'J','J赏',0,39),(131,11,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903254,2,101,'J','J赏',0,40),(132,12,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903258,2,101,'J','J赏',0,41),(133,12,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903258,2,101,'J','J赏',0,42),(134,12,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903258,2,101,'J','J赏',0,43),(135,12,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903258,2,101,'J','J赏',0,44),(136,12,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903258,2,101,'J','J赏',0,45),(137,12,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903258,2,101,'J','J赏',0,46),(138,12,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903258,2,101,'J','J赏',0,47),(139,12,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903258,2,101,'J','J赏',0,48),(140,12,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903258,2,101,'J','J赏',0,49),(141,12,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903258,2,101,'J','J赏',0,50),(142,13,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903261,2,101,'J','J赏',0,51),(143,13,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903261,2,101,'J','J赏',0,52),(144,13,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903261,2,101,'J','J赏',0,53),(145,13,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903261,2,101,'J','J赏',0,54),(146,13,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903261,2,101,'J','J赏',0,55),(147,13,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903261,2,101,'J','J赏',0,56),(148,13,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903261,2,101,'J','J赏',0,57),(149,13,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903261,2,101,'J','J赏',0,58),(150,13,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903261,2,101,'J','J赏',0,59),(151,13,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903261,2,101,'J','J赏',0,60),(152,14,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903265,2,101,'J','J赏',0,61),(153,14,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903265,2,101,'J','J赏',0,62),(154,14,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903265,2,101,'J','J赏',0,63),(155,14,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903265,2,101,'J','J赏',0,64),(156,14,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903265,2,101,'J','J赏',0,65),(157,14,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903265,2,101,'J','J赏',0,66),(158,14,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903265,2,101,'J','J赏',0,67),(159,14,3,49,'布罗利gk','/upload/images/20220416/1650048037924962.png','13.00',550.00,2,1653903265,2,101,'D','D赏',0,68),(160,14,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903265,2,101,'J','J赏',0,69),(161,14,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903265,2,101,'J','J赏',0,70),(162,15,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903268,2,101,'J','J赏',0,71),(163,15,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903268,2,101,'J','J赏',0,72),(164,15,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903268,2,101,'J','J赏',0,73),(165,15,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903268,2,101,'J','J赏',0,74),(166,15,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903268,2,101,'J','J赏',0,75),(167,15,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903268,2,101,'J','J赏',0,76),(168,15,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903268,2,101,'J','J赏',0,77),(169,15,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903268,2,101,'J','J赏',0,78),(170,15,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903268,2,101,'J','J赏',0,79),(171,15,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903268,2,101,'J','J赏',0,80),(172,16,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903271,2,101,'J','J赏',0,81),(173,16,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903271,2,101,'J','J赏',0,82),(174,16,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903271,2,101,'J','J赏',0,83),(175,16,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903271,2,101,'J','J赏',0,84),(176,16,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903271,2,101,'J','J赏',0,85),(177,16,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903271,2,101,'J','J赏',0,86),(178,16,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903271,2,101,'J','J赏',0,87),(179,16,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903271,2,101,'J','J赏',0,88),(180,16,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903271,2,101,'J','J赏',0,89),(181,16,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903271,2,101,'J','J赏',0,90),(182,17,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903275,2,101,'J','J赏',0,91),(183,17,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903275,2,101,'J','J赏',0,92),(184,17,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903275,2,101,'J','J赏',0,93),(185,17,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903275,2,101,'J','J赏',0,94),(186,17,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903275,2,101,'J','J赏',0,95),(187,17,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903275,2,101,'J','J赏',0,96),(188,17,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903275,2,101,'J','J赏',0,97),(189,17,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903275,2,101,'J','J赏',0,98),(190,17,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903275,2,101,'J','J赏',0,99),(191,17,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903275,2,101,'J','J赏',0,100),(192,18,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903278,2,101,'J','J赏',0,101),(193,18,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903278,2,101,'J','J赏',0,102),(194,18,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903278,2,101,'J','J赏',0,103),(195,18,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903278,2,101,'J','J赏',0,104),(196,18,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903278,2,101,'J','J赏',0,105),(197,18,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903278,2,101,'J','J赏',0,106),(198,18,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903278,2,101,'J','J赏',0,107),(199,18,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903278,2,101,'J','J赏',0,108),(200,18,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903278,2,101,'J','J赏',0,109),(201,18,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903278,2,101,'J','J赏',0,110),(202,19,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903282,2,101,'J','J赏',0,111),(203,19,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903282,2,101,'J','J赏',0,112),(204,19,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903282,2,101,'J','J赏',0,113),(205,19,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903282,2,101,'J','J赏',0,114),(206,19,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903282,2,101,'J','J赏',0,115),(207,19,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903282,2,101,'J','J赏',0,116),(208,19,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903282,2,101,'J','J赏',0,117),(209,19,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903282,2,101,'J','J赏',0,118),(210,19,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903282,2,101,'J','J赏',0,119),(211,19,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,3,1653903282,2,101,'J','J赏',0,120),(212,20,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653905444,1,2,'H','H赏',0,1),(213,21,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653905451,1,2,'H','H赏',0,2),(214,22,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653905480,1,2,'H','H赏',0,3),(215,23,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,5,1653905754,1,2,'H','H赏',0,4),(216,23,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,5,1653905754,1,2,'H','H赏',0,5),(217,23,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,5,1653905754,1,2,'H','H赏',0,6),(218,23,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,5,1653905754,1,2,'H','H赏',0,7),(219,23,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,5,1653905754,1,2,'H','H赏',0,8),(220,23,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,5,1653905754,1,2,'H','H赏',0,9),(221,23,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,5,1653905754,1,2,'H','H赏',0,10),(222,23,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,5,1653905754,1,2,'H','H赏',0,11),(223,23,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653905754,1,2,'H','H赏',0,12),(224,23,1,9,'zero御田','/upload/images/20220416/1650039534611656.png','88.00',220.00,5,1653905754,1,2,'F','F赏',0,13),(225,24,1,121,'多啦A梦卡贴','/upload/images/20220418/1650215451379227.jpg','5.00',1.00,3,1653906042,6,0,'O','O赏',0,1),(226,24,1,121,'多啦A梦卡贴','/upload/images/20220418/1650215451379227.jpg','5.00',1.00,3,1653906042,6,0,'O','O赏',0,2),(227,24,1,121,'多啦A梦卡贴','/upload/images/20220418/1650215451379227.jpg','5.00',1.00,3,1653906042,6,0,'O','O赏',0,3),(228,24,1,121,'多啦A梦卡贴','/upload/images/20220418/1650215451379227.jpg','5.00',1.00,3,1653906042,6,0,'O','O赏',0,4),(229,24,1,121,'多啦A梦卡贴','/upload/images/20220418/1650215451379227.jpg','5.00',1.00,3,1653906042,6,0,'O','O赏',0,5),(230,25,2,7,'zero青雉','/upload/images/20220416/1650039478232589.jpg','88.00',350.00,3,1653965641,1,2,'D','D赏',0,14),(231,26,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653965881,1,2,'H','H赏',0,15),(232,27,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1653965945,1,2,'H','H赏',0,16),(233,27,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1653965945,1,2,'H','H赏',0,17),(234,27,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1653965945,1,2,'H','H赏',0,18),(235,27,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1653965945,1,2,'H','H赏',0,19),(236,27,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1653965945,1,2,'H','H赏',0,20),(237,28,2,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,1,1653965959,2,101,'J','J赏',0,121),(238,28,2,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,1,1653965959,2,101,'J','J赏',0,122),(239,28,2,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,1,1653965959,2,101,'J','J赏',0,123),(240,28,2,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,1,1653965959,2,101,'J','J赏',0,124),(241,28,2,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,1,1653965959,2,101,'J','J赏',0,125),(242,28,2,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,1,1653965959,2,101,'J','J赏',0,126),(243,28,2,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,1,1653965959,2,101,'J','J赏',0,127),(244,28,2,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,1,1653965959,2,101,'J','J赏',0,128),(245,28,2,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,1,1653965959,2,101,'J','J赏',0,129),(246,28,2,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,1,1653965959,2,101,'J','J赏',0,130),(247,29,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1653966023,1,2,'H','H赏',0,21),(248,29,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1653966023,1,2,'H','H赏',0,22),(249,29,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1653966023,1,2,'H','H赏',0,23),(250,29,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1653966023,1,2,'H','H赏',0,24),(251,29,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1653966023,1,2,'H','H赏',0,25),(252,29,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1653966023,1,2,'H','H赏',0,26),(253,29,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1653966023,1,2,'H','H赏',0,27),(254,29,2,3,'popwa乔巴','/upload/images/20220416/1650039390951194.jpg','88.00',888.00,1,1653966023,1,2,'SP','SP赏',0,28),(255,29,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1653966023,1,2,'H','H赏',0,29),(256,29,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1653966023,1,2,'H','H赏',0,30),(257,30,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1653978055,1,2,'H','H赏',0,31),(258,30,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1653978055,1,2,'H','H赏',0,32),(259,30,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1653978055,1,2,'H','H赏',0,33),(260,30,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1653978055,1,2,'H','H赏',0,34),(261,30,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1653978055,1,2,'H','H赏',0,35),(262,30,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1653978055,1,2,'H','H赏',0,36),(263,30,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1653978055,1,2,'H','H赏',0,37),(264,30,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1653978055,1,2,'H','H赏',0,38),(265,30,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1653978055,1,2,'H','H赏',0,39),(266,30,2,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1653978055,1,2,'H','H赏',0,40),(267,29,2,1,'popmax老沙','/upload/images/20220416/1650039333687705.jpg','88.00',1599.00,1,1653978055,1,2,'First','First赏',1,81),(268,31,4,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653983168,1,2,'H','H赏',0,41),(269,31,4,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653983168,1,2,'H','H赏',0,42),(270,31,4,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653983168,1,2,'H','H赏',0,43),(271,31,4,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653983168,1,2,'H','H赏',0,44),(272,31,4,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653983168,1,2,'H','H赏',0,45),(273,32,4,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653983791,1,2,'H','H赏',0,46),(274,33,4,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653984729,1,2,'H','H赏',0,47),(275,34,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653985601,1,2,'H','H赏',0,48),(276,34,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653985601,1,2,'H','H赏',0,49),(277,34,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653985601,1,2,'H','H赏',0,50),(278,34,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653985601,1,2,'H','H赏',0,51),(279,34,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653985601,1,2,'H','H赏',0,52),(280,34,1,5,'zero黄猿','/upload/images/20220416/1650039441976891.png','88.00',450.00,3,1653985601,1,2,'B','B赏',0,53),(281,34,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653985601,1,2,'H','H赏',0,54),(282,34,1,10,'女帝景品','/upload/images/20220416/1650039551128762.jpg','88.00',100.00,3,1653985601,1,2,'G','G赏',0,55),(283,34,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653985601,1,2,'H','H赏',0,56),(284,34,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,3,1653985601,1,2,'H','H赏',0,57),(285,35,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,2,1654076279,1,2,'H','H赏',0,58),(286,35,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,2,1654076279,1,2,'H','H赏',0,59),(287,35,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,2,1654076279,1,2,'H','H赏',0,60),(288,35,3,6,'zero赤犬','/upload/images/20220416/1650039458682457.jpg','88.00',400.00,2,1654076279,1,2,'C','C赏',0,61),(289,35,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,2,1654076279,1,2,'H','H赏',0,62),(290,36,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,2,1654077486,5,451,'Challenge','挑战者',0,50),(291,36,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,2,1654077486,5,451,'Challenge','挑战者',0,72),(292,36,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,2,1654077486,5,451,'Challenge','挑战者',0,51),(293,36,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,2,1654077486,5,451,'Challenge','挑战者',0,78),(294,36,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,2,1654077486,5,451,'Challenge','挑战者',0,76),(295,36,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,2,1654077486,5,451,'Challenge','挑战者',0,95),(296,36,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,2,1654077486,5,451,'Challenge','挑战者',0,70),(297,36,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,2,1654077486,5,451,'Challenge','挑战者',0,49),(298,36,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,2,1654077486,5,451,'Challenge','挑战者',0,1),(299,36,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,2,1654077486,5,451,'Challenge','挑战者',0,44),(300,37,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,2,1654077511,5,451,'Challenge','挑战者',0,93),(301,37,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,2,1654077511,5,451,'Challenge','挑战者',0,84),(302,37,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,2,1654077511,5,451,'Challenge','挑战者',0,65),(303,37,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,2,1654077511,5,451,'Challenge','挑战者',0,37),(304,37,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,2,1654077511,5,451,'Challenge','挑战者',0,63),(305,38,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,2,1654077517,5,451,'Challenge','挑战者',0,31),(306,38,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,2,1654077517,5,451,'Challenge','挑战者',0,4),(307,38,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,2,1654077517,5,451,'Challenge','挑战者',0,29),(308,38,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,2,1654077517,5,451,'Challenge','挑战者',0,69),(309,38,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,2,1654077517,5,451,'Challenge','挑战者',0,30),(310,38,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,2,1654077517,5,451,'Challenge','挑战者',0,94),(311,38,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,2,1654077517,5,451,'Challenge','挑战者',0,77),(312,38,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,2,1654077517,5,451,'Challenge','挑战者',0,2),(313,38,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,2,1654077517,5,451,'Challenge','挑战者',0,88),(314,38,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,2,1654077517,5,451,'Challenge','挑战者',0,9),(315,39,3,42,'帅LIU潮卷','/upload/images/20220416/1650047457838881.jpg','44.00',1.00,2,1654077620,4,252,'Challenge','挑战者',0,4),(316,39,3,42,'帅LIU潮卷','/upload/images/20220416/1650047457838881.jpg','44.00',1.00,2,1654077620,4,252,'Challenge','挑战者',0,1),(317,40,3,121,'多啦A梦卡贴','/upload/images/20220418/1650215451379227.jpg','5.00',1.00,2,1654077653,6,0,'O','O赏',0,6),(318,40,3,121,'多啦A梦卡贴','/upload/images/20220418/1650215451379227.jpg','5.00',1.00,2,1654077653,6,0,'O','O赏',0,7),(319,40,3,121,'多啦A梦卡贴','/upload/images/20220418/1650215451379227.jpg','5.00',1.00,2,1654077653,6,0,'O','O赏',0,8),(320,40,3,119,'沙扎比','/upload/images/20220418/1650214941766925.png','5.00',40.00,2,1654077653,6,0,'N','N赏',0,9),(321,40,3,121,'多啦A梦卡贴','/upload/images/20220418/1650215451379227.jpg','5.00',1.00,2,1654077653,6,0,'O','O赏',0,10),(322,41,3,25,'帅LIU潮卷','/upload/images/20220416/1650042926262367.jpg','56.00',1.00,1,1654077912,3,151,'Challenge','挑战者',0,2),(323,41,3,25,'帅LIU潮卷','/upload/images/20220416/1650042926262367.jpg','56.00',1.00,1,1654077912,3,151,'Challenge','挑战者',0,1),(324,42,3,25,'帅LIU潮卷','/upload/images/20220416/1650042926262367.jpg','56.00',1.00,1,1654077921,3,151,'Challenge','挑战者',0,3),(325,41,3,23,'太空人钓星星','/upload/images/20220416/1650042874549382.jpg','56.00',85.00,1,1654077921,3,151,'War','战利品',1,4),(326,41,3,24,'星空太空人深思','/upload/images/20220416/1650042909443830.jpg','56.00',65.00,2,1654077921,3,151,'War','战利品',1,5),(327,43,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,1,1654077997,2,101,'J','J赏',0,131),(328,44,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,1,1654078039,2,101,'J','J赏',0,132),(329,44,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,1,1654078039,2,101,'J','J赏',0,133),(330,44,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,1,1654078039,2,101,'J','J赏',0,134),(331,44,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,1,1654078039,2,101,'J','J赏',0,135),(332,44,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,1,1654078039,2,101,'J','J赏',0,136),(333,45,4,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1654078272,1,2,'H','H赏',0,63),(334,46,4,42,'帅LIU潮卷','/upload/images/20220416/1650047457838881.jpg','44.00',1.00,1,1654079742,4,252,'Challenge','挑战者',0,2),(335,47,4,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1654079931,1,2,'H','H赏',0,64),(336,48,4,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1654079977,1,2,'H','H赏',0,65),(337,49,4,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,1,1654080028,5,451,'Challenge','挑战者',0,26),(338,50,4,121,'多啦A梦卡贴','/upload/images/20220418/1650215451379227.jpg','5.00',1.00,1,1654080136,6,0,'O','O赏',0,11),(339,51,4,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1654080163,1,2,'H','H赏',0,66),(340,52,4,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1654080259,1,2,'H','H赏',0,67),(341,53,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1654080267,1,2,'H','H赏',0,68),(342,53,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1654080267,1,2,'H','H赏',0,69),(343,53,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1654080267,1,2,'H','H赏',0,70),(344,53,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1654080267,1,2,'H','H赏',0,71),(345,53,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1654080267,1,2,'H','H赏',0,72),(346,54,1,4,'zero女帝芳香脚','/upload/images/20220416/1650039411266671.jpg','88.00',700.00,1,1654080346,1,2,'A','A赏',0,73),(347,54,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1654080346,1,2,'H','H赏',0,74),(348,54,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1654080346,1,2,'H','H赏',0,75),(349,54,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1654080346,1,2,'H','H赏',0,76),(350,54,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1654080346,1,2,'H','H赏',0,77),(351,55,1,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1654080437,1,2,'H','H赏',0,78),(352,56,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1654080509,1,2,'H','H赏',0,79),(353,57,4,121,'多啦A梦卡贴','/upload/images/20220418/1650215451379227.jpg','5.00',1.00,1,1654080527,6,0,'O','O赏',0,12),(354,58,3,25,'帅LIU潮卷','/upload/images/20220416/1650042926262367.jpg','56.00',1.00,1,1654086591,3,152,'Challenge','挑战者',0,1),(355,58,3,25,'帅LIU潮卷','/upload/images/20220416/1650042926262367.jpg','56.00',1.00,1,1654086591,3,152,'Challenge','挑战者',0,2),(356,59,3,8,'zero罗杰','/upload/images/20220416/165003951511349.jpg','88.00',320.00,1,1654331859,1,2,'E','E赏',0,80),(357,45,4,2,'popwa罗','/upload/images/20220416/1650039365546039.jpg','88.00',1299.00,1,1654331859,1,2,'Last','Last赏',1,82),(358,60,3,55,'帅LIU潮卷','/upload/images/20220416/1650048147875118.jpg','13.00',1.00,1,1655702899,2,141,'J','J赏',0,1),(359,61,3,42,'帅LIU潮卷','/upload/images/20220416/1650047457838881.jpg','44.00',1.00,1,1655731929,4,252,'Challenge','挑战者',0,3),(360,62,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1655732012,1,3,'H','H赏',0,1),(361,63,3,11,'帅LIU潮卷','/upload/images/20220416/165003956756871.jpg','88.00',1.00,1,1655732042,1,3,'H','H赏',0,2),(362,64,3,25,'帅LIU潮卷','/upload/images/20220416/1650042926262367.jpg','56.00',1.00,1,1655814489,3,152,'Challenge','挑战者',0,2),(363,64,3,23,'太空人钓星星','/upload/images/20220416/1650042874549382.jpg','56.00',85.00,1,1655814489,3,152,'War','战利品',1,4),(364,58,3,24,'星空太空人深思','/upload/images/20220416/1650042909443830.jpg','56.00',65.00,1,1655814489,3,152,'War','战利品',1,5),(365,65,3,25,'帅LIU潮卷','/upload/images/20220416/1650042926262367.jpg','56.00',1.00,1,1655814505,3,202,'Challenge','挑战者',0,2),(366,66,3,25,'帅LIU潮卷','/upload/images/20220416/1650042926262367.jpg','56.00',1.00,1,1655814511,3,202,'Challenge','挑战者',0,3),(367,66,3,25,'帅LIU潮卷','/upload/images/20220416/1650042926262367.jpg','56.00',1.00,1,1655814511,3,202,'Challenge','挑战者',0,1),(368,65,3,23,'太空人钓星星','/upload/images/20220416/1650042874549382.jpg','56.00',85.00,1,1655814511,3,202,'War','战利品',1,4),(369,66,3,24,'星空太空人深思','/upload/images/20220416/1650042909443830.jpg','56.00',65.00,1,1655814511,3,202,'War','战利品',1,5),(370,67,3,25,'帅LIU潮卷','/upload/images/20220416/1650042926262367.jpg','56.00',1.00,1,1655814581,3,211,'Challenge','挑战者',0,2),(371,67,3,25,'帅LIU潮卷','/upload/images/20220416/1650042926262367.jpg','56.00',1.00,1,1655814581,3,211,'Challenge','挑战者',0,3),(372,68,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,1,1655814687,5,451,'Challenge','挑战者',0,52),(373,68,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,1,1655814687,5,451,'Challenge','挑战者',0,35),(374,68,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,1,1655814687,5,451,'Challenge','挑战者',0,95),(375,68,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,1,1655814687,5,451,'Challenge','挑战者',0,22),(376,68,3,83,'帅LIU潮卷','/upload/images/20220417/1650210391920032.jpg','9.00',1.00,1,1655814687,5,451,'Challenge','挑战者',0,92),(377,69,3,25,'帅LIU潮卷','/upload/images/20220416/1650042926262367.jpg','56.00',1.00,1,1655814725,3,153,'Challenge','挑战者',0,2),(378,70,3,121,'多啦A梦卡贴','/upload/images/20220418/1650215451379227.jpg','5.00',1.00,1,1655815706,6,0,'O','O赏',0,13),(379,71,3,1,'popmax老沙','/upload/images/20220416/1650039333687705.jpg','88.00',1599.00,2,1655923240,8,551,'A','A赏',0,1),(380,72,3,121,'多啦A梦卡贴','/upload/images/20220418/1650215451379227.jpg','5.00',1.00,1,1657117457,6,0,'O','O赏',0,14),(381,73,3,1,'popmax老沙','/upload/images/20220416/1650039333687705.jpg','88.00',1599.00,2,1657330617,8,552,'A','A赏',0,1),(382,74,3,1,'popmax老沙','/upload/images/20220416/1650039333687705.jpg','88.00',1599.00,2,1657347042,8,553,'A','A赏',0,1),(383,75,3,1,'popmax老沙','/upload/images/20220416/1650039333687705.jpg','88.00',1599.00,2,1657635005,8,554,'A','A赏',0,1),(384,76,3,221,'限量弹珠一个','/upload/images/20220429/1651171753517563.jpg','5.00',1.00,2,1658238316,9,561,'A','A赏',0,1),(385,77,3,1,'popmax老沙','/upload/images/20220416/1650039333687705.jpg','88.00',1599.00,1,1658301554,8,555,'A','A赏',0,1);
+/*!40000 ALTER TABLE `dl_order_goods` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_order_pay`
 --
 
+DROP TABLE IF EXISTS `dl_order_pay`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_order_pay` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `oid` int(10) NOT NULL COMMENT '订单ID',
   `pay_price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '支付金额',
   `pay_name` varchar(20) NOT NULL COMMENT '支付方式（中文）',
   `pay_type` varchar(20) NOT NULL COMMENT '支付方式（字符串）',
-  `create_time` int(10) NOT NULL COMMENT '时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='支付记录表';
+  `create_time` int(10) NOT NULL COMMENT '时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8mb4 COMMENT='支付记录表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_order_pay`
 --
 
-INSERT INTO `dl_order_pay` (`id`, `oid`, `pay_price`, `pay_name`, `pay_type`, `create_time`) VALUES
-(1, 1, '880.00', '余额', 'balance', 1653722051),
-(2, 2, '220.00', '余额', 'balance', 1653902739),
-(3, 3, '88.00', '余额', 'balance', 1653902758),
-(4, 4, '880.00', '余额', 'balance', 1653902772),
-(5, 5, '880.00', '余额', 'balance', 1653902777),
-(6, 6, '880.00', '余额', 'balance', 1653902782),
-(7, 7, '3432.00', '余额', 'balance', 1653902788),
-(8, 8, '130.00', '余额', 'balance', 1653903237),
-(9, 9, '130.00', '余额', 'balance', 1653903243),
-(10, 10, '130.00', '余额', 'balance', 1653903250),
-(11, 11, '130.00', '余额', 'balance', 1653903254),
-(12, 12, '130.00', '余额', 'balance', 1653903258),
-(13, 13, '130.00', '余额', 'balance', 1653903261),
-(14, 14, '130.00', '余额', 'balance', 1653903265),
-(15, 15, '130.00', '余额', 'balance', 1653903268),
-(16, 16, '130.00', '余额', 'balance', 1653903271),
-(17, 17, '130.00', '余额', 'balance', 1653903275),
-(18, 18, '130.00', '余额', 'balance', 1653903278),
-(19, 19, '130.00', '余额', 'balance', 1653903282),
-(20, 20, '88.00', '潮玩币', 'score', 1653905444),
-(21, 21, '88.00', '潮玩币', 'score', 1653905451),
-(22, 22, '24.00', '潮玩币', 'score', 1653905480),
-(23, 22, '64.00', '余额', 'balance', 1653905480),
-(24, 23, '880.00', '余额', 'balance', 1653905754),
-(25, 24, '25.00', '余额', 'balance', 1653906042),
-(26, 25, '88.00', '潮玩币', 'score', 1653965641),
-(27, 26, '88.00', '潮玩币', 'score', 1653965881),
-(28, 27, '440.00', '潮玩币', 'score', 1653965944),
-(29, 28, '130.00', '潮玩币', 'score', 1653965959),
-(30, 29, '254.00', '潮玩币', 'score', 1653966023),
-(31, 29, '626.00', '余额', 'balance', 1653966023),
-(32, 30, '880.00', '余额', 'balance', 1653978055),
-(33, 31, '440.00', '余额', 'balance', 1653983168),
-(34, 32, '88.00', '余额', 'balance', 1653983791),
-(35, 33, '88.00', '余额', 'balance', 1653984729),
-(36, 34, '880.00', '余额', 'balance', 1653985601),
-(37, 35, '440.00', '余额', 'balance', 1654076279),
-(38, 36, '90.00', '余额', 'balance', 1654077486),
-(39, 37, '45.00', '余额', 'balance', 1654077511),
-(40, 38, '90.00', '余额', 'balance', 1654077517),
-(41, 39, '88.00', '余额', 'balance', 1654077620),
-(42, 40, '25.00', '余额', 'balance', 1654077653),
-(43, 41, '112.00', '余额', 'balance', 1654077912),
-(44, 42, '56.00', '余额', 'balance', 1654077921),
-(45, 43, '13.00', '余额', 'balance', 1654077997),
-(46, 44, '65.00', '余额', 'balance', 1654078039),
-(47, 45, '88.00', '余额', 'balance', 1654078272),
-(48, 46, '44.00', '余额', 'balance', 1654079742),
-(49, 47, '88.00', '余额', 'balance', 1654079931),
-(50, 48, '88.00', '余额', 'balance', 1654079977),
-(51, 49, '9.00', '余额', 'balance', 1654080028),
-(52, 50, '5.00', '余额', 'balance', 1654080136),
-(53, 51, '88.00', '余额', 'balance', 1654080163),
-(54, 52, '88.00', '余额', 'balance', 1654080259),
-(55, 53, '440.00', '余额', 'balance', 1654080267),
-(56, 54, '440.00', '余额', 'balance', 1654080346),
-(57, 55, '88.00', '余额', 'balance', 1654080437),
-(58, 56, '88.00', '余额', 'balance', 1654080509),
-(59, 57, '5.00', '余额', 'balance', 1654080527),
-(60, 58, '112.00', '余额', 'balance', 1654086591),
-(61, 59, '88.00', '余额', 'balance', 1654331859);
-
--- --------------------------------------------------------
+LOCK TABLES `dl_order_pay` WRITE;
+/*!40000 ALTER TABLE `dl_order_pay` DISABLE KEYS */;
+INSERT INTO `dl_order_pay` VALUES (1,1,880.00,'余额','balance',1653722051),(2,2,220.00,'余额','balance',1653902739),(3,3,88.00,'余额','balance',1653902758),(4,4,880.00,'余额','balance',1653902772),(5,5,880.00,'余额','balance',1653902777),(6,6,880.00,'余额','balance',1653902782),(7,7,3432.00,'余额','balance',1653902788),(8,8,130.00,'余额','balance',1653903237),(9,9,130.00,'余额','balance',1653903243),(10,10,130.00,'余额','balance',1653903250),(11,11,130.00,'余额','balance',1653903254),(12,12,130.00,'余额','balance',1653903258),(13,13,130.00,'余额','balance',1653903261),(14,14,130.00,'余额','balance',1653903265),(15,15,130.00,'余额','balance',1653903268),(16,16,130.00,'余额','balance',1653903271),(17,17,130.00,'余额','balance',1653903275),(18,18,130.00,'余额','balance',1653903278),(19,19,130.00,'余额','balance',1653903282),(20,20,88.00,'潮玩币','score',1653905444),(21,21,88.00,'潮玩币','score',1653905451),(22,22,24.00,'潮玩币','score',1653905480),(23,22,64.00,'余额','balance',1653905480),(24,23,880.00,'余额','balance',1653905754),(25,24,25.00,'余额','balance',1653906042),(26,25,88.00,'潮玩币','score',1653965641),(27,26,88.00,'潮玩币','score',1653965881),(28,27,440.00,'潮玩币','score',1653965944),(29,28,130.00,'潮玩币','score',1653965959),(30,29,254.00,'潮玩币','score',1653966023),(31,29,626.00,'余额','balance',1653966023),(32,30,880.00,'余额','balance',1653978055),(33,31,440.00,'余额','balance',1653983168),(34,32,88.00,'余额','balance',1653983791),(35,33,88.00,'余额','balance',1653984729),(36,34,880.00,'余额','balance',1653985601),(37,35,440.00,'余额','balance',1654076279),(38,36,90.00,'余额','balance',1654077486),(39,37,45.00,'余额','balance',1654077511),(40,38,90.00,'余额','balance',1654077517),(41,39,88.00,'余额','balance',1654077620),(42,40,25.00,'余额','balance',1654077653),(43,41,112.00,'余额','balance',1654077912),(44,42,56.00,'余额','balance',1654077921),(45,43,13.00,'余额','balance',1654077997),(46,44,65.00,'余额','balance',1654078039),(47,45,88.00,'余额','balance',1654078272),(48,46,44.00,'余额','balance',1654079742),(49,47,88.00,'余额','balance',1654079931),(50,48,88.00,'余额','balance',1654079977),(51,49,9.00,'余额','balance',1654080028),(52,50,5.00,'余额','balance',1654080136),(53,51,88.00,'余额','balance',1654080163),(54,52,88.00,'余额','balance',1654080259),(55,53,440.00,'余额','balance',1654080267),(56,54,440.00,'余额','balance',1654080346),(57,55,88.00,'余额','balance',1654080437),(58,56,88.00,'余额','balance',1654080509),(59,57,5.00,'余额','balance',1654080527),(60,58,112.00,'余额','balance',1654086591),(61,59,88.00,'余额','balance',1654331859),(62,60,13.00,'余额','balance',1655702899),(63,61,44.00,'余额','balance',1655731929),(64,62,88.00,'余额','balance',1655732012),(65,63,88.00,'余额','balance',1655732042),(66,64,56.00,'余额','balance',1655814489),(67,65,56.00,'余额','balance',1655814505),(68,66,112.00,'余额','balance',1655814511),(69,67,112.00,'余额','balance',1655814581),(70,68,45.00,'余额','balance',1655814687),(71,69,56.00,'余额','balance',1655814725),(72,70,5.00,'余额','balance',1655815706),(73,71,1.00,'余额','balance',1655923240),(74,72,5.00,'余额','balance',1657117457),(75,73,1.00,'余额','balance',1657330617),(76,74,1.00,'余额','balance',1657347042),(77,75,1.00,'余额','balance',1657635005),(78,76,0.10,'余额','balance',1658238316),(79,77,1.00,'余额','balance',1658301554);
+/*!40000 ALTER TABLE `dl_order_pay` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_prize`
 --
 
+DROP TABLE IF EXISTS `dl_prize`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_prize` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `box_id` int(10) NOT NULL COMMENT '盲盒ID',
   `goods_id` int(10) DEFAULT NULL COMMENT '商品id',
   `sort` int(10) NOT NULL DEFAULT '1' COMMENT '排序值',
   `create_time` int(10) NOT NULL COMMENT '添加时间',
   `ratio` decimal(10,4) NOT NULL DEFAULT '0.0000' COMMENT '概率',
-  `level` varchar(20) NOT NULL COMMENT '等级'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='盲盒商品表';
+  `level` varchar(20) NOT NULL COMMENT '等级',
+  PRIMARY KEY (`id`),
+  KEY `goods_id` (`goods_id`) USING BTREE,
+  KEY `box_id` (`box_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8 COMMENT='盲盒商品表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_prize`
 --
 
-INSERT INTO `dl_prize` (`id`, `box_id`, `goods_id`, `sort`, `create_time`, `ratio`, `level`) VALUES
-(1, 6, 120, 1, 1653719197, '0.0100', 'SP'),
-(2, 6, 106, 1, 1653719197, '0.0200', 'A'),
-(3, 6, 107, 1, 1653719197, '0.0300', 'B'),
-(4, 6, 108, 1, 1653719197, '0.0400', 'C'),
-(5, 6, 109, 1, 1653719197, '0.0500', 'D'),
-(6, 6, 110, 1, 1653719197, '0.0500', 'E'),
-(7, 6, 111, 1, 1653719197, '0.1000', 'F'),
-(8, 6, 112, 1, 1653719197, '0.1000', 'G'),
-(9, 6, 113, 1, 1653719197, '0.1000', 'H'),
-(10, 6, 114, 1, 1653719197, '0.1000', 'I'),
-(11, 6, 115, 1, 1653719197, '0.1500', 'J'),
-(12, 6, 116, 1, 1653719197, '0.1500', 'K'),
-(13, 6, 117, 1, 1653719197, '0.1500', 'L'),
-(14, 6, 118, 1, 1653719197, '0.1500', 'M'),
-(15, 6, 119, 1, 1653719197, '0.2000', 'N'),
-(16, 6, 121, 1, 1653719197, '98.6000', 'O'),
-(17, 7, 210, 1, 1653719885, '0.0200', 'SP'),
-(18, 7, 211, 1, 1653719886, '0.0200', 'SP'),
-(19, 7, 212, 1, 1653719886, '0.0300', 'A'),
-(20, 7, 213, 1, 1653719886, '0.0400', 'A'),
-(21, 7, 214, 1, 1653719886, '0.0500', 'A'),
-(22, 7, 215, 1, 1653719886, '0.7000', 'B'),
-(23, 7, 216, 1, 1653719886, '0.8000', 'B'),
-(24, 7, 217, 1, 1653719886, '0.9000', 'B'),
-(25, 7, 218, 1, 1653719886, '4.0000', 'C'),
-(26, 7, 219, 1, 1653719886, '32.0000', 'D'),
-(27, 7, 220, 1, 1653719886, '32.0000', 'E'),
-(28, 7, 221, 1, 1653719886, '32.0000', 'F');
-
--- --------------------------------------------------------
+LOCK TABLES `dl_prize` WRITE;
+/*!40000 ALTER TABLE `dl_prize` DISABLE KEYS */;
+INSERT INTO `dl_prize` VALUES (1,6,120,1,1653719197,0.0100,'SP'),(2,6,106,1,1653719197,0.0200,'A'),(3,6,107,1,1653719197,0.0300,'B'),(4,6,108,1,1653719197,0.0400,'C'),(5,6,109,1,1653719197,0.0500,'D'),(6,6,110,1,1653719197,0.0500,'E'),(7,6,111,1,1653719197,0.1000,'F'),(8,6,112,1,1653719197,0.1000,'G'),(9,6,113,1,1653719197,0.1000,'H'),(10,6,114,1,1653719197,0.1000,'I'),(11,6,115,1,1653719197,0.1500,'J'),(12,6,116,1,1653719197,0.1500,'K'),(13,6,117,1,1653719197,0.1500,'L'),(14,6,118,1,1653719197,0.1500,'M'),(15,6,119,1,1653719197,0.2000,'N'),(16,6,121,1,1653719197,98.6000,'O'),(17,7,210,1,1653719885,0.0200,'SP'),(18,7,211,1,1653719886,0.0200,'SP'),(19,7,212,1,1653719886,0.0300,'A'),(20,7,213,1,1653719886,0.0400,'A'),(21,7,214,1,1653719886,0.0500,'A'),(22,7,215,1,1653719886,0.7000,'B'),(23,7,216,1,1653719886,0.8000,'B'),(24,7,217,1,1653719886,0.9000,'B'),(25,7,218,1,1653719886,4.0000,'C'),(26,7,219,1,1653719886,32.0000,'D'),(27,7,220,1,1653719886,32.0000,'E'),(28,7,221,1,1653719886,32.0000,'F');
+/*!40000 ALTER TABLE `dl_prize` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_recharge`
 --
 
+DROP TABLE IF EXISTS `dl_recharge`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_recharge` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `amount` varchar(10) NOT NULL DEFAULT '0' COMMENT '充值金额',
-  `create_time` int(10) NOT NULL COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='充值金额表' ROW_FORMAT=DYNAMIC;
+  `create_time` int(10) NOT NULL COMMENT '添加时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='充值金额表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_recharge`
 --
 
-INSERT INTO `dl_recharge` (`id`, `amount`, `create_time`) VALUES
-(1, '20', 1647052404),
-(2, '50', 1647052412),
-(3, '100', 1647052419),
-(4, '300', 1647052426),
-(5, '500', 1647052432),
-(6, '1000', 1647052438),
-(7, '2000', 1647052443),
-(11, '3000', 1650038625);
-
--- --------------------------------------------------------
+LOCK TABLES `dl_recharge` WRITE;
+/*!40000 ALTER TABLE `dl_recharge` DISABLE KEYS */;
+INSERT INTO `dl_recharge` VALUES (1,'20',1647052404),(2,'50',1647052412),(3,'100',1647052419),(4,'300',1647052426),(5,'500',1647052432),(6,'1000',1647052438),(7,'2000',1647052443),(11,'3000',1650038625);
+/*!40000 ALTER TABLE `dl_recharge` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_sale`
 --
 
+DROP TABLE IF EXISTS `dl_sale`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_sale` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `oid` longtext NOT NULL COMMENT '赏品ID',
   `data` longtext NOT NULL COMMENT '挂售数据',
   `uid` int(10) NOT NULL COMMENT '用户ID',
   `total_price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '挂售总价',
-  `create_time` int(10) NOT NULL COMMENT '时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `create_time` int(10) NOT NULL COMMENT '时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_sale`
 --
 
-INSERT INTO `dl_sale` (`id`, `oid`, `data`, `uid`, `total_price`, `create_time`) VALUES
-(1, '215,216,217,218,219,220,221,222,224', '[{\"gid\":\"11\",\"num\":8},{\"gid\":\"9\",\"num\":1}]', 1, '228.00', 1653905961);
-
--- --------------------------------------------------------
+LOCK TABLES `dl_sale` WRITE;
+/*!40000 ALTER TABLE `dl_sale` DISABLE KEYS */;
+INSERT INTO `dl_sale` VALUES (1,'215,216,217,218,219,220,221,222,224','[{\"gid\":\"11\",\"num\":8},{\"gid\":\"9\",\"num\":1}]',1,228.00,1653905961);
+/*!40000 ALTER TABLE `dl_sale` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_single`
 --
 
+DROP TABLE IF EXISTS `dl_single`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_single` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL COMMENT '标题',
   `content` text NOT NULL COMMENT '内容',
-  `create_time` int(10) NOT NULL COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='协议表' ROW_FORMAT=COMPACT;
+  `create_time` int(10) NOT NULL COMMENT '添加时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT COMMENT='协议表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_single`
 --
 
-INSERT INTO `dl_single` (`id`, `title`, `content`, `create_time`) VALUES
-(1, '用户协议', '<p>尊敬的用户您好。</p><p><br/></p><p>本《用户购买协议》(以下统称本协议)是您与万载县沾组百货店(以下统称“帅Liu潮玩小程序(以下统称“&quot;&quot;)之间关于提供的购买服务的法律协议。您若注册帅Liu潮玩并购买和使用了本公司的商品或服务,即表示您认同并接受了本协议。您的使用受制于本协议,请仔细阅读。</p><p><br/></p><p>—、特别提示</p><p><br/></p><p>1、在此特别提醒,请您在使用服务前阅读并充分理解本协议特别是免除或者限制责任的相应条款,双方确认前述条款不属于《合同法》第40条规定“免除其责任、加重对方责任、排除对方主要权利之条款您认可其合法性及有效性。</p><p><br/></p><p>2、本公司可能因国家政策、发展规划、产品以及履行本协议的环境发生变化等因素,而对或本协议进行修改变更修改或变更的内容将于相关页面进行公告。若您不同意或本协议的前述修改或变更,您可停止使用服务。您使用服务即视为您接受并同意本协议所有条款,包括但不限于前述修改及变更请您在勾选同意本协议前谨慎阅读并理解相关内容如您勾选同意即视为您自此发生的交易均受本协议约束,包括但不限于前述修改及变更如违反本协议约定,有权随时中止或终止服务。</p><p><br/></p><p>3、如果您未满18周岁请在法定监护人的陪同下阅读本协议未成年人行使和履行本协议项下的权利和义务视为已获得了监护人的认可。</p><p><br/></p><p>4、由于您使用的软件版本、设备、操作系统等不同以及第三方原因可能导致您实际可使用的具体服务有差别,由此可能给您带来的不便您表示理解且不会因此向提出任何主张或追究木叶―番赏的任何责任。</p><p><br/></p><p>二、适用范围</p><p><br/></p><p>本协议适用于通过帅Liu潮玩销售的所有商品和服务(以下统称“商品”)。当您购买目前或将来提供的特殊品类商品(包括但不限于预售类商品、盲盒等)时,本协议未涉及的和该特殊品类商品展示页中另有规定的(“特殊条款&quot;),从其规定如果本协议与特殊条款有不—致之处以特殊条款为准</p><p><br/></p><p>三、交易条款</p><p><br/></p><p>1、关于商品信息调整</p><p><br/></p><p>商品名称、价格、数量、型号、规格、尺寸颜色、商品介绍、库存等商品信息随时都有可能发生变动,任何变动帅Liu潮玩不作特别通知请您至商品页面自行查看。会尽最大努力保证您所浏览的商品信息的准确性:但由于商品种类繁多、商信息量大以及技术因素等客观原因,商品信息页面显示可能存在一定滞后性或差错,您对此表示知悉和理解:此外,由于预售商品存在一定不确定性相应商品信息(包括但不限于赠品配比、规格尺寸等)可能会自动跟随官方信息修改,您对此表示知悉和理解。如用户不接受可以进行单个退款。</p><p><br/></p><p>2、关于订单信息</p><p><br/></p><p>在您提交订单时,请仔细确认所购商品的名称价格、数量、型号、规格、尺寸、颜色、收货人姓名、联系电话、收货地址等信息。若收货人并非您本人收货人的行为和意思表示将视为您的行为和意思表示,您应对收货人的行为及意思表示产生的法律后果承担连带责任您提交订单即表示对订单中所确认的订购商品、收货信息等内容的准确性负责。如果因为您填写的收货人姓名联系电话、收货地址等信息错误,导致延期配送、不能配送、或商品交付给非您本意的收货人,由此造成的损失需由您自行承担:因造成的任何损失或增加费用的,应由您完全独自承担。您同意并保证:为了更好的为您提供服务,龟仙人一番赏会记录您在选购商品过程中在线填写的所有信息;若有需要可提供给相关服务提供方。</p><p><br/></p><p>3、关于订单生效</p><p><br/></p><p>帅Liu潮玩展示的商品和价格等商品信息仅仅作为要约邀请。您下单时须写明订单信息内容,系统生成的订单信息是计算机信息系统根据您填写的内容和和操作自动生成的数据。作为您向帅Liu潮玩发出的合同要约。您付款后,即视为双方之间的合同成立您未能在指定时间完成付款的,有权取消订单。如果您在一份订单里订购了多种商品,但仅就部分商品支付价款,则木叶—番赏和之间仅就该部分商品成立合同关系“赠品兑换券类产品具有随机性的特点,对此您已充分了解。您应该对您消费行为的性质和后果自行判断,并对您在的一切消费行为完全负责。基于产品特点我们无法保证您收到的商品符合您对某—特定款式或型·号的预期对此。您不应以未收到特定款式的商品为由要求很款、赔偿或承担任何责任。木叶—番赏无法且不会对因前述问题而导致的任何损失或损害承担责任。如因系统故障或的过失导致显示信息明显不合理的情况(包括但不限于商品价格明显偏低、显示余量明显异常等)请勿进行相关后续操作并立即通知进行修改有权在法律允许的最大限度内取消相关不合理订单并及时通知您。</p><p><br/></p><p>4、关于商品缺货的处理</p><p><br/></p><p>由于国家政策、市场变化、系统问题及其他不可抗力等因素影响,您所提交的订单信息中的商品可能出现缺货情在此情形下将以有效方式(包括但不限于在发公告、发送邮件、向您提供的联系电话发送手机短信、向您的账号发送私信以及站内信信息等方式)通知您并提供解决方案(包括但不限于取消订单换货、调货等方式式)。请您在未收到商品之前留意通知若超过两次无法与您取得电话联系且您在收到番堂通知超过30天未主动联系在线客服将有权取消订单,由此给您带来的不便敬请谅解缺货商品是杏补货不再另行通知,如您对此商品感兴趣请您随时关注。</p><p><br/></p><p>四、配送条款</p><p><br/></p><p>用户付款并填写真实的收货人姓名、有效联系电话、收货地址是商家给用户发货的前提。</p><p><br/></p><p>1、关于发货时间您知悉并理解,上列出的发货时间为参考时间该参考时间可能根据库存状况、送货时间、送货地点、物流状况等客观因素存在误差,具体发货时间以实际发出时间为准。此外,您同样知悉预售类商品的具体发货时间会因受制作周期物流周期、质检返工、不可抗力等诸多因素影响存在误差,导致预售类商品的实际发货时间可能提早或推迟,您对上述情形表示同意及理解。</p><p><br/></p><p>2、所有预售类商品如后续需要支付运费或祺他费用将在补款时—并支付。</p><p><br/></p><p>3、商品的可配送区域为中国大陆地区(特殊偏远地区除外)收件地址在非可配送区域或区域不明确的,务必客服人员核实清楚后再下单本公司及对因此造成的一切纠纷和损失不承担责任。</p><p><br/></p><p>4、运费视配送地址不同可能不同,具体以订单支付页面显示的价格为准。</p><p><br/></p><p>5、在签收商品时,请您本人或您指定的收件人亲自在不拆封商品包装的情况下,在快递前当面验货,确认无误后再签收。若您或上述收件人委托他人签收商品或承运人已按您或收件人指示将商品置于指定地点的,视为本人签收。快递—旦签收视为该商品已交付给您。6、您无正当理由拒绝签收不支持七天无理由退换货的商品或性质不适宜拒签的商品的,商品返回后,需由您承担商品毁损灭失的风险及因此产生的费用。龟仙人一番赏可选择退款或将商品再次发回,若商品性质已不适宜发回或您再次拒绝签收的,订单损失由您承担。五、支付条款</p><p><br/></p><p>1、您在使用“抽一张”、“抽五张”、“抽十张”、“全收&quot;等支付功能时因商品可能存在多名用户同时抢购的情况,您应及时注意赠品余量情况,保证支付后购买顺利。</p><p><br/></p><p>2、您在使用微信支付购买时,如遇到赠品数量不足的情况,相应金额会自动退款至您的微信账户,退款时可能会有延迟情况,请耐心等待。若长时间未收到钱款请联系客服处理六、售后条款</p><p><br/></p><p>“—番赏为开赏类商品,不支持七天无理由退换货。您知悉并理解内商品难免存在轻微增色、溢色、气泡染色不均轻微划痕等涂装或原厂问题的瑕疵。上述均属于正常现象,番赏不接受因此提出的退换货申请,请您知悉并谨慎考虑后,理性购买。</p><p><br/></p><p>七、通知</p><p><br/></p><p>1、为更好地为您提供服务,您同意接受我们发送的信息,包括但不限于:在番赏发布公告、向您发送邮件、向您提供的联系电话发送手机短信、向您的账号发送私信以及站内信信息向您提供的联系地址邮寄书面通知等。如一番堂能够证明以上电子形式的信息已经发送给您或者已在相关页面公布,则视为您已收到相关信息以纸质载体发出的书面通知,按照提供联系地址交邮后的第五个工作日即视为送达2、保留对本小程序注册、购物用户发送订单信息、促销活动等告知服务的权利。如果您在注册、购物,表明您已默认同意接受此项服务。</p><p><br/></p><p>八、评价</p><p><br/></p><p>您有权在提供的评价系统中对与您达成交易的商品进行评价。您应当理解,您在的评价信息是公开的您的所有评价行为应遵守本协议,评价内容应当客观真实,不应含任何污言秽语政治敏感、色情低俗、广告信息及法律法规列明之其他禁止性信息;您不应以不正当方式利用评价权利对其他用户实施威胁、敲诈勒索。有权对您实施上述行为所产生的评价信息进行删除或屏蔽。</p><p><br/></p><p>九、其他</p><p><br/></p><p>1、除非另有证明,储存在服务器上的数据是您使用服务的唯有效证据。</p><p><br/></p><p>2、若您存在以下不正当行为,—经发现,有权采取包括但不限于暂停发货、取消订单、拦截已发货的订单、限制账户权限等措施:</p><p><br/></p><p>(1)、您利用平台进行非法套现、洗钱及其他违法犯罪行为。</p><p><br/></p><p>(2)、由于用户将其用户密码告知他人或与他人共享注册账号与密码,由此导致的任何个人信息的泄漏,或其他非因番赏原因导致的个人隐私信息的泄露。(3)、用户自行向第三方公开其个人隐私信息。</p><p><br/></p><p>(4)、用户与及合作单位之间就用户个人隐私信息的使用公开达成约定因此向合作单位公开用户个人隐私信息、任何由于黑客攻击、电脑病毒侵入及其他非因原因导致用户个人隐私信息的泄露。</p><p><br/></p><p>2、用户同意可在以下事项中免费使用用户的个人隐私信息:</p><p><br/></p><p>(1)、向用户及时发送重要通知,如应用更新、本协议条款的变更。</p><p><br/></p><p>(2)、内部进行审计、数据分析和研究等,以改进番赏的产品、服务和与用户之间的沟通:</p><p><br/></p><p>(3)、依本协议约定,管理、审查用户信息及进行处理措施。</p><p><br/></p><p>(4)、帅Liu潮玩可能将收集到的用户信息,用在其他功能或服务中向用户提供特定内容,包括但不限于展示广告、对用户阅读过的内容进行信息安全类提示、基于特征标签进行间接人群画像并提供更加精准和个性化的服务和内容等。</p><p><br/></p><p>(2)、适用法律法规规定的其他事项。</p><p><br/></p><p>(3)、根据相关法律法规及国家标佳,以下情形中,可能会收集、使用、共享、转让、公开披露用户的个人信息无需征求用户的授权同意:(1)、与国家安全、国防安全等国家利益直接相关的与公共安全、公共卫生、公众知情等重大公共利益直接相关的。</p><p><br/></p><p>(2)、与犯罪侦查、起诉、审判和判决执行等直接相关的。</p><p><br/></p><p>(3)、出于维护用户或其他个人的生命、财产声誉等重大合法权益但又很难得到本人同意的。</p><p><br/></p><p>(4)、所收集的个人信息是用户自行向社会公众公开的。</p><p><br/></p><p>(5)、从合法公开披露的信息中收集个人信息的,如合法的新闻报道、政府信息公开等渠道根据用户要求签订和履行合同所必需的。(6)、用于维护所提供的产品或服务的安全稳定运行所必需的,例如发现、处置产品或服务的故障为开展合法的新闻报道所必需的出于公共利益开展统计或学术研究所必要的。(7)、法律法规规定的其他情形。</p><p><br/></p><p>4、我们非常重视对未成年人个人信息的保护。根据相关法律法规的规定,若您是18周岁以下的未成年人,在使用服务前,应事先取得您的家长或法定监护人的书面同意。</p><p><br/></p><p>5、帅Liu潮玩将会尽其商业上的合理努力保障用户在本软件及服务中的数据存储安全,但是并不能就此提供完全保证,包括但不限于以下情形:</p><p><br/></p><p>(1)、不对用户在本软件及服务中相关数据的删除或储存失败负责。(2)、有权根据实际情况自行决定单个用户在本软件及服务中数据的最长储存期限,并在服务器上为其分配数据最大存储空间等。</p><p><br/></p><p>(3)、如果用户停止使用本软件及服务或服务被终止或取消,帅Liu潮玩可以从服务器上永久地删除用户数据。服务停止、终止或取消后,没有义务向用户返还任何数据。</p><p><br/></p><p>十一、免责事由</p><p><br/></p><p>1、您知悉并同意,不因下述任一情况而可能导致的任何损害赔偿承担责任,包括但不限于财产、收益、数据资料等方面的损失或其它无形损失:(1)、因台风、地震、海啸、洪水、停电、战争、恐怖袭击等不可抗力之因素导致系统或服务不能正常运行。</p><p><br/></p><p>(2)、由于黑客攻击、电信部门技术调整或故障、系统维护等原因而造成的系统服务中断或者延迟。</p><p><br/></p><p>(3)、由于政府命令、法律法规的变更、司法机关及行政机关的命令、裁定等原因而导致的系统服务中断、终止或延迟。</p><p><br/></p><p>(4)、由于您将账号、密码告知他人或未保管好自己的密码或与他人共享账号或任何其他非的过错,导致您的个人资料泄露。</p><p><br/></p><p>(5)、由于与链接或合作的其它网站所造成的银行账户信息身份信息泄露及由此而导致的任何法律争议和后果、您(包括未成年人用户)向提供错误、不完整、不实信息等,造成任何损失。如因系统维护或升级的需要而需暂停服务时,我们将尽可能事先进行通知。对于服务的中断或终止而给您造成的任何损失,我们无须对您或任何第三方承担任何责任。</p><p><br/></p><p>2、您理解对您的任何请求采取行动均需要合理时间,且应您请求而采取的行动可能无法避免或阻止侵害后果的形成或扩大除存在法定过错外,番赏不承担责任。</p><p><br/></p><p>3、您理解并同意,因您自身违反本协议或相关服务条款的规定,导致或产生第三方主张的任何索赔、要求或损失您应当独立承担责任:因此遭受损失的,您也应当并赔偿。</p><p><br/></p><p>十二、投诉指引</p><p><br/></p><p>一番赏—向重视知识产权以及用户权益的保护如您认为平台某些内容涉嫌侵犯了您的合法权益,您可以通过发送邮件至[763044293@qq.com】向进行投诉。投诉请求至少应包括以下内容:(1)投诉人的姓名(名称)、联系电话和通讯地址:(2)投诉的具体理由、要求及被投诉内容:(3构成侵权的初步证明材料。当收到投诉请求后,我们的工作人员会尽快依法为您处理。</p><p><br/></p><p>十三法律适用、争议解决及条款可分割性1、本协议的订立、效力、解释、执行及其下产生的任何争议的解决应适用并遵守中国法律。</p><p><br/></p><p>2、因本协议或其违约、终止或无效而产生的或与本协议或其违约、终止或无效有关的任何争议、争论或诉求(争议)应提交杭州国际经济贸易仲裁委员会根据提交争议时该会届时有效的仲裁规则进行仲裁。仲裁庭的仲裁裁决为终局仲裁,对双方均有约束力双方应尽其最大努力使得任何该等仲裁裁决及时得以执行,并就此提供任何必要的协助。</p><p><br/></p><p>3、本协议任条款被视为废止、无效或不可执行,该条款应视为可分割的不应影响其他条款或其任何部分的效力,您与我们仍应善意履行。</p><p><br/></p><p><br/></p><p><br/></p>', 1632451653),
-(2, '隐私政策', '<p>					</p><p>尊敬的用户您好。</p><p><br/></p><p>本《用户购买协议》(以下统称本协议)是您与万载县沾组百货店(以下统称“帅Liu潮玩小程序(以下统称“&quot;&quot;)之间关于提供的购买服务的法律协议。您若注册帅Liu潮玩并购买和使用了本公司的商品或服务,即表示您认同并接受了本协议。您的使用受制于本协议,请仔细阅读。</p><p><br/></p><p>—、特别提示</p><p><br/></p><p>1、在此特别提醒,请您在使用服务前阅读并充分理解本协议特别是免除或者限制责任的相应条款,双方确认前述条款不属于《合同法》第40条规定“免除其责任、加重对方责任、排除对方主要权利之条款您认可其合法性及有效性。</p><p><br/></p><p>2、本公司可能因国家政策、发展规划、产品以及履行本协议的环境发生变化等因素,而对或本协议进行修改变更修改或变更的内容将于相关页面进行公告。若您不同意或本协议的前述修改或变更,您可停止使用服务。您使用服务即视为您接受并同意本协议所有条款,包括但不限于前述修改及变更请您在勾选同意本协议前谨慎阅读并理解相关内容如您勾选同意即视为您自此发生的交易均受本协议约束,包括但不限于前述修改及变更如违反本协议约定,有权随时中止或终止服务。</p><p><br/></p><p>3、如果您未满18周岁请在法定监护人的陪同下阅读本协议未成年人行使和履行本协议项下的权利和义务视为已获得了监护人的认可。</p><p><br/></p><p>4、由于您使用的软件版本、设备、操作系统等不同以及第三方原因可能导致您实际可使用的具体服务有差别,由此可能给您带来的不便您表示理解且不会因此向提出任何主张或追究木叶―番赏的任何责任。</p><p><br/></p><p>二、适用范围</p><p><br/></p><p>本协议适用于通过帅Liu潮玩销售的所有商品和服务(以下统称“商品”)。当您购买目前或将来提供的特殊品类商品(包括但不限于预售类商品、盲盒等)时,本协议未涉及的和该特殊品类商品展示页中另有规定的(“特殊条款&quot;),从其规定如果本协议与特殊条款有不—致之处以特殊条款为准</p><p><br/></p><p>三、交易条款</p><p><br/></p><p>1、关于商品信息调整</p><p><br/></p><p>商品名称、价格、数量、型号、规格、尺寸颜色、商品介绍、库存等商品信息随时都有可能发生变动,任何变动帅Liu潮玩不作特别通知请您至商品页面自行查看。会尽最大努力保证您所浏览的商品信息的准确性:但由于商品种类繁多、商信息量大以及技术因素等客观原因,商品信息页面显示可能存在一定滞后性或差错,您对此表示知悉和理解:此外,由于预售商品存在一定不确定性相应商品信息(包括但不限于赠品配比、规格尺寸等)可能会自动跟随官方信息修改,您对此表示知悉和理解。如用户不接受可以进行单个退款。</p><p><br/></p><p>2、关于订单信息</p><p><br/></p><p>在您提交订单时,请仔细确认所购商品的名称价格、数量、型号、规格、尺寸、颜色、收货人姓名、联系电话、收货地址等信息。若收货人并非您本人收货人的行为和意思表示将视为您的行为和意思表示,您应对收货人的行为及意思表示产生的法律后果承担连带责任您提交订单即表示对订单中所确认的订购商品、收货信息等内容的准确性负责。如果因为您填写的收货人姓名联系电话、收货地址等信息错误,导致延期配送、不能配送、或商品交付给非您本意的收货人,由此造成的损失需由您自行承担:因造成的任何损失或增加费用的,应由您完全独自承担。您同意并保证:为了更好的为您提供服务,龟仙人一番赏会记录您在选购商品过程中在线填写的所有信息;若有需要可提供给相关服务提供方。</p><p><br/></p><p>3、关于订单生效</p><p><br/></p><p>帅Liu潮玩展示的商品和价格等商品信息仅仅作为要约邀请。您下单时须写明订单信息内容,系统生成的订单信息是计算机信息系统根据您填写的内容和和操作自动生成的数据。作为您向帅Liu潮玩发出的合同要约。您付款后,即视为双方之间的合同成立您未能在指定时间完成付款的,有权取消订单。如果您在一份订单里订购了多种商品,但仅就部分商品支付价款,则木叶—番赏和之间仅就该部分商品成立合同关系“赠品兑换券类产品具有随机性的特点,对此您已充分了解。您应该对您消费行为的性质和后果自行判断,并对您在的一切消费行为完全负责。基于产品特点我们无法保证您收到的商品符合您对某—特定款式或型·号的预期对此。您不应以未收到特定款式的商品为由要求很款、赔偿或承担任何责任。木叶—番赏无法且不会对因前述问题而导致的任何损失或损害承担责任。如因系统故障或的过失导致显示信息明显不合理的情况(包括但不限于商品价格明显偏低、显示余量明显异常等)请勿进行相关后续操作并立即通知进行修改有权在法律允许的最大限度内取消相关不合理订单并及时通知您。</p><p><br/></p><p>4、关于商品缺货的处理</p><p><br/></p><p>由于国家政策、市场变化、系统问题及其他不可抗力等因素影响,您所提交的订单信息中的商品可能出现缺货情在此情形下将以有效方式(包括但不限于在发公告、发送邮件、向您提供的联系电话发送手机短信、向您的账号发送私信以及站内信信息等方式)通知您并提供解决方案(包括但不限于取消订单换货、调货等方式式)。请您在未收到商品之前留意通知若超过两次无法与您取得电话联系且您在收到番堂通知超过30天未主动联系在线客服将有权取消订单,由此给您带来的不便敬请谅解缺货商品是杏补货不再另行通知,如您对此商品感兴趣请您随时关注。</p><p><br/></p><p>四、配送条款</p><p><br/></p><p>用户付款并填写真实的收货人姓名、有效联系电话、收货地址是商家给用户发货的前提。</p><p><br/></p><p>1、关于发货时间您知悉并理解,上列出的发货时间为参考时间该参考时间可能根据库存状况、送货时间、送货地点、物流状况等客观因素存在误差,具体发货时间以实际发出时间为准。此外,您同样知悉预售类商品的具体发货时间会因受制作周期物流周期、质检返工、不可抗力等诸多因素影响存在误差,导致预售类商品的实际发货时间可能提早或推迟,您对上述情形表示同意及理解。</p><p><br/></p><p>2、所有预售类商品如后续需要支付运费或祺他费用将在补款时—并支付。</p><p><br/></p><p>3、商品的可配送区域为中国大陆地区(特殊偏远地区除外)收件地址在非可配送区域或区域不明确的,务必客服人员核实清楚后再下单本公司及对因此造成的一切纠纷和损失不承担责任。</p><p><br/></p><p>4、运费视配送地址不同可能不同,具体以订单支付页面显示的价格为准。</p><p><br/></p><p>5、在签收商品时,请您本人或您指定的收件人亲自在不拆封商品包装的情况下,在快递前当面验货,确认无误后再签收。若您或上述收件人委托他人签收商品或承运人已按您或收件人指示将商品置于指定地点的,视为本人签收。快递—旦签收视为该商品已交付给您。6、您无正当理由拒绝签收不支持七天无理由退换货的商品或性质不适宜拒签的商品的,商品返回后,需由您承担商品毁损灭失的风险及因此产生的费用。龟仙人一番赏可选择退款或将商品再次发回,若商品性质已不适宜发回或您再次拒绝签收的,订单损失由您承担。五、支付条款</p><p><br/></p><p>1、您在使用“抽一张”、“抽五张”、“抽十张”、“全收&quot;等支付功能时因商品可能存在多名用户同时抢购的情况,您应及时注意赠品余量情况,保证支付后购买顺利。</p><p><br/></p><p>2、您在使用微信支付购买时,如遇到赠品数量不足的情况,相应金额会自动退款至您的微信账户,退款时可能会有延迟情况,请耐心等待。若长时间未收到钱款请联系客服处理六、售后条款</p><p><br/></p><p>“—番赏为开赏类商品,不支持七天无理由退换货。您知悉并理解内商品难免存在轻微增色、溢色、气泡染色不均轻微划痕等涂装或原厂问题的瑕疵。上述均属于正常现象,番赏不接受因此提出的退换货申请,请您知悉并谨慎考虑后,理性购买。</p><p><br/></p><p>七、通知</p><p><br/></p><p>1、为更好地为您提供服务,您同意接受我们发送的信息,包括但不限于:在番赏发布公告、向您发送邮件、向您提供的联系电话发送手机短信、向您的账号发送私信以及站内信信息向您提供的联系地址邮寄书面通知等。如一番堂能够证明以上电子形式的信息已经发送给您或者已在相关页面公布,则视为您已收到相关信息以纸质载体发出的书面通知,按照提供联系地址交邮后的第五个工作日即视为送达2、保留对本小程序注册、购物用户发送订单信息、促销活动等告知服务的权利。如果您在注册、购物,表明您已默认同意接受此项服务。</p><p><br/></p><p>八、评价</p><p><br/></p><p>您有权在提供的评价系统中对与您达成交易的商品进行评价。您应当理解,您在的评价信息是公开的您的所有评价行为应遵守本协议,评价内容应当客观真实,不应含任何污言秽语政治敏感、色情低俗、广告信息及法律法规列明之其他禁止性信息;您不应以不正当方式利用评价权利对其他用户实施威胁、敲诈勒索。有权对您实施上述行为所产生的评价信息进行删除或屏蔽。</p><p><br/></p><p>九、其他</p><p><br/></p><p>1、除非另有证明,储存在服务器上的数据是您使用服务的唯有效证据。</p><p><br/></p><p>2、若您存在以下不正当行为,—经发现,有权采取包括但不限于暂停发货、取消订单、拦截已发货的订单、限制账户权限等措施:</p><p><br/></p><p>(1)、您利用平台进行非法套现、洗钱及其他违法犯罪行为。</p><p><br/></p><p>(2)、由于用户将其用户密码告知他人或与他人共享注册账号与密码,由此导致的任何个人信息的泄漏,或其他非因番赏原因导致的个人隐私信息的泄露。(3)、用户自行向第三方公开其个人隐私信息。</p><p><br/></p><p>(4)、用户与及合作单位之间就用户个人隐私信息的使用公开达成约定因此向合作单位公开用户个人隐私信息、任何由于黑客攻击、电脑病毒侵入及其他非因原因导致用户个人隐私信息的泄露。</p><p><br/></p><p>2、用户同意可在以下事项中免费使用用户的个人隐私信息:</p><p><br/></p><p>(1)、向用户及时发送重要通知,如应用更新、本协议条款的变更。</p><p><br/></p><p>(2)、内部进行审计、数据分析和研究等,以改进番赏的产品、服务和与用户之间的沟通:</p><p><br/></p><p>(3)、依本协议约定,管理、审查用户信息及进行处理措施。</p><p><br/></p><p>(4)、帅Liu潮玩可能将收集到的用户信息,用在其他功能或服务中向用户提供特定内容,包括但不限于展示广告、对用户阅读过的内容进行信息安全类提示、基于特征标签进行间接人群画像并提供更加精准和个性化的服务和内容等。</p><p><br/></p><p>(2)、适用法律法规规定的其他事项。</p><p><br/></p><p>(3)、根据相关法律法规及国家标佳,以下情形中,可能会收集、使用、共享、转让、公开披露用户的个人信息无需征求用户的授权同意:(1)、与国家安全、国防安全等国家利益直接相关的与公共安全、公共卫生、公众知情等重大公共利益直接相关的。</p><p><br/></p><p>(2)、与犯罪侦查、起诉、审判和判决执行等直接相关的。</p><p><br/></p><p>(3)、出于维护用户或其他个人的生命、财产声誉等重大合法权益但又很难得到本人同意的。</p><p><br/></p><p>(4)、所收集的个人信息是用户自行向社会公众公开的。</p><p><br/></p><p>(5)、从合法公开披露的信息中收集个人信息的,如合法的新闻报道、政府信息公开等渠道根据用户要求签订和履行合同所必需的。(6)、用于维护所提供的产品或服务的安全稳定运行所必需的,例如发现、处置产品或服务的故障为开展合法的新闻报道所必需的出于公共利益开展统计或学术研究所必要的。(7)、法律法规规定的其他情形。</p><p><br/></p><p>4、我们非常重视对未成年人个人信息的保护。根据相关法律法规的规定,若您是18周岁以下的未成年人,在使用服务前,应事先取得您的家长或法定监护人的书面同意。</p><p><br/></p><p>5、帅Liu潮玩将会尽其商业上的合理努力保障用户在本软件及服务中的数据存储安全,但是并不能就此提供完全保证,包括但不限于以下情形:</p><p><br/></p><p>(1)、不对用户在本软件及服务中相关数据的删除或储存失败负责。(2)、有权根据实际情况自行决定单个用户在本软件及服务中数据的最长储存期限,并在服务器上为其分配数据最大存储空间等。</p><p><br/></p><p>(3)、如果用户停止使用本软件及服务或服务被终止或取消,帅Liu潮玩可以从服务器上永久地删除用户数据。服务停止、终止或取消后,没有义务向用户返还任何数据。</p><p><br/></p><p>十一、免责事由</p><p><br/></p><p>1、您知悉并同意,不因下述任一情况而可能导致的任何损害赔偿承担责任,包括但不限于财产、收益、数据资料等方面的损失或其它无形损失:(1)、因台风、地震、海啸、洪水、停电、战争、恐怖袭击等不可抗力之因素导致系统或服务不能正常运行。</p><p><br/></p><p>(2)、由于黑客攻击、电信部门技术调整或故障、系统维护等原因而造成的系统服务中断或者延迟。</p><p><br/></p><p>(3)、由于政府命令、法律法规的变更、司法机关及行政机关的命令、裁定等原因而导致的系统服务中断、终止或延迟。</p><p><br/></p><p>(4)、由于您将账号、密码告知他人或未保管好自己的密码或与他人共享账号或任何其他非的过错,导致您的个人资料泄露。</p><p><br/></p><p>(5)、由于与链接或合作的其它网站所造成的银行账户信息身份信息泄露及由此而导致的任何法律争议和后果、您(包括未成年人用户)向提供错误、不完整、不实信息等,造成任何损失。如因系统维护或升级的需要而需暂停服务时,我们将尽可能事先进行通知。对于服务的中断或终止而给您造成的任何损失,我们无须对您或任何第三方承担任何责任。</p><p><br/></p><p>2、您理解对您的任何请求采取行动均需要合理时间,且应您请求而采取的行动可能无法避免或阻止侵害后果的形成或扩大除存在法定过错外,番赏不承担责任。</p><p><br/></p><p>3、您理解并同意,因您自身违反本协议或相关服务条款的规定,导致或产生第三方主张的任何索赔、要求或损失您应当独立承担责任:因此遭受损失的,您也应当并赔偿。</p><p><br/></p><p>十二、投诉指引</p><p><br/></p><p>一番赏—向重视知识产权以及用户权益的保护如您认为平台某些内容涉嫌侵犯了您的合法权益,您可以通过发送邮件至[763044293@qq.com】向进行投诉。投诉请求至少应包括以下内容:(1)投诉人的姓名(名称)、联系电话和通讯地址:(2)投诉的具体理由、要求及被投诉内容:(3构成侵权的初步证明材料。当收到投诉请求后,我们的工作人员会尽快依法为您处理。</p><p><br/></p><p>十三法律适用、争议解决及条款可分割性1、本协议的订立、效力、解释、执行及其下产生的任何争议的解决应适用并遵守中国法律。</p><p><br/></p><p>2、因本协议或其违约、终止或无效而产生的或与本协议或其违约、终止或无效有关的任何争议、争论或诉求(争议)应提交杭州国际经济贸易仲裁委员会根据提交争议时该会届时有效的仲裁规则进行仲裁。仲裁庭的仲裁裁决为终局仲裁,对双方均有约束力双方应尽其最大努力使得任何该等仲裁裁决及时得以执行,并就此提供任何必要的协助。</p><p><br/></p><p>3、本协议任条款被视为废止、无效或不可执行,该条款应视为可分割的不应影响其他条款或其任何部分的效力,您与我们仍应善意履行。</p><p><br/></p><p>				</p>', 1632451653),
-(3, '购买说明', '<p style=\"white-space: normal;\">1、购买模式为开赏类商品，一经购买不支持无理由退货，请谨慎购买（未成年禁止购买）</p><p style=\"white-space: normal;\">2、购买规则有“一次”“五次”“十次”“全收”按钮获得商品<br/></p><p style=\"white-space: normal;\">3、双随机抽赏方式,FIRST为全局前半局随机赠送一位玩家，LAST为后半局随机赠送一位玩家。</p><p style=\"white-space: normal;\">4、全局赏类型，比如购买ABCDE赏后，全部赠品随机赠送每位客户，具体请查看赏池界面。</p><p style=\"white-space: normal;\">5、无限赏类型，为“一次”“三次”“五次”“十次”按钮获得商品，根据需求进行购买。</p><p><br/></p>', 1632451653),
-(4, '潮玩券说明', '<p style=\"white-space: normal;\">1、购买模式为开赏类商品，一经购买不支持无理由退货，请谨慎购买（未成年禁止购买）</p><p style=\"white-space: normal;\">2、购买规则有“一次”“五次”“十次”“全收”按钮获得商品<br/></p><p style=\"white-space: normal;\">3、双随机抽赏方式,FIRST为全局前半局随机赠送一位玩家，LAST为后半局随机赠送一位玩家。</p><p style=\"white-space: normal;\">4、全局赏类型，比如购买ABCDE赏后，全部赠品随机赠送每位客户，具体请查看赏池界面。</p><p style=\"white-space: normal;\">5、无限赏类型，为“一次”“三次”“五次”“十次”按钮获得商品，根据需求进行购买。</p><p><br/></p>', 1632451653),
-(5, '用户服务协议条款', '<p>尊敬的用户您好。</p><p><br/></p><p>本《用户购买协议》(以下统称本协议)是您与万载县沾组百货店(以下统称“帅Liu潮玩小程序(以下统称“&quot;&quot;)之间关于提供的购买服务的法律协议。您若注册帅Liu潮玩并购买和使用了本公司的商品或服务,即表示您认同并接受了本协议。您的使用受制于本协议,请仔细阅读。</p><p><br/></p><p>—、特别提示</p><p><br/></p><p>1、在此特别提醒,请您在使用服务前阅读并充分理解本协议特别是免除或者限制责任的相应条款,双方确认前述条款不属于《合同法》第40条规定“免除其责任、加重对方责任、排除对方主要权利之条款您认可其合法性及有效性。</p><p><br/></p><p>2、本公司可能因国家政策、发展规划、产品以及履行本协议的环境发生变化等因素,而对或本协议进行修改变更修改或变更的内容将于相关页面进行公告。若您不同意或本协议的前述修改或变更,您可停止使用服务。您使用服务即视为您接受并同意本协议所有条款,包括但不限于前述修改及变更请您在勾选同意本协议前谨慎阅读并理解相关内容如您勾选同意即视为您自此发生的交易均受本协议约束,包括但不限于前述修改及变更如违反本协议约定,有权随时中止或终止服务。</p><p><br/></p><p>3、如果您未满18周岁请在法定监护人的陪同下阅读本协议未成年人行使和履行本协议项下的权利和义务视为已获得了监护人的认可。</p><p><br/></p><p>4、由于您使用的软件版本、设备、操作系统等不同以及第三方原因可能导致您实际可使用的具体服务有差别,由此可能给您带来的不便您表示理解且不会因此向提出任何主张或追究木叶―番赏的任何责任。</p><p><br/></p><p>二、适用范围</p><p><br/></p><p>本协议适用于通过帅Liu潮玩销售的所有商品和服务(以下统称“商品”)。当您购买目前或将来提供的特殊品类商品(包括但不限于预售类商品、盲盒等)时,本协议未涉及的和该特殊品类商品展示页中另有规定的(“特殊条款&quot;),从其规定如果本协议与特殊条款有不—致之处以特殊条款为准</p><p><br/></p><p>三、交易条款</p><p><br/></p><p>1、关于商品信息调整</p><p><br/></p><p>商品名称、价格、数量、型号、规格、尺寸颜色、商品介绍、库存等商品信息随时都有可能发生变动,任何变动帅Liu潮玩不作特别通知请您至商品页面自行查看。会尽最大努力保证您所浏览的商品信息的准确性:但由于商品种类繁多、商信息量大以及技术因素等客观原因,商品信息页面显示可能存在一定滞后性或差错,您对此表示知悉和理解:此外,由于预售商品存在一定不确定性相应商品信息(包括但不限于赠品配比、规格尺寸等)可能会自动跟随官方信息修改,您对此表示知悉和理解。如用户不接受可以进行单个退款。</p><p><br/></p><p>2、关于订单信息</p><p><br/></p><p>在您提交订单时,请仔细确认所购商品的名称价格、数量、型号、规格、尺寸、颜色、收货人姓名、联系电话、收货地址等信息。若收货人并非您本人收货人的行为和意思表示将视为您的行为和意思表示,您应对收货人的行为及意思表示产生的法律后果承担连带责任您提交订单即表示对订单中所确认的订购商品、收货信息等内容的准确性负责。如果因为您填写的收货人姓名联系电话、收货地址等信息错误,导致延期配送、不能配送、或商品交付给非您本意的收货人,由此造成的损失需由您自行承担:因造成的任何损失或增加费用的,应由您完全独自承担。您同意并保证:为了更好的为您提供服务,龟仙人一番赏会记录您在选购商品过程中在线填写的所有信息;若有需要可提供给相关服务提供方。</p><p><br/></p><p>3、关于订单生效</p><p><br/></p><p>帅Liu潮玩展示的商品和价格等商品信息仅仅作为要约邀请。您下单时须写明订单信息内容,系统生成的订单信息是计算机信息系统根据您填写的内容和和操作自动生成的数据。作为您向帅Liu潮玩发出的合同要约。您付款后,即视为双方之间的合同成立您未能在指定时间完成付款的,有权取消订单。如果您在一份订单里订购了多种商品,但仅就部分商品支付价款,则木叶—番赏和之间仅就该部分商品成立合同关系“赠品兑换券类产品具有随机性的特点,对此您已充分了解。您应该对您消费行为的性质和后果自行判断,并对您在的一切消费行为完全负责。基于产品特点我们无法保证您收到的商品符合您对某—特定款式或型·号的预期对此。您不应以未收到特定款式的商品为由要求很款、赔偿或承担任何责任。木叶—番赏无法且不会对因前述问题而导致的任何损失或损害承担责任。如因系统故障或的过失导致显示信息明显不合理的情况(包括但不限于商品价格明显偏低、显示余量明显异常等)请勿进行相关后续操作并立即通知进行修改有权在法律允许的最大限度内取消相关不合理订单并及时通知您。</p><p><br/></p><p>4、关于商品缺货的处理</p><p><br/></p><p>由于国家政策、市场变化、系统问题及其他不可抗力等因素影响,您所提交的订单信息中的商品可能出现缺货情在此情形下将以有效方式(包括但不限于在发公告、发送邮件、向您提供的联系电话发送手机短信、向您的账号发送私信以及站内信信息等方式)通知您并提供解决方案(包括但不限于取消订单换货、调货等方式式)。请您在未收到商品之前留意通知若超过两次无法与您取得电话联系且您在收到番堂通知超过30天未主动联系在线客服将有权取消订单,由此给您带来的不便敬请谅解缺货商品是杏补货不再另行通知,如您对此商品感兴趣请您随时关注。</p><p><br/></p><p>四、配送条款</p><p><br/></p><p>用户付款并填写真实的收货人姓名、有效联系电话、收货地址是商家给用户发货的前提。</p><p><br/></p><p>1、关于发货时间您知悉并理解,上列出的发货时间为参考时间该参考时间可能根据库存状况、送货时间、送货地点、物流状况等客观因素存在误差,具体发货时间以实际发出时间为准。此外,您同样知悉预售类商品的具体发货时间会因受制作周期物流周期、质检返工、不可抗力等诸多因素影响存在误差,导致预售类商品的实际发货时间可能提早或推迟,您对上述情形表示同意及理解。</p><p><br/></p><p>2、所有预售类商品如后续需要支付运费或祺他费用将在补款时—并支付。</p><p><br/></p><p>3、商品的可配送区域为中国大陆地区(特殊偏远地区除外)收件地址在非可配送区域或区域不明确的,务必客服人员核实清楚后再下单本公司及对因此造成的一切纠纷和损失不承担责任。</p><p><br/></p><p>4、运费视配送地址不同可能不同,具体以订单支付页面显示的价格为准。</p><p><br/></p><p>5、在签收商品时,请您本人或您指定的收件人亲自在不拆封商品包装的情况下,在快递前当面验货,确认无误后再签收。若您或上述收件人委托他人签收商品或承运人已按您或收件人指示将商品置于指定地点的,视为本人签收。快递—旦签收视为该商品已交付给您。6、您无正当理由拒绝签收不支持七天无理由退换货的商品或性质不适宜拒签的商品的,商品返回后,需由您承担商品毁损灭失的风险及因此产生的费用。龟仙人一番赏可选择退款或将商品再次发回,若商品性质已不适宜发回或您再次拒绝签收的,订单损失由您承担。五、支付条款</p><p><br/></p><p>1、您在使用“抽一张”、“抽五张”、“抽十张”、“全收&quot;等支付功能时因商品可能存在多名用户同时抢购的情况,您应及时注意赠品余量情况,保证支付后购买顺利。</p><p><br/></p><p>2、您在使用微信支付购买时,如遇到赠品数量不足的情况,相应金额会自动退款至您的微信账户,退款时可能会有延迟情况,请耐心等待。若长时间未收到钱款请联系客服处理六、售后条款</p><p><br/></p><p>“—番赏为开赏类商品,不支持七天无理由退换货。您知悉并理解内商品难免存在轻微增色、溢色、气泡染色不均轻微划痕等涂装或原厂问题的瑕疵。上述均属于正常现象,番赏不接受因此提出的退换货申请,请您知悉并谨慎考虑后,理性购买。</p><p><br/></p><p>七、通知</p><p><br/></p><p>1、为更好地为您提供服务,您同意接受我们发送的信息,包括但不限于:在番赏发布公告、向您发送邮件、向您提供的联系电话发送手机短信、向您的账号发送私信以及站内信信息向您提供的联系地址邮寄书面通知等。如一番堂能够证明以上电子形式的信息已经发送给您或者已在相关页面公布,则视为您已收到相关信息以纸质载体发出的书面通知,按照提供联系地址交邮后的第五个工作日即视为送达2、保留对本小程序注册、购物用户发送订单信息、促销活动等告知服务的权利。如果您在注册、购物,表明您已默认同意接受此项服务。</p><p><br/></p><p>八、评价</p><p><br/></p><p>您有权在提供的评价系统中对与您达成交易的商品进行评价。您应当理解,您在的评价信息是公开的您的所有评价行为应遵守本协议,评价内容应当客观真实,不应含任何污言秽语政治敏感、色情低俗、广告信息及法律法规列明之其他禁止性信息;您不应以不正当方式利用评价权利对其他用户实施威胁、敲诈勒索。有权对您实施上述行为所产生的评价信息进行删除或屏蔽。</p><p><br/></p><p>九、其他</p><p><br/></p><p>1、除非另有证明,储存在服务器上的数据是您使用服务的唯有效证据。</p><p><br/></p><p>2、若您存在以下不正当行为,—经发现,有权采取包括但不限于暂停发货、取消订单、拦截已发货的订单、限制账户权限等措施:</p><p><br/></p><p>(1)、您利用平台进行非法套现、洗钱及其他违法犯罪行为。</p><p><br/></p><p>(2)、由于用户将其用户密码告知他人或与他人共享注册账号与密码,由此导致的任何个人信息的泄漏,或其他非因番赏原因导致的个人隐私信息的泄露。(3)、用户自行向第三方公开其个人隐私信息。</p><p><br/></p><p>(4)、用户与及合作单位之间就用户个人隐私信息的使用公开达成约定因此向合作单位公开用户个人隐私信息、任何由于黑客攻击、电脑病毒侵入及其他非因原因导致用户个人隐私信息的泄露。</p><p><br/></p><p>2、用户同意可在以下事项中免费使用用户的个人隐私信息:</p><p><br/></p><p>(1)、向用户及时发送重要通知,如应用更新、本协议条款的变更。</p><p><br/></p><p>(2)、内部进行审计、数据分析和研究等,以改进番赏的产品、服务和与用户之间的沟通:</p><p><br/></p><p>(3)、依本协议约定,管理、审查用户信息及进行处理措施。</p><p><br/></p><p>(4)、帅Liu潮玩可能将收集到的用户信息,用在其他功能或服务中向用户提供特定内容,包括但不限于展示广告、对用户阅读过的内容进行信息安全类提示、基于特征标签进行间接人群画像并提供更加精准和个性化的服务和内容等。</p><p><br/></p><p>(2)、适用法律法规规定的其他事项。</p><p><br/></p><p>(3)、根据相关法律法规及国家标佳,以下情形中,可能会收集、使用、共享、转让、公开披露用户的个人信息无需征求用户的授权同意:(1)、与国家安全、国防安全等国家利益直接相关的与公共安全、公共卫生、公众知情等重大公共利益直接相关的。</p><p><br/></p><p>(2)、与犯罪侦查、起诉、审判和判决执行等直接相关的。</p><p><br/></p><p>(3)、出于维护用户或其他个人的生命、财产声誉等重大合法权益但又很难得到本人同意的。</p><p><br/></p><p>(4)、所收集的个人信息是用户自行向社会公众公开的。</p><p><br/></p><p>(5)、从合法公开披露的信息中收集个人信息的,如合法的新闻报道、政府信息公开等渠道根据用户要求签订和履行合同所必需的。(6)、用于维护所提供的产品或服务的安全稳定运行所必需的,例如发现、处置产品或服务的故障为开展合法的新闻报道所必需的出于公共利益开展统计或学术研究所必要的。(7)、法律法规规定的其他情形。</p><p><br/></p><p>4、我们非常重视对未成年人个人信息的保护。根据相关法律法规的规定,若您是18周岁以下的未成年人,在使用服务前,应事先取得您的家长或法定监护人的书面同意。</p><p><br/></p><p>5、帅Liu潮玩将会尽其商业上的合理努力保障用户在本软件及服务中的数据存储安全,但是并不能就此提供完全保证,包括但不限于以下情形:</p><p><br/></p><p>(1)、不对用户在本软件及服务中相关数据的删除或储存失败负责。(2)、有权根据实际情况自行决定单个用户在本软件及服务中数据的最长储存期限,并在服务器上为其分配数据最大存储空间等。</p><p><br/></p><p>(3)、如果用户停止使用本软件及服务或服务被终止或取消,帅Liu潮玩可以从服务器上永久地删除用户数据。服务停止、终止或取消后,没有义务向用户返还任何数据。</p><p><br/></p><p>十一、免责事由</p><p><br/></p><p>1、您知悉并同意,不因下述任一情况而可能导致的任何损害赔偿承担责任,包括但不限于财产、收益、数据资料等方面的损失或其它无形损失:(1)、因台风、地震、海啸、洪水、停电、战争、恐怖袭击等不可抗力之因素导致系统或服务不能正常运行。</p><p><br/></p><p>(2)、由于黑客攻击、电信部门技术调整或故障、系统维护等原因而造成的系统服务中断或者延迟。</p><p><br/></p><p>(3)、由于政府命令、法律法规的变更、司法机关及行政机关的命令、裁定等原因而导致的系统服务中断、终止或延迟。</p><p><br/></p><p>(4)、由于您将账号、密码告知他人或未保管好自己的密码或与他人共享账号或任何其他非的过错,导致您的个人资料泄露。</p><p><br/></p><p>(5)、由于与链接或合作的其它网站所造成的银行账户信息身份信息泄露及由此而导致的任何法律争议和后果、您(包括未成年人用户)向提供错误、不完整、不实信息等,造成任何损失。如因系统维护或升级的需要而需暂停服务时,我们将尽可能事先进行通知。对于服务的中断或终止而给您造成的任何损失,我们无须对您或任何第三方承担任何责任。</p><p><br/></p><p>2、您理解对您的任何请求采取行动均需要合理时间,且应您请求而采取的行动可能无法避免或阻止侵害后果的形成或扩大除存在法定过错外,番赏不承担责任。</p><p><br/></p><p>3、您理解并同意,因您自身违反本协议或相关服务条款的规定,导致或产生第三方主张的任何索赔、要求或损失您应当独立承担责任:因此遭受损失的,您也应当并赔偿。</p><p><br/></p><p>十二、投诉指引</p><p><br/></p><p>一番赏—向重视知识产权以及用户权益的保护如您认为平台某些内容涉嫌侵犯了您的合法权益,您可以通过发送邮件至[763044293@qq.com】向进行投诉。投诉请求至少应包括以下内容:(1)投诉人的姓名(名称)、联系电话和通讯地址:(2)投诉的具体理由、要求及被投诉内容:(3构成侵权的初步证明材料。当收到投诉请求后,我们的工作人员会尽快依法为您处理。</p><p><br/></p><p>十三法律适用、争议解决及条款可分割性1、本协议的订立、效力、解释、执行及其下产生的任何争议的解决应适用并遵守中国法律。</p><p><br/></p><p>2、因本协议或其违约、终止或无效而产生的或与本协议或其违约、终止或无效有关的任何争议、争论或诉求(争议)应提交杭州国际经济贸易仲裁委员会根据提交争议时该会届时有效的仲裁规则进行仲裁。仲裁庭的仲裁裁决为终局仲裁,对双方均有约束力双方应尽其最大努力使得任何该等仲裁裁决及时得以执行,并就此提供任何必要的协助。</p><p><br/></p><p>3、本协议任条款被视为废止、无效或不可执行,该条款应视为可分割的不应影响其他条款或其任何部分的效力,您与我们仍应善意履行。</p><p><br/></p><p><br/></p><p><br/></p>', 1632451653),
-(6, '无限赏购买说明', '<p>1、购买模式为开赏类商品，一经购买不支持无理由退货，请谨慎购买（未成年禁止购买）</p><p>2、购买规则有“一次”“五次”“十次”“全收”按钮获得商品<br/></p><p>3、双随机抽赏方式,FIRST为全局前半局随机赠送一位玩家，LAST为后半局随机赠送一位玩家。</p><p>4、全局赏类型，比如购买ABCDE赏后，全部赠品随机赠送每位客户，具体请查看赏池界面。</p><p>5、无限赏类型，为“一次”“三次”“五次”“十次”按钮获得商品，根据需求进行购买。</p>', 1632451653),
-(7, '竞技赏购买说明', '<p>1、购买模式为开赏类商品，一经购买不支持无理由退货，请谨慎购买（未成年禁止购买）</p><p>2、购买规则有“一次”“五次”“十次”“全收”按钮获得商品<br/></p><p>3、双随机抽赏方式,FIRST为全局前半局随机赠送一位玩家，LAST为后半局随机赠送一位玩家。</p><p>4、全局赏类型，比如购买ABCDE赏后，全部赠品随机赠送每位客户，具体请查看赏池界面。</p><p><br/></p><p><br/></p>', 1632451653),
-(8, '赏袋注意事项', '<p>					</p><p><br/></p><p><br/></p><p><br/></p><p><span style=\"color: rgb(0, 176, 240);\"><strong>【打包发货】</strong></span><br/></p><p>用于邮寄玩家喜欢的物品，现货发货时间为3-15天内发货，预售发货则为发售后3-15天内发货，偏远地区不包邮。</p><p><span style=\"color: rgb(0, 176, 240);\"><strong>【存保险柜】</strong></span></p><p>用于保存玩家所需要的物品，以免错误发货。</p><p><br/></p><p><br/></p><p>				</p>', 1632451653),
-(9, '使用规则', '<p>1、购买模式为开赏类商品，一经购买不支持无理由退货，请谨慎购买（未成年禁止购买）</p><p>2、购买规则有“一次”“五次”“十次”“全收”按钮获得商品<br/></p><p>3、双随机抽赏方式,FIRST为全局前半局随机赠送一位玩家，LAST为后半局随机赠送一位玩家。</p><p>4、全局赏类型，比如购买ABCDE赏后，全部赠品随机赠送每位客户，具体请查看赏池界面。</p><p><br/></p><p><br/></p>', 1632451653),
-(10, '扭蛋机规则', '<p>扭蛋盲盒</p><p>1、玩法说明有1，3，5，10抽，可以根据自己的需求进行购买。</p><p>2、里面随机设置一款隐藏款</p><p>3、购买扭蛋盲盒越多，出赏及隐藏款概率越高。</p><p>4、未成年人禁止购买。</p>', 1632451653),
-(11, '赠送说明', '<p>1、购买模式为开赏类商品，一经购买不支持无理由退货，请谨慎购买（未成年禁止购买）</p><p>2、购买规则有“一次”“五次”“十次”“全收”按钮获得商品<br/></p><p>3、双随机抽赏方式,FIRST为全局前半局随机赠送一位玩家，LAST为后半局随机赠送一位玩家。</p><p>4、全局赏类型，比如购买ABCDE赏后，全部赠品随机赠送每位客户，具体请查看赏池界面。</p><p><br/></p><p><br/></p>', 1632451653);
-
--- --------------------------------------------------------
+LOCK TABLES `dl_single` WRITE;
+/*!40000 ALTER TABLE `dl_single` DISABLE KEYS */;
+INSERT INTO `dl_single` VALUES (1,'用户协议','<p>尊敬的用户您好。</p><p><br/></p><p>本《用户购买协议》(以下统称本协议)是您与万载县沾组百货店(以下统称“帅Liu潮玩小程序(以下统称“&quot;&quot;)之间关于提供的购买服务的法律协议。您若注册帅Liu潮玩并购买和使用了本公司的商品或服务,即表示您认同并接受了本协议。您的使用受制于本协议,请仔细阅读。</p><p><br/></p><p>—、特别提示</p><p><br/></p><p>1、在此特别提醒,请您在使用服务前阅读并充分理解本协议特别是免除或者限制责任的相应条款,双方确认前述条款不属于《合同法》第40条规定“免除其责任、加重对方责任、排除对方主要权利之条款您认可其合法性及有效性。</p><p><br/></p><p>2、本公司可能因国家政策、发展规划、产品以及履行本协议的环境发生变化等因素,而对或本协议进行修改变更修改或变更的内容将于相关页面进行公告。若您不同意或本协议的前述修改或变更,您可停止使用服务。您使用服务即视为您接受并同意本协议所有条款,包括但不限于前述修改及变更请您在勾选同意本协议前谨慎阅读并理解相关内容如您勾选同意即视为您自此发生的交易均受本协议约束,包括但不限于前述修改及变更如违反本协议约定,有权随时中止或终止服务。</p><p><br/></p><p>3、如果您未满18周岁请在法定监护人的陪同下阅读本协议未成年人行使和履行本协议项下的权利和义务视为已获得了监护人的认可。</p><p><br/></p><p>4、由于您使用的软件版本、设备、操作系统等不同以及第三方原因可能导致您实际可使用的具体服务有差别,由此可能给您带来的不便您表示理解且不会因此向提出任何主张或追究木叶―番赏的任何责任。</p><p><br/></p><p>二、适用范围</p><p><br/></p><p>本协议适用于通过帅Liu潮玩销售的所有商品和服务(以下统称“商品”)。当您购买目前或将来提供的特殊品类商品(包括但不限于预售类商品、盲盒等)时,本协议未涉及的和该特殊品类商品展示页中另有规定的(“特殊条款&quot;),从其规定如果本协议与特殊条款有不—致之处以特殊条款为准</p><p><br/></p><p>三、交易条款</p><p><br/></p><p>1、关于商品信息调整</p><p><br/></p><p>商品名称、价格、数量、型号、规格、尺寸颜色、商品介绍、库存等商品信息随时都有可能发生变动,任何变动帅Liu潮玩不作特别通知请您至商品页面自行查看。会尽最大努力保证您所浏览的商品信息的准确性:但由于商品种类繁多、商信息量大以及技术因素等客观原因,商品信息页面显示可能存在一定滞后性或差错,您对此表示知悉和理解:此外,由于预售商品存在一定不确定性相应商品信息(包括但不限于赠品配比、规格尺寸等)可能会自动跟随官方信息修改,您对此表示知悉和理解。如用户不接受可以进行单个退款。</p><p><br/></p><p>2、关于订单信息</p><p><br/></p><p>在您提交订单时,请仔细确认所购商品的名称价格、数量、型号、规格、尺寸、颜色、收货人姓名、联系电话、收货地址等信息。若收货人并非您本人收货人的行为和意思表示将视为您的行为和意思表示,您应对收货人的行为及意思表示产生的法律后果承担连带责任您提交订单即表示对订单中所确认的订购商品、收货信息等内容的准确性负责。如果因为您填写的收货人姓名联系电话、收货地址等信息错误,导致延期配送、不能配送、或商品交付给非您本意的收货人,由此造成的损失需由您自行承担:因造成的任何损失或增加费用的,应由您完全独自承担。您同意并保证:为了更好的为您提供服务,龟仙人一番赏会记录您在选购商品过程中在线填写的所有信息;若有需要可提供给相关服务提供方。</p><p><br/></p><p>3、关于订单生效</p><p><br/></p><p>帅Liu潮玩展示的商品和价格等商品信息仅仅作为要约邀请。您下单时须写明订单信息内容,系统生成的订单信息是计算机信息系统根据您填写的内容和和操作自动生成的数据。作为您向帅Liu潮玩发出的合同要约。您付款后,即视为双方之间的合同成立您未能在指定时间完成付款的,有权取消订单。如果您在一份订单里订购了多种商品,但仅就部分商品支付价款,则木叶—番赏和之间仅就该部分商品成立合同关系“赠品兑换券类产品具有随机性的特点,对此您已充分了解。您应该对您消费行为的性质和后果自行判断,并对您在的一切消费行为完全负责。基于产品特点我们无法保证您收到的商品符合您对某—特定款式或型·号的预期对此。您不应以未收到特定款式的商品为由要求很款、赔偿或承担任何责任。木叶—番赏无法且不会对因前述问题而导致的任何损失或损害承担责任。如因系统故障或的过失导致显示信息明显不合理的情况(包括但不限于商品价格明显偏低、显示余量明显异常等)请勿进行相关后续操作并立即通知进行修改有权在法律允许的最大限度内取消相关不合理订单并及时通知您。</p><p><br/></p><p>4、关于商品缺货的处理</p><p><br/></p><p>由于国家政策、市场变化、系统问题及其他不可抗力等因素影响,您所提交的订单信息中的商品可能出现缺货情在此情形下将以有效方式(包括但不限于在发公告、发送邮件、向您提供的联系电话发送手机短信、向您的账号发送私信以及站内信信息等方式)通知您并提供解决方案(包括但不限于取消订单换货、调货等方式式)。请您在未收到商品之前留意通知若超过两次无法与您取得电话联系且您在收到番堂通知超过30天未主动联系在线客服将有权取消订单,由此给您带来的不便敬请谅解缺货商品是杏补货不再另行通知,如您对此商品感兴趣请您随时关注。</p><p><br/></p><p>四、配送条款</p><p><br/></p><p>用户付款并填写真实的收货人姓名、有效联系电话、收货地址是商家给用户发货的前提。</p><p><br/></p><p>1、关于发货时间您知悉并理解,上列出的发货时间为参考时间该参考时间可能根据库存状况、送货时间、送货地点、物流状况等客观因素存在误差,具体发货时间以实际发出时间为准。此外,您同样知悉预售类商品的具体发货时间会因受制作周期物流周期、质检返工、不可抗力等诸多因素影响存在误差,导致预售类商品的实际发货时间可能提早或推迟,您对上述情形表示同意及理解。</p><p><br/></p><p>2、所有预售类商品如后续需要支付运费或祺他费用将在补款时—并支付。</p><p><br/></p><p>3、商品的可配送区域为中国大陆地区(特殊偏远地区除外)收件地址在非可配送区域或区域不明确的,务必客服人员核实清楚后再下单本公司及对因此造成的一切纠纷和损失不承担责任。</p><p><br/></p><p>4、运费视配送地址不同可能不同,具体以订单支付页面显示的价格为准。</p><p><br/></p><p>5、在签收商品时,请您本人或您指定的收件人亲自在不拆封商品包装的情况下,在快递前当面验货,确认无误后再签收。若您或上述收件人委托他人签收商品或承运人已按您或收件人指示将商品置于指定地点的,视为本人签收。快递—旦签收视为该商品已交付给您。6、您无正当理由拒绝签收不支持七天无理由退换货的商品或性质不适宜拒签的商品的,商品返回后,需由您承担商品毁损灭失的风险及因此产生的费用。龟仙人一番赏可选择退款或将商品再次发回,若商品性质已不适宜发回或您再次拒绝签收的,订单损失由您承担。五、支付条款</p><p><br/></p><p>1、您在使用“抽一张”、“抽五张”、“抽十张”、“全收&quot;等支付功能时因商品可能存在多名用户同时抢购的情况,您应及时注意赠品余量情况,保证支付后购买顺利。</p><p><br/></p><p>2、您在使用微信支付购买时,如遇到赠品数量不足的情况,相应金额会自动退款至您的微信账户,退款时可能会有延迟情况,请耐心等待。若长时间未收到钱款请联系客服处理六、售后条款</p><p><br/></p><p>“—番赏为开赏类商品,不支持七天无理由退换货。您知悉并理解内商品难免存在轻微增色、溢色、气泡染色不均轻微划痕等涂装或原厂问题的瑕疵。上述均属于正常现象,番赏不接受因此提出的退换货申请,请您知悉并谨慎考虑后,理性购买。</p><p><br/></p><p>七、通知</p><p><br/></p><p>1、为更好地为您提供服务,您同意接受我们发送的信息,包括但不限于:在番赏发布公告、向您发送邮件、向您提供的联系电话发送手机短信、向您的账号发送私信以及站内信信息向您提供的联系地址邮寄书面通知等。如一番堂能够证明以上电子形式的信息已经发送给您或者已在相关页面公布,则视为您已收到相关信息以纸质载体发出的书面通知,按照提供联系地址交邮后的第五个工作日即视为送达2、保留对本小程序注册、购物用户发送订单信息、促销活动等告知服务的权利。如果您在注册、购物,表明您已默认同意接受此项服务。</p><p><br/></p><p>八、评价</p><p><br/></p><p>您有权在提供的评价系统中对与您达成交易的商品进行评价。您应当理解,您在的评价信息是公开的您的所有评价行为应遵守本协议,评价内容应当客观真实,不应含任何污言秽语政治敏感、色情低俗、广告信息及法律法规列明之其他禁止性信息;您不应以不正当方式利用评价权利对其他用户实施威胁、敲诈勒索。有权对您实施上述行为所产生的评价信息进行删除或屏蔽。</p><p><br/></p><p>九、其他</p><p><br/></p><p>1、除非另有证明,储存在服务器上的数据是您使用服务的唯有效证据。</p><p><br/></p><p>2、若您存在以下不正当行为,—经发现,有权采取包括但不限于暂停发货、取消订单、拦截已发货的订单、限制账户权限等措施:</p><p><br/></p><p>(1)、您利用平台进行非法套现、洗钱及其他违法犯罪行为。</p><p><br/></p><p>(2)、由于用户将其用户密码告知他人或与他人共享注册账号与密码,由此导致的任何个人信息的泄漏,或其他非因番赏原因导致的个人隐私信息的泄露。(3)、用户自行向第三方公开其个人隐私信息。</p><p><br/></p><p>(4)、用户与及合作单位之间就用户个人隐私信息的使用公开达成约定因此向合作单位公开用户个人隐私信息、任何由于黑客攻击、电脑病毒侵入及其他非因原因导致用户个人隐私信息的泄露。</p><p><br/></p><p>2、用户同意可在以下事项中免费使用用户的个人隐私信息:</p><p><br/></p><p>(1)、向用户及时发送重要通知,如应用更新、本协议条款的变更。</p><p><br/></p><p>(2)、内部进行审计、数据分析和研究等,以改进番赏的产品、服务和与用户之间的沟通:</p><p><br/></p><p>(3)、依本协议约定,管理、审查用户信息及进行处理措施。</p><p><br/></p><p>(4)、帅Liu潮玩可能将收集到的用户信息,用在其他功能或服务中向用户提供特定内容,包括但不限于展示广告、对用户阅读过的内容进行信息安全类提示、基于特征标签进行间接人群画像并提供更加精准和个性化的服务和内容等。</p><p><br/></p><p>(2)、适用法律法规规定的其他事项。</p><p><br/></p><p>(3)、根据相关法律法规及国家标佳,以下情形中,可能会收集、使用、共享、转让、公开披露用户的个人信息无需征求用户的授权同意:(1)、与国家安全、国防安全等国家利益直接相关的与公共安全、公共卫生、公众知情等重大公共利益直接相关的。</p><p><br/></p><p>(2)、与犯罪侦查、起诉、审判和判决执行等直接相关的。</p><p><br/></p><p>(3)、出于维护用户或其他个人的生命、财产声誉等重大合法权益但又很难得到本人同意的。</p><p><br/></p><p>(4)、所收集的个人信息是用户自行向社会公众公开的。</p><p><br/></p><p>(5)、从合法公开披露的信息中收集个人信息的,如合法的新闻报道、政府信息公开等渠道根据用户要求签订和履行合同所必需的。(6)、用于维护所提供的产品或服务的安全稳定运行所必需的,例如发现、处置产品或服务的故障为开展合法的新闻报道所必需的出于公共利益开展统计或学术研究所必要的。(7)、法律法规规定的其他情形。</p><p><br/></p><p>4、我们非常重视对未成年人个人信息的保护。根据相关法律法规的规定,若您是18周岁以下的未成年人,在使用服务前,应事先取得您的家长或法定监护人的书面同意。</p><p><br/></p><p>5、帅Liu潮玩将会尽其商业上的合理努力保障用户在本软件及服务中的数据存储安全,但是并不能就此提供完全保证,包括但不限于以下情形:</p><p><br/></p><p>(1)、不对用户在本软件及服务中相关数据的删除或储存失败负责。(2)、有权根据实际情况自行决定单个用户在本软件及服务中数据的最长储存期限,并在服务器上为其分配数据最大存储空间等。</p><p><br/></p><p>(3)、如果用户停止使用本软件及服务或服务被终止或取消,帅Liu潮玩可以从服务器上永久地删除用户数据。服务停止、终止或取消后,没有义务向用户返还任何数据。</p><p><br/></p><p>十一、免责事由</p><p><br/></p><p>1、您知悉并同意,不因下述任一情况而可能导致的任何损害赔偿承担责任,包括但不限于财产、收益、数据资料等方面的损失或其它无形损失:(1)、因台风、地震、海啸、洪水、停电、战争、恐怖袭击等不可抗力之因素导致系统或服务不能正常运行。</p><p><br/></p><p>(2)、由于黑客攻击、电信部门技术调整或故障、系统维护等原因而造成的系统服务中断或者延迟。</p><p><br/></p><p>(3)、由于政府命令、法律法规的变更、司法机关及行政机关的命令、裁定等原因而导致的系统服务中断、终止或延迟。</p><p><br/></p><p>(4)、由于您将账号、密码告知他人或未保管好自己的密码或与他人共享账号或任何其他非的过错,导致您的个人资料泄露。</p><p><br/></p><p>(5)、由于与链接或合作的其它网站所造成的银行账户信息身份信息泄露及由此而导致的任何法律争议和后果、您(包括未成年人用户)向提供错误、不完整、不实信息等,造成任何损失。如因系统维护或升级的需要而需暂停服务时,我们将尽可能事先进行通知。对于服务的中断或终止而给您造成的任何损失,我们无须对您或任何第三方承担任何责任。</p><p><br/></p><p>2、您理解对您的任何请求采取行动均需要合理时间,且应您请求而采取的行动可能无法避免或阻止侵害后果的形成或扩大除存在法定过错外,番赏不承担责任。</p><p><br/></p><p>3、您理解并同意,因您自身违反本协议或相关服务条款的规定,导致或产生第三方主张的任何索赔、要求或损失您应当独立承担责任:因此遭受损失的,您也应当并赔偿。</p><p><br/></p><p>十二、投诉指引</p><p><br/></p><p>一番赏—向重视知识产权以及用户权益的保护如您认为平台某些内容涉嫌侵犯了您的合法权益,您可以通过发送邮件至[763044293@qq.com】向进行投诉。投诉请求至少应包括以下内容:(1)投诉人的姓名(名称)、联系电话和通讯地址:(2)投诉的具体理由、要求及被投诉内容:(3构成侵权的初步证明材料。当收到投诉请求后,我们的工作人员会尽快依法为您处理。</p><p><br/></p><p>十三法律适用、争议解决及条款可分割性1、本协议的订立、效力、解释、执行及其下产生的任何争议的解决应适用并遵守中国法律。</p><p><br/></p><p>2、因本协议或其违约、终止或无效而产生的或与本协议或其违约、终止或无效有关的任何争议、争论或诉求(争议)应提交杭州国际经济贸易仲裁委员会根据提交争议时该会届时有效的仲裁规则进行仲裁。仲裁庭的仲裁裁决为终局仲裁,对双方均有约束力双方应尽其最大努力使得任何该等仲裁裁决及时得以执行,并就此提供任何必要的协助。</p><p><br/></p><p>3、本协议任条款被视为废止、无效或不可执行,该条款应视为可分割的不应影响其他条款或其任何部分的效力,您与我们仍应善意履行。</p><p><br/></p><p><br/></p><p><br/></p>',1632451653),(2,'隐私政策','<p>					</p><p>尊敬的用户您好。</p><p><br/></p><p>本《用户购买协议》(以下统称本协议)是您与万载县沾组百货店(以下统称“帅Liu潮玩小程序(以下统称“&quot;&quot;)之间关于提供的购买服务的法律协议。您若注册帅Liu潮玩并购买和使用了本公司的商品或服务,即表示您认同并接受了本协议。您的使用受制于本协议,请仔细阅读。</p><p><br/></p><p>—、特别提示</p><p><br/></p><p>1、在此特别提醒,请您在使用服务前阅读并充分理解本协议特别是免除或者限制责任的相应条款,双方确认前述条款不属于《合同法》第40条规定“免除其责任、加重对方责任、排除对方主要权利之条款您认可其合法性及有效性。</p><p><br/></p><p>2、本公司可能因国家政策、发展规划、产品以及履行本协议的环境发生变化等因素,而对或本协议进行修改变更修改或变更的内容将于相关页面进行公告。若您不同意或本协议的前述修改或变更,您可停止使用服务。您使用服务即视为您接受并同意本协议所有条款,包括但不限于前述修改及变更请您在勾选同意本协议前谨慎阅读并理解相关内容如您勾选同意即视为您自此发生的交易均受本协议约束,包括但不限于前述修改及变更如违反本协议约定,有权随时中止或终止服务。</p><p><br/></p><p>3、如果您未满18周岁请在法定监护人的陪同下阅读本协议未成年人行使和履行本协议项下的权利和义务视为已获得了监护人的认可。</p><p><br/></p><p>4、由于您使用的软件版本、设备、操作系统等不同以及第三方原因可能导致您实际可使用的具体服务有差别,由此可能给您带来的不便您表示理解且不会因此向提出任何主张或追究木叶―番赏的任何责任。</p><p><br/></p><p>二、适用范围</p><p><br/></p><p>本协议适用于通过帅Liu潮玩销售的所有商品和服务(以下统称“商品”)。当您购买目前或将来提供的特殊品类商品(包括但不限于预售类商品、盲盒等)时,本协议未涉及的和该特殊品类商品展示页中另有规定的(“特殊条款&quot;),从其规定如果本协议与特殊条款有不—致之处以特殊条款为准</p><p><br/></p><p>三、交易条款</p><p><br/></p><p>1、关于商品信息调整</p><p><br/></p><p>商品名称、价格、数量、型号、规格、尺寸颜色、商品介绍、库存等商品信息随时都有可能发生变动,任何变动帅Liu潮玩不作特别通知请您至商品页面自行查看。会尽最大努力保证您所浏览的商品信息的准确性:但由于商品种类繁多、商信息量大以及技术因素等客观原因,商品信息页面显示可能存在一定滞后性或差错,您对此表示知悉和理解:此外,由于预售商品存在一定不确定性相应商品信息(包括但不限于赠品配比、规格尺寸等)可能会自动跟随官方信息修改,您对此表示知悉和理解。如用户不接受可以进行单个退款。</p><p><br/></p><p>2、关于订单信息</p><p><br/></p><p>在您提交订单时,请仔细确认所购商品的名称价格、数量、型号、规格、尺寸、颜色、收货人姓名、联系电话、收货地址等信息。若收货人并非您本人收货人的行为和意思表示将视为您的行为和意思表示,您应对收货人的行为及意思表示产生的法律后果承担连带责任您提交订单即表示对订单中所确认的订购商品、收货信息等内容的准确性负责。如果因为您填写的收货人姓名联系电话、收货地址等信息错误,导致延期配送、不能配送、或商品交付给非您本意的收货人,由此造成的损失需由您自行承担:因造成的任何损失或增加费用的,应由您完全独自承担。您同意并保证:为了更好的为您提供服务,龟仙人一番赏会记录您在选购商品过程中在线填写的所有信息;若有需要可提供给相关服务提供方。</p><p><br/></p><p>3、关于订单生效</p><p><br/></p><p>帅Liu潮玩展示的商品和价格等商品信息仅仅作为要约邀请。您下单时须写明订单信息内容,系统生成的订单信息是计算机信息系统根据您填写的内容和和操作自动生成的数据。作为您向帅Liu潮玩发出的合同要约。您付款后,即视为双方之间的合同成立您未能在指定时间完成付款的,有权取消订单。如果您在一份订单里订购了多种商品,但仅就部分商品支付价款,则木叶—番赏和之间仅就该部分商品成立合同关系“赠品兑换券类产品具有随机性的特点,对此您已充分了解。您应该对您消费行为的性质和后果自行判断,并对您在的一切消费行为完全负责。基于产品特点我们无法保证您收到的商品符合您对某—特定款式或型·号的预期对此。您不应以未收到特定款式的商品为由要求很款、赔偿或承担任何责任。木叶—番赏无法且不会对因前述问题而导致的任何损失或损害承担责任。如因系统故障或的过失导致显示信息明显不合理的情况(包括但不限于商品价格明显偏低、显示余量明显异常等)请勿进行相关后续操作并立即通知进行修改有权在法律允许的最大限度内取消相关不合理订单并及时通知您。</p><p><br/></p><p>4、关于商品缺货的处理</p><p><br/></p><p>由于国家政策、市场变化、系统问题及其他不可抗力等因素影响,您所提交的订单信息中的商品可能出现缺货情在此情形下将以有效方式(包括但不限于在发公告、发送邮件、向您提供的联系电话发送手机短信、向您的账号发送私信以及站内信信息等方式)通知您并提供解决方案(包括但不限于取消订单换货、调货等方式式)。请您在未收到商品之前留意通知若超过两次无法与您取得电话联系且您在收到番堂通知超过30天未主动联系在线客服将有权取消订单,由此给您带来的不便敬请谅解缺货商品是杏补货不再另行通知,如您对此商品感兴趣请您随时关注。</p><p><br/></p><p>四、配送条款</p><p><br/></p><p>用户付款并填写真实的收货人姓名、有效联系电话、收货地址是商家给用户发货的前提。</p><p><br/></p><p>1、关于发货时间您知悉并理解,上列出的发货时间为参考时间该参考时间可能根据库存状况、送货时间、送货地点、物流状况等客观因素存在误差,具体发货时间以实际发出时间为准。此外,您同样知悉预售类商品的具体发货时间会因受制作周期物流周期、质检返工、不可抗力等诸多因素影响存在误差,导致预售类商品的实际发货时间可能提早或推迟,您对上述情形表示同意及理解。</p><p><br/></p><p>2、所有预售类商品如后续需要支付运费或祺他费用将在补款时—并支付。</p><p><br/></p><p>3、商品的可配送区域为中国大陆地区(特殊偏远地区除外)收件地址在非可配送区域或区域不明确的,务必客服人员核实清楚后再下单本公司及对因此造成的一切纠纷和损失不承担责任。</p><p><br/></p><p>4、运费视配送地址不同可能不同,具体以订单支付页面显示的价格为准。</p><p><br/></p><p>5、在签收商品时,请您本人或您指定的收件人亲自在不拆封商品包装的情况下,在快递前当面验货,确认无误后再签收。若您或上述收件人委托他人签收商品或承运人已按您或收件人指示将商品置于指定地点的,视为本人签收。快递—旦签收视为该商品已交付给您。6、您无正当理由拒绝签收不支持七天无理由退换货的商品或性质不适宜拒签的商品的,商品返回后,需由您承担商品毁损灭失的风险及因此产生的费用。龟仙人一番赏可选择退款或将商品再次发回,若商品性质已不适宜发回或您再次拒绝签收的,订单损失由您承担。五、支付条款</p><p><br/></p><p>1、您在使用“抽一张”、“抽五张”、“抽十张”、“全收&quot;等支付功能时因商品可能存在多名用户同时抢购的情况,您应及时注意赠品余量情况,保证支付后购买顺利。</p><p><br/></p><p>2、您在使用微信支付购买时,如遇到赠品数量不足的情况,相应金额会自动退款至您的微信账户,退款时可能会有延迟情况,请耐心等待。若长时间未收到钱款请联系客服处理六、售后条款</p><p><br/></p><p>“—番赏为开赏类商品,不支持七天无理由退换货。您知悉并理解内商品难免存在轻微增色、溢色、气泡染色不均轻微划痕等涂装或原厂问题的瑕疵。上述均属于正常现象,番赏不接受因此提出的退换货申请,请您知悉并谨慎考虑后,理性购买。</p><p><br/></p><p>七、通知</p><p><br/></p><p>1、为更好地为您提供服务,您同意接受我们发送的信息,包括但不限于:在番赏发布公告、向您发送邮件、向您提供的联系电话发送手机短信、向您的账号发送私信以及站内信信息向您提供的联系地址邮寄书面通知等。如一番堂能够证明以上电子形式的信息已经发送给您或者已在相关页面公布,则视为您已收到相关信息以纸质载体发出的书面通知,按照提供联系地址交邮后的第五个工作日即视为送达2、保留对本小程序注册、购物用户发送订单信息、促销活动等告知服务的权利。如果您在注册、购物,表明您已默认同意接受此项服务。</p><p><br/></p><p>八、评价</p><p><br/></p><p>您有权在提供的评价系统中对与您达成交易的商品进行评价。您应当理解,您在的评价信息是公开的您的所有评价行为应遵守本协议,评价内容应当客观真实,不应含任何污言秽语政治敏感、色情低俗、广告信息及法律法规列明之其他禁止性信息;您不应以不正当方式利用评价权利对其他用户实施威胁、敲诈勒索。有权对您实施上述行为所产生的评价信息进行删除或屏蔽。</p><p><br/></p><p>九、其他</p><p><br/></p><p>1、除非另有证明,储存在服务器上的数据是您使用服务的唯有效证据。</p><p><br/></p><p>2、若您存在以下不正当行为,—经发现,有权采取包括但不限于暂停发货、取消订单、拦截已发货的订单、限制账户权限等措施:</p><p><br/></p><p>(1)、您利用平台进行非法套现、洗钱及其他违法犯罪行为。</p><p><br/></p><p>(2)、由于用户将其用户密码告知他人或与他人共享注册账号与密码,由此导致的任何个人信息的泄漏,或其他非因番赏原因导致的个人隐私信息的泄露。(3)、用户自行向第三方公开其个人隐私信息。</p><p><br/></p><p>(4)、用户与及合作单位之间就用户个人隐私信息的使用公开达成约定因此向合作单位公开用户个人隐私信息、任何由于黑客攻击、电脑病毒侵入及其他非因原因导致用户个人隐私信息的泄露。</p><p><br/></p><p>2、用户同意可在以下事项中免费使用用户的个人隐私信息:</p><p><br/></p><p>(1)、向用户及时发送重要通知,如应用更新、本协议条款的变更。</p><p><br/></p><p>(2)、内部进行审计、数据分析和研究等,以改进番赏的产品、服务和与用户之间的沟通:</p><p><br/></p><p>(3)、依本协议约定,管理、审查用户信息及进行处理措施。</p><p><br/></p><p>(4)、帅Liu潮玩可能将收集到的用户信息,用在其他功能或服务中向用户提供特定内容,包括但不限于展示广告、对用户阅读过的内容进行信息安全类提示、基于特征标签进行间接人群画像并提供更加精准和个性化的服务和内容等。</p><p><br/></p><p>(2)、适用法律法规规定的其他事项。</p><p><br/></p><p>(3)、根据相关法律法规及国家标佳,以下情形中,可能会收集、使用、共享、转让、公开披露用户的个人信息无需征求用户的授权同意:(1)、与国家安全、国防安全等国家利益直接相关的与公共安全、公共卫生、公众知情等重大公共利益直接相关的。</p><p><br/></p><p>(2)、与犯罪侦查、起诉、审判和判决执行等直接相关的。</p><p><br/></p><p>(3)、出于维护用户或其他个人的生命、财产声誉等重大合法权益但又很难得到本人同意的。</p><p><br/></p><p>(4)、所收集的个人信息是用户自行向社会公众公开的。</p><p><br/></p><p>(5)、从合法公开披露的信息中收集个人信息的,如合法的新闻报道、政府信息公开等渠道根据用户要求签订和履行合同所必需的。(6)、用于维护所提供的产品或服务的安全稳定运行所必需的,例如发现、处置产品或服务的故障为开展合法的新闻报道所必需的出于公共利益开展统计或学术研究所必要的。(7)、法律法规规定的其他情形。</p><p><br/></p><p>4、我们非常重视对未成年人个人信息的保护。根据相关法律法规的规定,若您是18周岁以下的未成年人,在使用服务前,应事先取得您的家长或法定监护人的书面同意。</p><p><br/></p><p>5、帅Liu潮玩将会尽其商业上的合理努力保障用户在本软件及服务中的数据存储安全,但是并不能就此提供完全保证,包括但不限于以下情形:</p><p><br/></p><p>(1)、不对用户在本软件及服务中相关数据的删除或储存失败负责。(2)、有权根据实际情况自行决定单个用户在本软件及服务中数据的最长储存期限,并在服务器上为其分配数据最大存储空间等。</p><p><br/></p><p>(3)、如果用户停止使用本软件及服务或服务被终止或取消,帅Liu潮玩可以从服务器上永久地删除用户数据。服务停止、终止或取消后,没有义务向用户返还任何数据。</p><p><br/></p><p>十一、免责事由</p><p><br/></p><p>1、您知悉并同意,不因下述任一情况而可能导致的任何损害赔偿承担责任,包括但不限于财产、收益、数据资料等方面的损失或其它无形损失:(1)、因台风、地震、海啸、洪水、停电、战争、恐怖袭击等不可抗力之因素导致系统或服务不能正常运行。</p><p><br/></p><p>(2)、由于黑客攻击、电信部门技术调整或故障、系统维护等原因而造成的系统服务中断或者延迟。</p><p><br/></p><p>(3)、由于政府命令、法律法规的变更、司法机关及行政机关的命令、裁定等原因而导致的系统服务中断、终止或延迟。</p><p><br/></p><p>(4)、由于您将账号、密码告知他人或未保管好自己的密码或与他人共享账号或任何其他非的过错,导致您的个人资料泄露。</p><p><br/></p><p>(5)、由于与链接或合作的其它网站所造成的银行账户信息身份信息泄露及由此而导致的任何法律争议和后果、您(包括未成年人用户)向提供错误、不完整、不实信息等,造成任何损失。如因系统维护或升级的需要而需暂停服务时,我们将尽可能事先进行通知。对于服务的中断或终止而给您造成的任何损失,我们无须对您或任何第三方承担任何责任。</p><p><br/></p><p>2、您理解对您的任何请求采取行动均需要合理时间,且应您请求而采取的行动可能无法避免或阻止侵害后果的形成或扩大除存在法定过错外,番赏不承担责任。</p><p><br/></p><p>3、您理解并同意,因您自身违反本协议或相关服务条款的规定,导致或产生第三方主张的任何索赔、要求或损失您应当独立承担责任:因此遭受损失的,您也应当并赔偿。</p><p><br/></p><p>十二、投诉指引</p><p><br/></p><p>一番赏—向重视知识产权以及用户权益的保护如您认为平台某些内容涉嫌侵犯了您的合法权益,您可以通过发送邮件至[763044293@qq.com】向进行投诉。投诉请求至少应包括以下内容:(1)投诉人的姓名(名称)、联系电话和通讯地址:(2)投诉的具体理由、要求及被投诉内容:(3构成侵权的初步证明材料。当收到投诉请求后,我们的工作人员会尽快依法为您处理。</p><p><br/></p><p>十三法律适用、争议解决及条款可分割性1、本协议的订立、效力、解释、执行及其下产生的任何争议的解决应适用并遵守中国法律。</p><p><br/></p><p>2、因本协议或其违约、终止或无效而产生的或与本协议或其违约、终止或无效有关的任何争议、争论或诉求(争议)应提交杭州国际经济贸易仲裁委员会根据提交争议时该会届时有效的仲裁规则进行仲裁。仲裁庭的仲裁裁决为终局仲裁,对双方均有约束力双方应尽其最大努力使得任何该等仲裁裁决及时得以执行,并就此提供任何必要的协助。</p><p><br/></p><p>3、本协议任条款被视为废止、无效或不可执行,该条款应视为可分割的不应影响其他条款或其任何部分的效力,您与我们仍应善意履行。</p><p><br/></p><p>				</p>',1632451653),(3,'购买说明','<p style=\"white-space: normal;\">1、购买模式为开赏类商品，一经购买不支持无理由退货，请谨慎购买（未成年禁止购买）</p><p style=\"white-space: normal;\">2、购买规则有“一次”“五次”“十次”“全收”按钮获得商品<br/></p><p style=\"white-space: normal;\">3、双随机抽赏方式,FIRST为全局前半局随机赠送一位玩家，LAST为后半局随机赠送一位玩家。</p><p style=\"white-space: normal;\">4、全局赏类型，比如购买ABCDE赏后，全部赠品随机赠送每位客户，具体请查看赏池界面。</p><p style=\"white-space: normal;\">5、无限赏类型，为“一次”“三次”“五次”“十次”按钮获得商品，根据需求进行购买。</p><p><br/></p>',1632451653),(4,'潮玩券说明','<p style=\"white-space: normal;\">1、购买模式为开赏类商品，一经购买不支持无理由退货，请谨慎购买（未成年禁止购买）</p><p style=\"white-space: normal;\">2、购买规则有“一次”“五次”“十次”“全收”按钮获得商品<br/></p><p style=\"white-space: normal;\">3、双随机抽赏方式,FIRST为全局前半局随机赠送一位玩家，LAST为后半局随机赠送一位玩家。</p><p style=\"white-space: normal;\">4、全局赏类型，比如购买ABCDE赏后，全部赠品随机赠送每位客户，具体请查看赏池界面。</p><p style=\"white-space: normal;\">5、无限赏类型，为“一次”“三次”“五次”“十次”按钮获得商品，根据需求进行购买。</p><p><br/></p>',1632451653),(5,'用户服务协议条款','<p>尊敬的用户您好。</p><p><br/></p><p>本《用户购买协议》(以下统称本协议)是您与万载县沾组百货店(以下统称“帅Liu潮玩小程序(以下统称“&quot;&quot;)之间关于提供的购买服务的法律协议。您若注册帅Liu潮玩并购买和使用了本公司的商品或服务,即表示您认同并接受了本协议。您的使用受制于本协议,请仔细阅读。</p><p><br/></p><p>—、特别提示</p><p><br/></p><p>1、在此特别提醒,请您在使用服务前阅读并充分理解本协议特别是免除或者限制责任的相应条款,双方确认前述条款不属于《合同法》第40条规定“免除其责任、加重对方责任、排除对方主要权利之条款您认可其合法性及有效性。</p><p><br/></p><p>2、本公司可能因国家政策、发展规划、产品以及履行本协议的环境发生变化等因素,而对或本协议进行修改变更修改或变更的内容将于相关页面进行公告。若您不同意或本协议的前述修改或变更,您可停止使用服务。您使用服务即视为您接受并同意本协议所有条款,包括但不限于前述修改及变更请您在勾选同意本协议前谨慎阅读并理解相关内容如您勾选同意即视为您自此发生的交易均受本协议约束,包括但不限于前述修改及变更如违反本协议约定,有权随时中止或终止服务。</p><p><br/></p><p>3、如果您未满18周岁请在法定监护人的陪同下阅读本协议未成年人行使和履行本协议项下的权利和义务视为已获得了监护人的认可。</p><p><br/></p><p>4、由于您使用的软件版本、设备、操作系统等不同以及第三方原因可能导致您实际可使用的具体服务有差别,由此可能给您带来的不便您表示理解且不会因此向提出任何主张或追究木叶―番赏的任何责任。</p><p><br/></p><p>二、适用范围</p><p><br/></p><p>本协议适用于通过帅Liu潮玩销售的所有商品和服务(以下统称“商品”)。当您购买目前或将来提供的特殊品类商品(包括但不限于预售类商品、盲盒等)时,本协议未涉及的和该特殊品类商品展示页中另有规定的(“特殊条款&quot;),从其规定如果本协议与特殊条款有不—致之处以特殊条款为准</p><p><br/></p><p>三、交易条款</p><p><br/></p><p>1、关于商品信息调整</p><p><br/></p><p>商品名称、价格、数量、型号、规格、尺寸颜色、商品介绍、库存等商品信息随时都有可能发生变动,任何变动帅Liu潮玩不作特别通知请您至商品页面自行查看。会尽最大努力保证您所浏览的商品信息的准确性:但由于商品种类繁多、商信息量大以及技术因素等客观原因,商品信息页面显示可能存在一定滞后性或差错,您对此表示知悉和理解:此外,由于预售商品存在一定不确定性相应商品信息(包括但不限于赠品配比、规格尺寸等)可能会自动跟随官方信息修改,您对此表示知悉和理解。如用户不接受可以进行单个退款。</p><p><br/></p><p>2、关于订单信息</p><p><br/></p><p>在您提交订单时,请仔细确认所购商品的名称价格、数量、型号、规格、尺寸、颜色、收货人姓名、联系电话、收货地址等信息。若收货人并非您本人收货人的行为和意思表示将视为您的行为和意思表示,您应对收货人的行为及意思表示产生的法律后果承担连带责任您提交订单即表示对订单中所确认的订购商品、收货信息等内容的准确性负责。如果因为您填写的收货人姓名联系电话、收货地址等信息错误,导致延期配送、不能配送、或商品交付给非您本意的收货人,由此造成的损失需由您自行承担:因造成的任何损失或增加费用的,应由您完全独自承担。您同意并保证:为了更好的为您提供服务,龟仙人一番赏会记录您在选购商品过程中在线填写的所有信息;若有需要可提供给相关服务提供方。</p><p><br/></p><p>3、关于订单生效</p><p><br/></p><p>帅Liu潮玩展示的商品和价格等商品信息仅仅作为要约邀请。您下单时须写明订单信息内容,系统生成的订单信息是计算机信息系统根据您填写的内容和和操作自动生成的数据。作为您向帅Liu潮玩发出的合同要约。您付款后,即视为双方之间的合同成立您未能在指定时间完成付款的,有权取消订单。如果您在一份订单里订购了多种商品,但仅就部分商品支付价款,则木叶—番赏和之间仅就该部分商品成立合同关系“赠品兑换券类产品具有随机性的特点,对此您已充分了解。您应该对您消费行为的性质和后果自行判断,并对您在的一切消费行为完全负责。基于产品特点我们无法保证您收到的商品符合您对某—特定款式或型·号的预期对此。您不应以未收到特定款式的商品为由要求很款、赔偿或承担任何责任。木叶—番赏无法且不会对因前述问题而导致的任何损失或损害承担责任。如因系统故障或的过失导致显示信息明显不合理的情况(包括但不限于商品价格明显偏低、显示余量明显异常等)请勿进行相关后续操作并立即通知进行修改有权在法律允许的最大限度内取消相关不合理订单并及时通知您。</p><p><br/></p><p>4、关于商品缺货的处理</p><p><br/></p><p>由于国家政策、市场变化、系统问题及其他不可抗力等因素影响,您所提交的订单信息中的商品可能出现缺货情在此情形下将以有效方式(包括但不限于在发公告、发送邮件、向您提供的联系电话发送手机短信、向您的账号发送私信以及站内信信息等方式)通知您并提供解决方案(包括但不限于取消订单换货、调货等方式式)。请您在未收到商品之前留意通知若超过两次无法与您取得电话联系且您在收到番堂通知超过30天未主动联系在线客服将有权取消订单,由此给您带来的不便敬请谅解缺货商品是杏补货不再另行通知,如您对此商品感兴趣请您随时关注。</p><p><br/></p><p>四、配送条款</p><p><br/></p><p>用户付款并填写真实的收货人姓名、有效联系电话、收货地址是商家给用户发货的前提。</p><p><br/></p><p>1、关于发货时间您知悉并理解,上列出的发货时间为参考时间该参考时间可能根据库存状况、送货时间、送货地点、物流状况等客观因素存在误差,具体发货时间以实际发出时间为准。此外,您同样知悉预售类商品的具体发货时间会因受制作周期物流周期、质检返工、不可抗力等诸多因素影响存在误差,导致预售类商品的实际发货时间可能提早或推迟,您对上述情形表示同意及理解。</p><p><br/></p><p>2、所有预售类商品如后续需要支付运费或祺他费用将在补款时—并支付。</p><p><br/></p><p>3、商品的可配送区域为中国大陆地区(特殊偏远地区除外)收件地址在非可配送区域或区域不明确的,务必客服人员核实清楚后再下单本公司及对因此造成的一切纠纷和损失不承担责任。</p><p><br/></p><p>4、运费视配送地址不同可能不同,具体以订单支付页面显示的价格为准。</p><p><br/></p><p>5、在签收商品时,请您本人或您指定的收件人亲自在不拆封商品包装的情况下,在快递前当面验货,确认无误后再签收。若您或上述收件人委托他人签收商品或承运人已按您或收件人指示将商品置于指定地点的,视为本人签收。快递—旦签收视为该商品已交付给您。6、您无正当理由拒绝签收不支持七天无理由退换货的商品或性质不适宜拒签的商品的,商品返回后,需由您承担商品毁损灭失的风险及因此产生的费用。龟仙人一番赏可选择退款或将商品再次发回,若商品性质已不适宜发回或您再次拒绝签收的,订单损失由您承担。五、支付条款</p><p><br/></p><p>1、您在使用“抽一张”、“抽五张”、“抽十张”、“全收&quot;等支付功能时因商品可能存在多名用户同时抢购的情况,您应及时注意赠品余量情况,保证支付后购买顺利。</p><p><br/></p><p>2、您在使用微信支付购买时,如遇到赠品数量不足的情况,相应金额会自动退款至您的微信账户,退款时可能会有延迟情况,请耐心等待。若长时间未收到钱款请联系客服处理六、售后条款</p><p><br/></p><p>“—番赏为开赏类商品,不支持七天无理由退换货。您知悉并理解内商品难免存在轻微增色、溢色、气泡染色不均轻微划痕等涂装或原厂问题的瑕疵。上述均属于正常现象,番赏不接受因此提出的退换货申请,请您知悉并谨慎考虑后,理性购买。</p><p><br/></p><p>七、通知</p><p><br/></p><p>1、为更好地为您提供服务,您同意接受我们发送的信息,包括但不限于:在番赏发布公告、向您发送邮件、向您提供的联系电话发送手机短信、向您的账号发送私信以及站内信信息向您提供的联系地址邮寄书面通知等。如一番堂能够证明以上电子形式的信息已经发送给您或者已在相关页面公布,则视为您已收到相关信息以纸质载体发出的书面通知,按照提供联系地址交邮后的第五个工作日即视为送达2、保留对本小程序注册、购物用户发送订单信息、促销活动等告知服务的权利。如果您在注册、购物,表明您已默认同意接受此项服务。</p><p><br/></p><p>八、评价</p><p><br/></p><p>您有权在提供的评价系统中对与您达成交易的商品进行评价。您应当理解,您在的评价信息是公开的您的所有评价行为应遵守本协议,评价内容应当客观真实,不应含任何污言秽语政治敏感、色情低俗、广告信息及法律法规列明之其他禁止性信息;您不应以不正当方式利用评价权利对其他用户实施威胁、敲诈勒索。有权对您实施上述行为所产生的评价信息进行删除或屏蔽。</p><p><br/></p><p>九、其他</p><p><br/></p><p>1、除非另有证明,储存在服务器上的数据是您使用服务的唯有效证据。</p><p><br/></p><p>2、若您存在以下不正当行为,—经发现,有权采取包括但不限于暂停发货、取消订单、拦截已发货的订单、限制账户权限等措施:</p><p><br/></p><p>(1)、您利用平台进行非法套现、洗钱及其他违法犯罪行为。</p><p><br/></p><p>(2)、由于用户将其用户密码告知他人或与他人共享注册账号与密码,由此导致的任何个人信息的泄漏,或其他非因番赏原因导致的个人隐私信息的泄露。(3)、用户自行向第三方公开其个人隐私信息。</p><p><br/></p><p>(4)、用户与及合作单位之间就用户个人隐私信息的使用公开达成约定因此向合作单位公开用户个人隐私信息、任何由于黑客攻击、电脑病毒侵入及其他非因原因导致用户个人隐私信息的泄露。</p><p><br/></p><p>2、用户同意可在以下事项中免费使用用户的个人隐私信息:</p><p><br/></p><p>(1)、向用户及时发送重要通知,如应用更新、本协议条款的变更。</p><p><br/></p><p>(2)、内部进行审计、数据分析和研究等,以改进番赏的产品、服务和与用户之间的沟通:</p><p><br/></p><p>(3)、依本协议约定,管理、审查用户信息及进行处理措施。</p><p><br/></p><p>(4)、帅Liu潮玩可能将收集到的用户信息,用在其他功能或服务中向用户提供特定内容,包括但不限于展示广告、对用户阅读过的内容进行信息安全类提示、基于特征标签进行间接人群画像并提供更加精准和个性化的服务和内容等。</p><p><br/></p><p>(2)、适用法律法规规定的其他事项。</p><p><br/></p><p>(3)、根据相关法律法规及国家标佳,以下情形中,可能会收集、使用、共享、转让、公开披露用户的个人信息无需征求用户的授权同意:(1)、与国家安全、国防安全等国家利益直接相关的与公共安全、公共卫生、公众知情等重大公共利益直接相关的。</p><p><br/></p><p>(2)、与犯罪侦查、起诉、审判和判决执行等直接相关的。</p><p><br/></p><p>(3)、出于维护用户或其他个人的生命、财产声誉等重大合法权益但又很难得到本人同意的。</p><p><br/></p><p>(4)、所收集的个人信息是用户自行向社会公众公开的。</p><p><br/></p><p>(5)、从合法公开披露的信息中收集个人信息的,如合法的新闻报道、政府信息公开等渠道根据用户要求签订和履行合同所必需的。(6)、用于维护所提供的产品或服务的安全稳定运行所必需的,例如发现、处置产品或服务的故障为开展合法的新闻报道所必需的出于公共利益开展统计或学术研究所必要的。(7)、法律法规规定的其他情形。</p><p><br/></p><p>4、我们非常重视对未成年人个人信息的保护。根据相关法律法规的规定,若您是18周岁以下的未成年人,在使用服务前,应事先取得您的家长或法定监护人的书面同意。</p><p><br/></p><p>5、帅Liu潮玩将会尽其商业上的合理努力保障用户在本软件及服务中的数据存储安全,但是并不能就此提供完全保证,包括但不限于以下情形:</p><p><br/></p><p>(1)、不对用户在本软件及服务中相关数据的删除或储存失败负责。(2)、有权根据实际情况自行决定单个用户在本软件及服务中数据的最长储存期限,并在服务器上为其分配数据最大存储空间等。</p><p><br/></p><p>(3)、如果用户停止使用本软件及服务或服务被终止或取消,帅Liu潮玩可以从服务器上永久地删除用户数据。服务停止、终止或取消后,没有义务向用户返还任何数据。</p><p><br/></p><p>十一、免责事由</p><p><br/></p><p>1、您知悉并同意,不因下述任一情况而可能导致的任何损害赔偿承担责任,包括但不限于财产、收益、数据资料等方面的损失或其它无形损失:(1)、因台风、地震、海啸、洪水、停电、战争、恐怖袭击等不可抗力之因素导致系统或服务不能正常运行。</p><p><br/></p><p>(2)、由于黑客攻击、电信部门技术调整或故障、系统维护等原因而造成的系统服务中断或者延迟。</p><p><br/></p><p>(3)、由于政府命令、法律法规的变更、司法机关及行政机关的命令、裁定等原因而导致的系统服务中断、终止或延迟。</p><p><br/></p><p>(4)、由于您将账号、密码告知他人或未保管好自己的密码或与他人共享账号或任何其他非的过错,导致您的个人资料泄露。</p><p><br/></p><p>(5)、由于与链接或合作的其它网站所造成的银行账户信息身份信息泄露及由此而导致的任何法律争议和后果、您(包括未成年人用户)向提供错误、不完整、不实信息等,造成任何损失。如因系统维护或升级的需要而需暂停服务时,我们将尽可能事先进行通知。对于服务的中断或终止而给您造成的任何损失,我们无须对您或任何第三方承担任何责任。</p><p><br/></p><p>2、您理解对您的任何请求采取行动均需要合理时间,且应您请求而采取的行动可能无法避免或阻止侵害后果的形成或扩大除存在法定过错外,番赏不承担责任。</p><p><br/></p><p>3、您理解并同意,因您自身违反本协议或相关服务条款的规定,导致或产生第三方主张的任何索赔、要求或损失您应当独立承担责任:因此遭受损失的,您也应当并赔偿。</p><p><br/></p><p>十二、投诉指引</p><p><br/></p><p>一番赏—向重视知识产权以及用户权益的保护如您认为平台某些内容涉嫌侵犯了您的合法权益,您可以通过发送邮件至[763044293@qq.com】向进行投诉。投诉请求至少应包括以下内容:(1)投诉人的姓名(名称)、联系电话和通讯地址:(2)投诉的具体理由、要求及被投诉内容:(3构成侵权的初步证明材料。当收到投诉请求后,我们的工作人员会尽快依法为您处理。</p><p><br/></p><p>十三法律适用、争议解决及条款可分割性1、本协议的订立、效力、解释、执行及其下产生的任何争议的解决应适用并遵守中国法律。</p><p><br/></p><p>2、因本协议或其违约、终止或无效而产生的或与本协议或其违约、终止或无效有关的任何争议、争论或诉求(争议)应提交杭州国际经济贸易仲裁委员会根据提交争议时该会届时有效的仲裁规则进行仲裁。仲裁庭的仲裁裁决为终局仲裁,对双方均有约束力双方应尽其最大努力使得任何该等仲裁裁决及时得以执行,并就此提供任何必要的协助。</p><p><br/></p><p>3、本协议任条款被视为废止、无效或不可执行,该条款应视为可分割的不应影响其他条款或其任何部分的效力,您与我们仍应善意履行。</p><p><br/></p><p><br/></p><p><br/></p>',1632451653),(6,'无限赏购买说明','<p>1、购买模式为开赏类商品，一经购买不支持无理由退货，请谨慎购买（未成年禁止购买）</p><p>2、购买规则有“一次”“五次”“十次”“全收”按钮获得商品<br/></p><p>3、双随机抽赏方式,FIRST为全局前半局随机赠送一位玩家，LAST为后半局随机赠送一位玩家。</p><p>4、全局赏类型，比如购买ABCDE赏后，全部赠品随机赠送每位客户，具体请查看赏池界面。</p><p>5、无限赏类型，为“一次”“三次”“五次”“十次”按钮获得商品，根据需求进行购买。</p>',1632451653),(7,'竞技赏购买说明','<p>1、购买模式为开赏类商品，一经购买不支持无理由退货，请谨慎购买（未成年禁止购买）</p><p>2、购买规则有“一次”“五次”“十次”“全收”按钮获得商品<br/></p><p>3、双随机抽赏方式,FIRST为全局前半局随机赠送一位玩家，LAST为后半局随机赠送一位玩家。</p><p>4、全局赏类型，比如购买ABCDE赏后，全部赠品随机赠送每位客户，具体请查看赏池界面。</p><p><br/></p><p><br/></p>',1632451653),(8,'赏袋注意事项','<p>					</p><p><br/></p><p><br/></p><p><br/></p><p><span style=\"color: rgb(0, 176, 240);\"><strong>【打包发货】</strong></span><br/></p><p>用于邮寄玩家喜欢的物品，现货发货时间为3-15天内发货，预售发货则为发售后3-15天内发货，偏远地区不包邮。</p><p><span style=\"color: rgb(0, 176, 240);\"><strong>【存保险柜】</strong></span></p><p>用于保存玩家所需要的物品，以免错误发货。</p><p><br/></p><p><br/></p><p>				</p>',1632451653),(9,'使用规则','<p>1、购买模式为开赏类商品，一经购买不支持无理由退货，请谨慎购买（未成年禁止购买）</p><p>2、购买规则有“一次”“五次”“十次”“全收”按钮获得商品<br/></p><p>3、双随机抽赏方式,FIRST为全局前半局随机赠送一位玩家，LAST为后半局随机赠送一位玩家。</p><p>4、全局赏类型，比如购买ABCDE赏后，全部赠品随机赠送每位客户，具体请查看赏池界面。</p><p><br/></p><p><br/></p>',1632451653),(10,'扭蛋机规则','<p>扭蛋盲盒</p><p>1、玩法说明有1，3，5，10抽，可以根据自己的需求进行购买。</p><p>2、里面随机设置一款隐藏款</p><p>3、购买扭蛋盲盒越多，出赏及隐藏款概率越高。</p><p>4、未成年人禁止购买。</p>',1632451653),(11,'赠送说明','<p>1、购买模式为开赏类商品，一经购买不支持无理由退货，请谨慎购买（未成年禁止购买）</p><p>2、购买规则有“一次”“五次”“十次”“全收”按钮获得商品<br/></p><p>3、双随机抽赏方式,FIRST为全局前半局随机赠送一位玩家，LAST为后半局随机赠送一位玩家。</p><p>4、全局赏类型，比如购买ABCDE赏后，全部赠品随机赠送每位客户，具体请查看赏池界面。</p><p><br/></p><p><br/></p>',1632451653);
+/*!40000 ALTER TABLE `dl_single` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_sms`
 --
 
+DROP TABLE IF EXISTS `dl_sms`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_sms` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `mobile` varchar(11) NOT NULL COMMENT '手机号',
   `event` varchar(11) NOT NULL COMMENT '事件',
   `code` varchar(6) NOT NULL COMMENT '验证码',
   `create_time` int(10) NOT NULL COMMENT '创建时间',
-  `expire_time` int(10) NOT NULL COMMENT '过期时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='验证码表' ROW_FORMAT=DYNAMIC;
+  `expire_time` int(10) NOT NULL COMMENT '过期时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='验证码表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- --------------------------------------------------------
+--
+-- Dumping data for table `dl_sms`
+--
+
+LOCK TABLES `dl_sms` WRITE;
+/*!40000 ALTER TABLE `dl_sms` DISABLE KEYS */;
+INSERT INTO `dl_sms` VALUES (1,'18523004717','login','488589',1655458868,1655459468),(2,'15723065063','login','902114',1655469870,1655470470),(3,'15723065063','login','871305',1655469943,1655470543),(4,'15893633445','login','591510',1657781654,1657782254),(5,'15893633445','login','902370',1657783967,1657784567),(6,'15893633445','login','748451',1657784248,1657784848),(7,'15893633445','login','619375',1657785260,1657785860),(8,'15893633445','login','623824',1657785336,1657785936),(9,'15893633445','login','124359',1657785465,1657786065),(10,'15893633445','login','105489',1657785748,1657786348),(11,'15893633445','login','446964',1657785748,1657786348),(12,'15893633445','login','809791',1657785931,1657786531),(13,'15893633445','login','365182',1657786047,1657786647),(14,'15893633445','login','879358',1657786048,1657786648),(15,'15893633445','login','964044',1657786132,1657786732);
+/*!40000 ALTER TABLE `dl_sms` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_suit`
 --
 
+DROP TABLE IF EXISTS `dl_suit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_suit` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `box_id` int(10) NOT NULL COMMENT '盲盒ID',
   `is_end` tinyint(3) NOT NULL DEFAULT '0' COMMENT '是否售罄',
   `no_key` int(10) NOT NULL COMMENT '箱号',
   `create_time` int(10) NOT NULL DEFAULT '0' COMMENT '添加时间',
   `num` int(10) NOT NULL COMMENT '数量',
-  `surplus` int(10) DEFAULT '0' COMMENT '剩余'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='盲盒套装表' ROW_FORMAT=DYNAMIC;
+  `surplus` int(10) DEFAULT '0' COMMENT '剩余',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=739 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='盲盒套装表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_suit`
 --
 
-INSERT INTO `dl_suit` (`id`, `box_id`, `is_end`, `no_key`, `create_time`, `num`, `surplus`) VALUES
-(1, 1, 1, 1, 1653717914, 80, 0),
-(2, 1, 1, 2, 1653717914, 80, 0),
-(3, 1, 0, 3, 1653717914, 80, 80),
-(4, 1, 0, 4, 1653717914, 80, 80),
-(5, 1, 0, 5, 1653717914, 80, 80),
-(6, 1, 0, 6, 1653717914, 80, 80),
-(7, 1, 0, 7, 1653717914, 80, 80),
-(8, 1, 0, 8, 1653717914, 80, 80),
-(9, 1, 0, 9, 1653717914, 80, 80),
-(10, 1, 0, 10, 1653717914, 80, 80),
-(11, 1, 0, 11, 1653717914, 80, 80),
-(12, 1, 0, 12, 1653717914, 80, 80),
-(13, 1, 0, 13, 1653717914, 80, 80),
-(14, 1, 0, 14, 1653717914, 80, 80),
-(15, 1, 0, 15, 1653717914, 80, 80),
-(16, 1, 0, 16, 1653717914, 80, 80),
-(17, 1, 0, 17, 1653717914, 80, 80),
-(18, 1, 0, 18, 1653717914, 80, 80),
-(19, 1, 0, 19, 1653717914, 80, 80),
-(20, 1, 0, 20, 1653717914, 80, 80),
-(21, 1, 0, 21, 1653717914, 80, 80),
-(22, 1, 0, 22, 1653717914, 80, 80),
-(23, 1, 0, 23, 1653717914, 80, 80),
-(24, 1, 0, 24, 1653717914, 80, 80),
-(25, 1, 0, 25, 1653717914, 80, 80),
-(26, 1, 0, 26, 1653717914, 80, 80),
-(27, 1, 0, 27, 1653717914, 80, 80),
-(28, 1, 0, 28, 1653717914, 80, 80),
-(29, 1, 0, 29, 1653717914, 80, 80),
-(30, 1, 0, 30, 1653717914, 80, 80),
-(31, 1, 0, 31, 1653717914, 80, 80),
-(32, 1, 0, 32, 1653717914, 80, 80),
-(33, 1, 0, 33, 1653717914, 80, 80),
-(34, 1, 0, 34, 1653717914, 80, 80),
-(35, 1, 0, 35, 1653717914, 80, 80),
-(36, 1, 0, 36, 1653717914, 80, 80),
-(37, 1, 0, 37, 1653717914, 80, 80),
-(38, 1, 0, 38, 1653717914, 80, 80),
-(39, 1, 0, 39, 1653717914, 80, 80),
-(40, 1, 0, 40, 1653717914, 80, 80),
-(41, 1, 0, 41, 1653717914, 80, 80),
-(42, 1, 0, 42, 1653717914, 80, 80),
-(43, 1, 0, 43, 1653717914, 80, 80),
-(44, 1, 0, 44, 1653717914, 80, 80),
-(45, 1, 0, 45, 1653717914, 80, 80),
-(46, 1, 0, 46, 1653717914, 80, 80),
-(47, 1, 0, 47, 1653717914, 80, 80),
-(48, 1, 0, 48, 1653717914, 80, 80),
-(49, 1, 0, 49, 1653717914, 80, 80),
-(50, 1, 0, 50, 1653717914, 80, 80),
-(51, 1, 0, 51, 1653717914, 80, 80),
-(52, 1, 0, 52, 1653717914, 80, 80),
-(53, 1, 0, 53, 1653717914, 80, 80),
-(54, 1, 0, 54, 1653717914, 80, 80),
-(55, 1, 0, 55, 1653717914, 80, 80),
-(56, 1, 0, 56, 1653717914, 80, 80),
-(57, 1, 0, 57, 1653717914, 80, 80),
-(58, 1, 0, 58, 1653717914, 80, 80),
-(59, 1, 0, 59, 1653717914, 80, 80),
-(60, 1, 0, 60, 1653717914, 80, 80),
-(61, 1, 0, 61, 1653717914, 80, 80),
-(62, 1, 0, 62, 1653717914, 80, 80),
-(63, 1, 0, 63, 1653717914, 80, 80),
-(64, 1, 0, 64, 1653717914, 80, 80),
-(65, 1, 0, 65, 1653717914, 80, 80),
-(66, 1, 0, 66, 1653717914, 80, 80),
-(67, 1, 0, 67, 1653717914, 80, 80),
-(68, 1, 0, 68, 1653717914, 80, 80),
-(69, 1, 0, 69, 1653717914, 80, 80),
-(70, 1, 0, 70, 1653717914, 80, 80),
-(71, 1, 0, 71, 1653717914, 80, 80),
-(72, 1, 0, 72, 1653717914, 80, 80),
-(73, 1, 0, 73, 1653717914, 80, 80),
-(74, 1, 0, 74, 1653717914, 80, 80),
-(75, 1, 0, 75, 1653717914, 80, 80),
-(76, 1, 0, 76, 1653717914, 80, 80),
-(77, 1, 0, 77, 1653717914, 80, 80),
-(78, 1, 0, 78, 1653717914, 80, 80),
-(79, 1, 0, 79, 1653717914, 80, 80),
-(80, 1, 0, 80, 1653717914, 80, 80),
-(81, 1, 0, 81, 1653717914, 80, 80),
-(82, 1, 0, 82, 1653717914, 80, 80),
-(83, 1, 0, 83, 1653717914, 80, 80),
-(84, 1, 0, 84, 1653717914, 80, 80),
-(85, 1, 0, 85, 1653717914, 80, 80),
-(86, 1, 0, 86, 1653717914, 80, 80),
-(87, 1, 0, 87, 1653717914, 80, 80),
-(88, 1, 0, 88, 1653717914, 80, 80),
-(89, 1, 0, 89, 1653717914, 80, 80),
-(90, 1, 0, 90, 1653717914, 80, 80),
-(91, 1, 0, 91, 1653717914, 80, 80),
-(92, 1, 0, 92, 1653717914, 80, 80),
-(93, 1, 0, 93, 1653717914, 80, 80),
-(94, 1, 0, 94, 1653717914, 80, 80),
-(95, 1, 0, 95, 1653717914, 80, 80),
-(96, 1, 0, 96, 1653717914, 80, 80),
-(97, 1, 0, 97, 1653717914, 80, 80),
-(98, 1, 0, 98, 1653717914, 80, 80),
-(99, 1, 0, 99, 1653717914, 80, 80),
-(100, 1, 0, 100, 1653717914, 80, 80),
-(101, 2, 0, 1, 1653718206, 1000, 864),
-(102, 2, 0, 2, 1653718206, 1000, 1000),
-(103, 2, 0, 3, 1653718206, 1000, 1000),
-(104, 2, 0, 4, 1653718206, 1000, 1000),
-(105, 2, 0, 5, 1653718206, 1000, 1000),
-(106, 2, 0, 6, 1653718206, 1000, 1000),
-(107, 2, 0, 7, 1653718206, 1000, 1000),
-(108, 2, 0, 8, 1653718206, 1000, 1000),
-(109, 2, 0, 9, 1653718206, 1000, 1000),
-(110, 2, 0, 10, 1653718206, 1000, 1000),
-(111, 2, 0, 11, 1653718206, 1000, 1000),
-(112, 2, 0, 12, 1653718206, 1000, 1000),
-(113, 2, 0, 13, 1653718206, 1000, 1000),
-(114, 2, 0, 14, 1653718206, 1000, 1000),
-(115, 2, 0, 15, 1653718206, 1000, 1000),
-(116, 2, 0, 16, 1653718206, 1000, 1000),
-(117, 2, 0, 17, 1653718206, 1000, 1000),
-(118, 2, 0, 18, 1653718206, 1000, 1000),
-(119, 2, 0, 19, 1653718206, 1000, 1000),
-(120, 2, 0, 20, 1653718206, 1000, 1000),
-(121, 2, 0, 21, 1653718206, 1000, 1000),
-(122, 2, 0, 22, 1653718206, 1000, 1000),
-(123, 2, 0, 23, 1653718206, 1000, 1000),
-(124, 2, 0, 24, 1653718206, 1000, 1000),
-(125, 2, 0, 25, 1653718206, 1000, 1000),
-(126, 2, 0, 26, 1653718206, 1000, 1000),
-(127, 2, 0, 27, 1653718206, 1000, 1000),
-(128, 2, 0, 28, 1653718206, 1000, 1000),
-(129, 2, 0, 29, 1653718206, 1000, 1000),
-(130, 2, 0, 30, 1653718206, 1000, 1000),
-(131, 2, 0, 31, 1653718206, 1000, 1000),
-(132, 2, 0, 32, 1653718206, 1000, 1000),
-(133, 2, 0, 33, 1653718206, 1000, 1000),
-(134, 2, 0, 34, 1653718206, 1000, 1000),
-(135, 2, 0, 35, 1653718206, 1000, 1000),
-(136, 2, 0, 36, 1653718206, 1000, 1000),
-(137, 2, 0, 37, 1653718206, 1000, 1000),
-(138, 2, 0, 38, 1653718206, 1000, 1000),
-(139, 2, 0, 39, 1653718206, 1000, 1000),
-(140, 2, 0, 40, 1653718206, 1000, 1000),
-(141, 2, 0, 41, 1653718206, 1000, 1000),
-(142, 2, 0, 42, 1653718206, 1000, 1000),
-(143, 2, 0, 43, 1653718206, 1000, 1000),
-(144, 2, 0, 44, 1653718206, 1000, 1000),
-(145, 2, 0, 45, 1653718206, 1000, 1000),
-(146, 2, 0, 46, 1653718206, 1000, 1000),
-(147, 2, 0, 47, 1653718206, 1000, 1000),
-(148, 2, 0, 48, 1653718206, 1000, 1000),
-(149, 2, 0, 49, 1653718206, 1000, 1000),
-(150, 2, 0, 50, 1653718206, 1000, 1000),
-(151, 3, 1, 1, 1653718370, 3, 0),
-(152, 3, 0, 2, 1653718370, 3, 1),
-(153, 3, 0, 3, 1653718370, 3, 3),
-(154, 3, 0, 4, 1653718370, 3, 3),
-(155, 3, 0, 5, 1653718370, 3, 3),
-(156, 3, 0, 6, 1653718370, 3, 3),
-(157, 3, 0, 7, 1653718370, 3, 3),
-(158, 3, 0, 8, 1653718370, 3, 3),
-(159, 3, 0, 9, 1653718370, 3, 3),
-(160, 3, 0, 10, 1653718370, 3, 3),
-(161, 3, 0, 11, 1653718370, 3, 3),
-(162, 3, 0, 12, 1653718370, 3, 3),
-(163, 3, 0, 13, 1653718370, 3, 3),
-(164, 3, 0, 14, 1653718370, 3, 3),
-(165, 3, 0, 15, 1653718370, 3, 3),
-(166, 3, 0, 16, 1653718370, 3, 3),
-(167, 3, 0, 17, 1653718370, 3, 3),
-(168, 3, 0, 18, 1653718370, 3, 3),
-(169, 3, 0, 19, 1653718370, 3, 3),
-(170, 3, 0, 20, 1653718370, 3, 3),
-(171, 3, 0, 21, 1653718370, 3, 3),
-(172, 3, 0, 22, 1653718370, 3, 3),
-(173, 3, 0, 23, 1653718370, 3, 3),
-(174, 3, 0, 24, 1653718370, 3, 3),
-(175, 3, 0, 25, 1653718370, 3, 3),
-(176, 3, 0, 26, 1653718370, 3, 3),
-(177, 3, 0, 27, 1653718370, 3, 3),
-(178, 3, 0, 28, 1653718370, 3, 3),
-(179, 3, 0, 29, 1653718370, 3, 3),
-(180, 3, 0, 30, 1653718370, 3, 3),
-(181, 3, 0, 31, 1653718370, 3, 3),
-(182, 3, 0, 32, 1653718370, 3, 3),
-(183, 3, 0, 33, 1653718370, 3, 3),
-(184, 3, 0, 34, 1653718370, 3, 3),
-(185, 3, 0, 35, 1653718370, 3, 3),
-(186, 3, 0, 36, 1653718370, 3, 3),
-(187, 3, 0, 37, 1653718370, 3, 3),
-(188, 3, 0, 38, 1653718370, 3, 3),
-(189, 3, 0, 39, 1653718370, 3, 3),
-(190, 3, 0, 40, 1653718370, 3, 3),
-(191, 3, 0, 41, 1653718370, 3, 3),
-(192, 3, 0, 42, 1653718370, 3, 3),
-(193, 3, 0, 43, 1653718370, 3, 3),
-(194, 3, 0, 44, 1653718370, 3, 3),
-(195, 3, 0, 45, 1653718370, 3, 3),
-(196, 3, 0, 46, 1653718370, 3, 3),
-(197, 3, 0, 47, 1653718370, 3, 3),
-(198, 3, 0, 48, 1653718370, 3, 3),
-(199, 3, 0, 49, 1653718370, 3, 3),
-(200, 3, 0, 50, 1653718370, 3, 3),
-(201, 3, 0, 51, 1653718370, 3, 3),
-(202, 3, 0, 52, 1653718370, 3, 3),
-(203, 3, 0, 53, 1653718370, 3, 3),
-(204, 3, 0, 54, 1653718370, 3, 3),
-(205, 3, 0, 55, 1653718370, 3, 3),
-(206, 3, 0, 56, 1653718370, 3, 3),
-(207, 3, 0, 57, 1653718370, 3, 3),
-(208, 3, 0, 58, 1653718370, 3, 3),
-(209, 3, 0, 59, 1653718370, 3, 3),
-(210, 3, 0, 60, 1653718370, 3, 3),
-(211, 3, 0, 61, 1653718370, 3, 3),
-(212, 3, 0, 62, 1653718370, 3, 3),
-(213, 3, 0, 63, 1653718370, 3, 3),
-(214, 3, 0, 64, 1653718370, 3, 3),
-(215, 3, 0, 65, 1653718370, 3, 3),
-(216, 3, 0, 66, 1653718370, 3, 3),
-(217, 3, 0, 67, 1653718370, 3, 3),
-(218, 3, 0, 68, 1653718370, 3, 3),
-(219, 3, 0, 69, 1653718370, 3, 3),
-(220, 3, 0, 70, 1653718370, 3, 3),
-(221, 3, 0, 71, 1653718370, 3, 3),
-(222, 3, 0, 72, 1653718370, 3, 3),
-(223, 3, 0, 73, 1653718370, 3, 3),
-(224, 3, 0, 74, 1653718370, 3, 3),
-(225, 3, 0, 75, 1653718370, 3, 3),
-(226, 3, 0, 76, 1653718370, 3, 3),
-(227, 3, 0, 77, 1653718370, 3, 3),
-(228, 3, 0, 78, 1653718370, 3, 3),
-(229, 3, 0, 79, 1653718370, 3, 3),
-(230, 3, 0, 80, 1653718370, 3, 3),
-(231, 3, 0, 81, 1653718370, 3, 3),
-(232, 3, 0, 82, 1653718370, 3, 3),
-(233, 3, 0, 83, 1653718370, 3, 3),
-(234, 3, 0, 84, 1653718370, 3, 3),
-(235, 3, 0, 85, 1653718370, 3, 3),
-(236, 3, 0, 86, 1653718370, 3, 3),
-(237, 3, 0, 87, 1653718370, 3, 3),
-(238, 3, 0, 88, 1653718370, 3, 3),
-(239, 3, 0, 89, 1653718370, 3, 3),
-(240, 3, 0, 90, 1653718370, 3, 3),
-(241, 3, 0, 91, 1653718370, 3, 3),
-(242, 3, 0, 92, 1653718370, 3, 3),
-(243, 3, 0, 93, 1653718370, 3, 3),
-(244, 3, 0, 94, 1653718370, 3, 3),
-(245, 3, 0, 95, 1653718370, 3, 3),
-(246, 3, 0, 96, 1653718370, 3, 3),
-(247, 3, 0, 97, 1653718370, 3, 3),
-(248, 3, 0, 98, 1653718370, 3, 3),
-(249, 3, 0, 99, 1653718370, 3, 3),
-(250, 3, 0, 100, 1653718370, 3, 3),
-(251, 4, 1, 1, 1653718514, 5, 0),
-(252, 4, 0, 2, 1653718514, 5, 2),
-(253, 4, 0, 3, 1653718514, 5, 5),
-(254, 4, 0, 4, 1653718514, 5, 5),
-(255, 4, 0, 5, 1653718514, 5, 5),
-(256, 4, 0, 6, 1653718514, 5, 5),
-(257, 4, 0, 7, 1653718514, 5, 5),
-(258, 4, 0, 8, 1653718514, 5, 5),
-(259, 4, 0, 9, 1653718514, 5, 5),
-(260, 4, 0, 10, 1653718514, 5, 5),
-(261, 4, 0, 11, 1653718514, 5, 5),
-(262, 4, 0, 12, 1653718514, 5, 5),
-(263, 4, 0, 13, 1653718514, 5, 5),
-(264, 4, 0, 14, 1653718514, 5, 5),
-(265, 4, 0, 15, 1653718514, 5, 5),
-(266, 4, 0, 16, 1653718514, 5, 5),
-(267, 4, 0, 17, 1653718514, 5, 5),
-(268, 4, 0, 18, 1653718514, 5, 5),
-(269, 4, 0, 19, 1653718514, 5, 5),
-(270, 4, 0, 20, 1653718514, 5, 5),
-(271, 4, 0, 21, 1653718514, 5, 5),
-(272, 4, 0, 22, 1653718514, 5, 5),
-(273, 4, 0, 23, 1653718514, 5, 5),
-(274, 4, 0, 24, 1653718514, 5, 5),
-(275, 4, 0, 25, 1653718514, 5, 5),
-(276, 4, 0, 26, 1653718514, 5, 5),
-(277, 4, 0, 27, 1653718514, 5, 5),
-(278, 4, 0, 28, 1653718514, 5, 5),
-(279, 4, 0, 29, 1653718514, 5, 5),
-(280, 4, 0, 30, 1653718514, 5, 5),
-(281, 4, 0, 31, 1653718514, 5, 5),
-(282, 4, 0, 32, 1653718514, 5, 5),
-(283, 4, 0, 33, 1653718514, 5, 5),
-(284, 4, 0, 34, 1653718514, 5, 5),
-(285, 4, 0, 35, 1653718514, 5, 5),
-(286, 4, 0, 36, 1653718514, 5, 5),
-(287, 4, 0, 37, 1653718514, 5, 5),
-(288, 4, 0, 38, 1653718514, 5, 5),
-(289, 4, 0, 39, 1653718514, 5, 5),
-(290, 4, 0, 40, 1653718514, 5, 5),
-(291, 4, 0, 41, 1653718514, 5, 5),
-(292, 4, 0, 42, 1653718514, 5, 5),
-(293, 4, 0, 43, 1653718514, 5, 5),
-(294, 4, 0, 44, 1653718514, 5, 5),
-(295, 4, 0, 45, 1653718514, 5, 5),
-(296, 4, 0, 46, 1653718514, 5, 5),
-(297, 4, 0, 47, 1653718514, 5, 5),
-(298, 4, 0, 48, 1653718514, 5, 5),
-(299, 4, 0, 49, 1653718514, 5, 5),
-(300, 4, 0, 50, 1653718514, 5, 5),
-(301, 4, 0, 51, 1653718514, 5, 5),
-(302, 4, 0, 52, 1653718514, 5, 5),
-(303, 4, 0, 53, 1653718514, 5, 5),
-(304, 4, 0, 54, 1653718514, 5, 5),
-(305, 4, 0, 55, 1653718514, 5, 5),
-(306, 4, 0, 56, 1653718514, 5, 5),
-(307, 4, 0, 57, 1653718514, 5, 5),
-(308, 4, 0, 58, 1653718514, 5, 5),
-(309, 4, 0, 59, 1653718514, 5, 5),
-(310, 4, 0, 60, 1653718514, 5, 5),
-(311, 4, 0, 61, 1653718514, 5, 5),
-(312, 4, 0, 62, 1653718514, 5, 5),
-(313, 4, 0, 63, 1653718514, 5, 5),
-(314, 4, 0, 64, 1653718514, 5, 5),
-(315, 4, 0, 65, 1653718514, 5, 5),
-(316, 4, 0, 66, 1653718514, 5, 5),
-(317, 4, 0, 67, 1653718514, 5, 5),
-(318, 4, 0, 68, 1653718514, 5, 5),
-(319, 4, 0, 69, 1653718514, 5, 5),
-(320, 4, 0, 70, 1653718514, 5, 5),
-(321, 4, 0, 71, 1653718514, 5, 5),
-(322, 4, 0, 72, 1653718514, 5, 5),
-(323, 4, 0, 73, 1653718514, 5, 5),
-(324, 4, 0, 74, 1653718514, 5, 5),
-(325, 4, 0, 75, 1653718514, 5, 5),
-(326, 4, 0, 76, 1653718514, 5, 5),
-(327, 4, 0, 77, 1653718514, 5, 5),
-(328, 4, 0, 78, 1653718514, 5, 5),
-(329, 4, 0, 79, 1653718514, 5, 5),
-(330, 4, 0, 80, 1653718514, 5, 5),
-(331, 4, 0, 81, 1653718514, 5, 5),
-(332, 4, 0, 82, 1653718514, 5, 5),
-(333, 4, 0, 83, 1653718514, 5, 5),
-(334, 4, 0, 84, 1653718514, 5, 5),
-(335, 4, 0, 85, 1653718514, 5, 5),
-(336, 4, 0, 86, 1653718514, 5, 5),
-(337, 4, 0, 87, 1653718514, 5, 5),
-(338, 4, 0, 88, 1653718514, 5, 5),
-(339, 4, 0, 89, 1653718514, 5, 5),
-(340, 4, 0, 90, 1653718514, 5, 5),
-(341, 4, 0, 91, 1653718514, 5, 5),
-(342, 4, 0, 92, 1653718514, 5, 5),
-(343, 4, 0, 93, 1653718514, 5, 5),
-(344, 4, 0, 94, 1653718514, 5, 5),
-(345, 4, 0, 95, 1653718514, 5, 5),
-(346, 4, 0, 96, 1653718514, 5, 5),
-(347, 4, 0, 97, 1653718514, 5, 5),
-(348, 4, 0, 98, 1653718514, 5, 5),
-(349, 4, 0, 99, 1653718514, 5, 5),
-(350, 4, 0, 100, 1653718514, 5, 5),
-(351, 4, 0, 101, 1653718514, 5, 5),
-(352, 4, 0, 102, 1653718514, 5, 5),
-(353, 4, 0, 103, 1653718514, 5, 5),
-(354, 4, 0, 104, 1653718514, 5, 5),
-(355, 4, 0, 105, 1653718514, 5, 5),
-(356, 4, 0, 106, 1653718514, 5, 5),
-(357, 4, 0, 107, 1653718514, 5, 5),
-(358, 4, 0, 108, 1653718514, 5, 5),
-(359, 4, 0, 109, 1653718514, 5, 5),
-(360, 4, 0, 110, 1653718514, 5, 5),
-(361, 4, 0, 111, 1653718514, 5, 5),
-(362, 4, 0, 112, 1653718514, 5, 5),
-(363, 4, 0, 113, 1653718514, 5, 5),
-(364, 4, 0, 114, 1653718514, 5, 5),
-(365, 4, 0, 115, 1653718514, 5, 5),
-(366, 4, 0, 116, 1653718514, 5, 5),
-(367, 4, 0, 117, 1653718514, 5, 5),
-(368, 4, 0, 118, 1653718514, 5, 5),
-(369, 4, 0, 119, 1653718514, 5, 5),
-(370, 4, 0, 120, 1653718514, 5, 5),
-(371, 4, 0, 121, 1653718514, 5, 5),
-(372, 4, 0, 122, 1653718514, 5, 5),
-(373, 4, 0, 123, 1653718514, 5, 5),
-(374, 4, 0, 124, 1653718514, 5, 5),
-(375, 4, 0, 125, 1653718514, 5, 5),
-(376, 4, 0, 126, 1653718514, 5, 5),
-(377, 4, 0, 127, 1653718514, 5, 5),
-(378, 4, 0, 128, 1653718514, 5, 5),
-(379, 4, 0, 129, 1653718514, 5, 5),
-(380, 4, 0, 130, 1653718514, 5, 5),
-(381, 4, 0, 131, 1653718514, 5, 5),
-(382, 4, 0, 132, 1653718514, 5, 5),
-(383, 4, 0, 133, 1653718514, 5, 5),
-(384, 4, 0, 134, 1653718514, 5, 5),
-(385, 4, 0, 135, 1653718514, 5, 5),
-(386, 4, 0, 136, 1653718514, 5, 5),
-(387, 4, 0, 137, 1653718514, 5, 5),
-(388, 4, 0, 138, 1653718514, 5, 5),
-(389, 4, 0, 139, 1653718514, 5, 5),
-(390, 4, 0, 140, 1653718514, 5, 5),
-(391, 4, 0, 141, 1653718514, 5, 5),
-(392, 4, 0, 142, 1653718514, 5, 5),
-(393, 4, 0, 143, 1653718514, 5, 5),
-(394, 4, 0, 144, 1653718514, 5, 5),
-(395, 4, 0, 145, 1653718514, 5, 5),
-(396, 4, 0, 146, 1653718514, 5, 5),
-(397, 4, 0, 147, 1653718514, 5, 5),
-(398, 4, 0, 148, 1653718514, 5, 5),
-(399, 4, 0, 149, 1653718514, 5, 5),
-(400, 4, 0, 150, 1653718514, 5, 5),
-(401, 4, 0, 151, 1653718514, 5, 5),
-(402, 4, 0, 152, 1653718514, 5, 5),
-(403, 4, 0, 153, 1653718514, 5, 5),
-(404, 4, 0, 154, 1653718514, 5, 5),
-(405, 4, 0, 155, 1653718514, 5, 5),
-(406, 4, 0, 156, 1653718514, 5, 5),
-(407, 4, 0, 157, 1653718514, 5, 5),
-(408, 4, 0, 158, 1653718514, 5, 5),
-(409, 4, 0, 159, 1653718514, 5, 5),
-(410, 4, 0, 160, 1653718514, 5, 5),
-(411, 4, 0, 161, 1653718514, 5, 5),
-(412, 4, 0, 162, 1653718514, 5, 5),
-(413, 4, 0, 163, 1653718514, 5, 5),
-(414, 4, 0, 164, 1653718514, 5, 5),
-(415, 4, 0, 165, 1653718514, 5, 5),
-(416, 4, 0, 166, 1653718514, 5, 5),
-(417, 4, 0, 167, 1653718514, 5, 5),
-(418, 4, 0, 168, 1653718514, 5, 5),
-(419, 4, 0, 169, 1653718514, 5, 5),
-(420, 4, 0, 170, 1653718514, 5, 5),
-(421, 4, 0, 171, 1653718514, 5, 5),
-(422, 4, 0, 172, 1653718514, 5, 5),
-(423, 4, 0, 173, 1653718514, 5, 5),
-(424, 4, 0, 174, 1653718514, 5, 5),
-(425, 4, 0, 175, 1653718514, 5, 5),
-(426, 4, 0, 176, 1653718514, 5, 5),
-(427, 4, 0, 177, 1653718514, 5, 5),
-(428, 4, 0, 178, 1653718514, 5, 5),
-(429, 4, 0, 179, 1653718514, 5, 5),
-(430, 4, 0, 180, 1653718514, 5, 5),
-(431, 4, 0, 181, 1653718514, 5, 5),
-(432, 4, 0, 182, 1653718514, 5, 5),
-(433, 4, 0, 183, 1653718514, 5, 5),
-(434, 4, 0, 184, 1653718514, 5, 5),
-(435, 4, 0, 185, 1653718514, 5, 5),
-(436, 4, 0, 186, 1653718514, 5, 5),
-(437, 4, 0, 187, 1653718514, 5, 5),
-(438, 4, 0, 188, 1653718514, 5, 5),
-(439, 4, 0, 189, 1653718514, 5, 5),
-(440, 4, 0, 190, 1653718514, 5, 5),
-(441, 4, 0, 191, 1653718514, 5, 5),
-(442, 4, 0, 192, 1653718514, 5, 5),
-(443, 4, 0, 193, 1653718514, 5, 5),
-(444, 4, 0, 194, 1653718514, 5, 5),
-(445, 4, 0, 195, 1653718514, 5, 5),
-(446, 4, 0, 196, 1653718514, 5, 5),
-(447, 4, 0, 197, 1653718514, 5, 5),
-(448, 4, 0, 198, 1653718514, 5, 5),
-(449, 4, 0, 199, 1653718514, 5, 5),
-(450, 4, 0, 200, 1653718514, 5, 5),
-(451, 5, 0, 1, 1653718735, 100, 74),
-(452, 5, 0, 2, 1653718735, 100, 100),
-(453, 5, 0, 3, 1653718735, 100, 100),
-(454, 5, 0, 4, 1653718735, 100, 100),
-(455, 5, 0, 5, 1653718735, 100, 100),
-(456, 5, 0, 6, 1653718735, 100, 100),
-(457, 5, 0, 7, 1653718735, 100, 100),
-(458, 5, 0, 8, 1653718735, 100, 100),
-(459, 5, 0, 9, 1653718735, 100, 100),
-(460, 5, 0, 10, 1653718735, 100, 100),
-(461, 5, 0, 11, 1653718735, 100, 100),
-(462, 5, 0, 12, 1653718735, 100, 100),
-(463, 5, 0, 13, 1653718735, 100, 100),
-(464, 5, 0, 14, 1653718735, 100, 100),
-(465, 5, 0, 15, 1653718735, 100, 100),
-(466, 5, 0, 16, 1653718735, 100, 100),
-(467, 5, 0, 17, 1653718735, 100, 100),
-(468, 5, 0, 18, 1653718735, 100, 100),
-(469, 5, 0, 19, 1653718735, 100, 100),
-(470, 5, 0, 20, 1653718735, 100, 100),
-(471, 5, 0, 21, 1653718735, 100, 100),
-(472, 5, 0, 22, 1653718735, 100, 100),
-(473, 5, 0, 23, 1653718735, 100, 100),
-(474, 5, 0, 24, 1653718735, 100, 100),
-(475, 5, 0, 25, 1653718735, 100, 100),
-(476, 5, 0, 26, 1653718735, 100, 100),
-(477, 5, 0, 27, 1653718735, 100, 100),
-(478, 5, 0, 28, 1653718735, 100, 100),
-(479, 5, 0, 29, 1653718735, 100, 100),
-(480, 5, 0, 30, 1653718735, 100, 100),
-(481, 5, 0, 31, 1653718735, 100, 100),
-(482, 5, 0, 32, 1653718735, 100, 100),
-(483, 5, 0, 33, 1653718735, 100, 100),
-(484, 5, 0, 34, 1653718735, 100, 100),
-(485, 5, 0, 35, 1653718735, 100, 100),
-(486, 5, 0, 36, 1653718735, 100, 100),
-(487, 5, 0, 37, 1653718735, 100, 100),
-(488, 5, 0, 38, 1653718735, 100, 100),
-(489, 5, 0, 39, 1653718735, 100, 100),
-(490, 5, 0, 40, 1653718735, 100, 100),
-(491, 5, 0, 41, 1653718735, 100, 100),
-(492, 5, 0, 42, 1653718735, 100, 100),
-(493, 5, 0, 43, 1653718735, 100, 100),
-(494, 5, 0, 44, 1653718735, 100, 100),
-(495, 5, 0, 45, 1653718735, 100, 100),
-(496, 5, 0, 46, 1653718735, 100, 100),
-(497, 5, 0, 47, 1653718735, 100, 100),
-(498, 5, 0, 48, 1653718735, 100, 100),
-(499, 5, 0, 49, 1653718735, 100, 100),
-(500, 5, 0, 50, 1653718735, 100, 100),
-(501, 5, 0, 51, 1653718735, 100, 100),
-(502, 5, 0, 52, 1653718735, 100, 100),
-(503, 5, 0, 53, 1653718735, 100, 100),
-(504, 5, 0, 54, 1653718735, 100, 100),
-(505, 5, 0, 55, 1653718735, 100, 100),
-(506, 5, 0, 56, 1653718735, 100, 100),
-(507, 5, 0, 57, 1653718735, 100, 100),
-(508, 5, 0, 58, 1653718735, 100, 100),
-(509, 5, 0, 59, 1653718735, 100, 100),
-(510, 5, 0, 60, 1653718735, 100, 100),
-(511, 5, 0, 61, 1653718735, 100, 100),
-(512, 5, 0, 62, 1653718735, 100, 100),
-(513, 5, 0, 63, 1653718735, 100, 100),
-(514, 5, 0, 64, 1653718735, 100, 100),
-(515, 5, 0, 65, 1653718735, 100, 100),
-(516, 5, 0, 66, 1653718735, 100, 100),
-(517, 5, 0, 67, 1653718735, 100, 100),
-(518, 5, 0, 68, 1653718735, 100, 100),
-(519, 5, 0, 69, 1653718735, 100, 100),
-(520, 5, 0, 70, 1653718735, 100, 100),
-(521, 5, 0, 71, 1653718735, 100, 100),
-(522, 5, 0, 72, 1653718735, 100, 100),
-(523, 5, 0, 73, 1653718735, 100, 100),
-(524, 5, 0, 74, 1653718735, 100, 100),
-(525, 5, 0, 75, 1653718735, 100, 100),
-(526, 5, 0, 76, 1653718735, 100, 100),
-(527, 5, 0, 77, 1653718735, 100, 100),
-(528, 5, 0, 78, 1653718735, 100, 100),
-(529, 5, 0, 79, 1653718735, 100, 100),
-(530, 5, 0, 80, 1653718735, 100, 100),
-(531, 5, 0, 81, 1653718735, 100, 100),
-(532, 5, 0, 82, 1653718735, 100, 100),
-(533, 5, 0, 83, 1653718735, 100, 100),
-(534, 5, 0, 84, 1653718735, 100, 100),
-(535, 5, 0, 85, 1653718735, 100, 100),
-(536, 5, 0, 86, 1653718735, 100, 100),
-(537, 5, 0, 87, 1653718735, 100, 100),
-(538, 5, 0, 88, 1653718735, 100, 100),
-(539, 5, 0, 89, 1653718735, 100, 100),
-(540, 5, 0, 90, 1653718735, 100, 100),
-(541, 5, 0, 91, 1653718735, 100, 100),
-(542, 5, 0, 92, 1653718735, 100, 100),
-(543, 5, 0, 93, 1653718735, 100, 100),
-(544, 5, 0, 94, 1653718735, 100, 100),
-(545, 5, 0, 95, 1653718735, 100, 100),
-(546, 5, 0, 96, 1653718735, 100, 100),
-(547, 5, 0, 97, 1653718735, 100, 100),
-(548, 5, 0, 98, 1653718735, 100, 100),
-(549, 5, 0, 99, 1653718735, 100, 100),
-(550, 5, 0, 100, 1653718735, 100, 100);
-
--- --------------------------------------------------------
+LOCK TABLES `dl_suit` WRITE;
+/*!40000 ALTER TABLE `dl_suit` DISABLE KEYS */;
+INSERT INTO `dl_suit` VALUES (737,49,0,1,1660420369,150,150),(738,50,0,1,1660420443,100,100);
+/*!40000 ALTER TABLE `dl_suit` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_suit_goods`
 --
 
+DROP TABLE IF EXISTS `dl_suit_goods`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_suit_goods` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `suit_id` int(10) NOT NULL COMMENT '箱子ID',
   `goods_id` int(10) NOT NULL COMMENT '商品ID',
   `num` int(10) NOT NULL COMMENT '数量',
@@ -2502,4208 +1054,74 @@ CREATE TABLE `dl_suit_goods` (
   `sales` int(10) DEFAULT '0' COMMENT '销量',
   `surplus` int(10) NOT NULL DEFAULT '0' COMMENT '剩余',
   `create_time` int(10) NOT NULL COMMENT '添加时间',
-  `is_special` tinyint(3) DEFAULT '0' COMMENT '是否特殊赏'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='盲盒箱子赏品表' ROW_FORMAT=DYNAMIC;
+  `is_special` tinyint(3) DEFAULT '0' COMMENT '是否特殊赏',
+  `surplusNFTidArray` json DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=4559 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='盲盒箱子赏品表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_suit_goods`
 --
 
-INSERT INTO `dl_suit_goods` (`id`, `suit_id`, `goods_id`, `num`, `ratio`, `level`, `sales`, `surplus`, `create_time`, `is_special`) VALUES
-(1, 1, 1, 1, '0.0100', 'First', 1, 0, 1653717914, 1),
-(2, 2, 1, 1, '0.0100', 'First', 1, 0, 1653717914, 1),
-(3, 3, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(4, 4, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(5, 5, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(6, 6, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(7, 7, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(8, 8, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(9, 9, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(10, 10, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(11, 11, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(12, 12, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(13, 13, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(14, 14, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(15, 15, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(16, 16, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(17, 17, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(18, 18, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(19, 19, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(20, 20, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(21, 21, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(22, 22, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(23, 23, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(24, 24, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(25, 25, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(26, 26, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(27, 27, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(28, 28, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(29, 29, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(30, 30, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(31, 31, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(32, 32, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(33, 33, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(34, 34, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(35, 35, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(36, 36, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(37, 37, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(38, 38, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(39, 39, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(40, 40, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(41, 41, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(42, 42, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(43, 43, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(44, 44, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(45, 45, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(46, 46, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(47, 47, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(48, 48, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(49, 49, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(50, 50, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(51, 51, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(52, 52, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(53, 53, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(54, 54, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(55, 55, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(56, 56, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(57, 57, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(58, 58, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(59, 59, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(60, 60, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(61, 61, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(62, 62, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(63, 63, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(64, 64, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(65, 65, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(66, 66, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(67, 67, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(68, 68, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(69, 69, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(70, 70, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(71, 71, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(72, 72, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(73, 73, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(74, 74, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(75, 75, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(76, 76, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(77, 77, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(78, 78, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(79, 79, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(80, 80, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(81, 81, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(82, 82, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(83, 83, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(84, 84, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(85, 85, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(86, 86, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(87, 87, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(88, 88, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(89, 89, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(90, 90, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(91, 91, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(92, 92, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(93, 93, 1, 1, '0.0100', 'First', 0, 1, 1653717914, 1),
-(94, 94, 1, 1, '0.0100', 'First', 0, 1, 1653717915, 1),
-(95, 95, 1, 1, '0.0100', 'First', 0, 1, 1653717915, 1),
-(96, 96, 1, 1, '0.0100', 'First', 0, 1, 1653717915, 1),
-(97, 97, 1, 1, '0.0100', 'First', 0, 1, 1653717915, 1),
-(98, 98, 1, 1, '0.0100', 'First', 0, 1, 1653717915, 1),
-(99, 99, 1, 1, '0.0100', 'First', 0, 1, 1653717915, 1),
-(100, 100, 1, 1, '0.0100', 'First', 0, 1, 1653717915, 1),
-(101, 1, 2, 1, '0.0100', 'Last', 1, 0, 1653717915, 1),
-(102, 2, 2, 1, '0.0100', 'Last', 1, 0, 1653717915, 1),
-(103, 3, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(104, 4, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(105, 5, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(106, 6, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(107, 7, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(108, 8, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(109, 9, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(110, 10, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(111, 11, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(112, 12, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(113, 13, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(114, 14, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(115, 15, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(116, 16, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(117, 17, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(118, 18, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(119, 19, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(120, 20, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(121, 21, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(122, 22, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(123, 23, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(124, 24, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(125, 25, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(126, 26, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(127, 27, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(128, 28, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(129, 29, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(130, 30, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(131, 31, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(132, 32, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(133, 33, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(134, 34, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(135, 35, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(136, 36, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(137, 37, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(138, 38, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(139, 39, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(140, 40, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(141, 41, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(142, 42, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(143, 43, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(144, 44, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(145, 45, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(146, 46, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(147, 47, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(148, 48, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(149, 49, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(150, 50, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(151, 51, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(152, 52, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(153, 53, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(154, 54, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(155, 55, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(156, 56, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(157, 57, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(158, 58, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(159, 59, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(160, 60, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(161, 61, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(162, 62, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(163, 63, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(164, 64, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(165, 65, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(166, 66, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(167, 67, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(168, 68, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(169, 69, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(170, 70, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(171, 71, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(172, 72, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(173, 73, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(174, 74, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(175, 75, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(176, 76, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(177, 77, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(178, 78, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(179, 79, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(180, 80, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(181, 81, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(182, 82, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(183, 83, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(184, 84, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(185, 85, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(186, 86, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(187, 87, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(188, 88, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(189, 89, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(190, 90, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(191, 91, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(192, 92, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(193, 93, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(194, 94, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(195, 95, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(196, 96, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(197, 97, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(198, 98, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(199, 99, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(200, 100, 2, 1, '0.0100', 'Last', 0, 1, 1653717915, 1),
-(201, 1, 3, 1, '1.2500', 'SP', 1, 0, 1653717915, 0),
-(202, 2, 3, 1, '1.2500', 'SP', 1, 0, 1653717915, 0),
-(203, 3, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(204, 4, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(205, 5, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(206, 6, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(207, 7, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(208, 8, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(209, 9, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(210, 10, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(211, 11, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(212, 12, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(213, 13, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(214, 14, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(215, 15, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(216, 16, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(217, 17, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(218, 18, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(219, 19, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(220, 20, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(221, 21, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(222, 22, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(223, 23, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(224, 24, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(225, 25, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(226, 26, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(227, 27, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(228, 28, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(229, 29, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(230, 30, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(231, 31, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(232, 32, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(233, 33, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(234, 34, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(235, 35, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(236, 36, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(237, 37, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(238, 38, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(239, 39, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(240, 40, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(241, 41, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(242, 42, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(243, 43, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(244, 44, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(245, 45, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(246, 46, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(247, 47, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(248, 48, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(249, 49, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(250, 50, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(251, 51, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(252, 52, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(253, 53, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(254, 54, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(255, 55, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(256, 56, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(257, 57, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(258, 58, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(259, 59, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(260, 60, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(261, 61, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(262, 62, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(263, 63, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(264, 64, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(265, 65, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(266, 66, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(267, 67, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(268, 68, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(269, 69, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(270, 70, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(271, 71, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(272, 72, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(273, 73, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(274, 74, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(275, 75, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(276, 76, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(277, 77, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(278, 78, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(279, 79, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(280, 80, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(281, 81, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(282, 82, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(283, 83, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(284, 84, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(285, 85, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(286, 86, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(287, 87, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(288, 88, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(289, 89, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(290, 90, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(291, 91, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(292, 92, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(293, 93, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(294, 94, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(295, 95, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(296, 96, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(297, 97, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(298, 98, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(299, 99, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(300, 100, 3, 1, '1.2500', 'SP', 0, 1, 1653717915, 0),
-(301, 1, 4, 1, '1.2500', 'A', 1, 0, 1653717915, 0),
-(302, 2, 4, 1, '1.2500', 'A', 1, 0, 1653717915, 0),
-(303, 3, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(304, 4, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(305, 5, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(306, 6, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(307, 7, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(308, 8, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(309, 9, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(310, 10, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(311, 11, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(312, 12, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(313, 13, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(314, 14, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(315, 15, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(316, 16, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(317, 17, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(318, 18, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(319, 19, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(320, 20, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(321, 21, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(322, 22, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(323, 23, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(324, 24, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(325, 25, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(326, 26, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(327, 27, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(328, 28, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(329, 29, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(330, 30, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(331, 31, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(332, 32, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(333, 33, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(334, 34, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(335, 35, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(336, 36, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(337, 37, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(338, 38, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(339, 39, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(340, 40, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(341, 41, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(342, 42, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(343, 43, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(344, 44, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(345, 45, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(346, 46, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(347, 47, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(348, 48, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(349, 49, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(350, 50, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(351, 51, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(352, 52, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(353, 53, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(354, 54, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(355, 55, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(356, 56, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(357, 57, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(358, 58, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(359, 59, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(360, 60, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(361, 61, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(362, 62, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(363, 63, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(364, 64, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(365, 65, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(366, 66, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(367, 67, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(368, 68, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(369, 69, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(370, 70, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(371, 71, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(372, 72, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(373, 73, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(374, 74, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(375, 75, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(376, 76, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(377, 77, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(378, 78, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(379, 79, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(380, 80, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(381, 81, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(382, 82, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(383, 83, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(384, 84, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(385, 85, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(386, 86, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(387, 87, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(388, 88, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(389, 89, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(390, 90, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(391, 91, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(392, 92, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(393, 93, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(394, 94, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(395, 95, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(396, 96, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(397, 97, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(398, 98, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(399, 99, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(400, 100, 4, 1, '1.2500', 'A', 0, 1, 1653717915, 0),
-(401, 1, 5, 1, '1.2500', 'B', 1, 0, 1653717915, 0),
-(402, 2, 5, 1, '1.2500', 'B', 1, 0, 1653717915, 0),
-(403, 3, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(404, 4, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(405, 5, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(406, 6, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(407, 7, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(408, 8, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(409, 9, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(410, 10, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(411, 11, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(412, 12, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(413, 13, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(414, 14, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(415, 15, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(416, 16, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(417, 17, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(418, 18, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(419, 19, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(420, 20, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(421, 21, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(422, 22, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(423, 23, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(424, 24, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(425, 25, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(426, 26, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(427, 27, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(428, 28, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(429, 29, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(430, 30, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(431, 31, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(432, 32, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(433, 33, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(434, 34, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(435, 35, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(436, 36, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(437, 37, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(438, 38, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(439, 39, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(440, 40, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(441, 41, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(442, 42, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(443, 43, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(444, 44, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(445, 45, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(446, 46, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(447, 47, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(448, 48, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(449, 49, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(450, 50, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(451, 51, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(452, 52, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(453, 53, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(454, 54, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(455, 55, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(456, 56, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(457, 57, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(458, 58, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(459, 59, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(460, 60, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(461, 61, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(462, 62, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(463, 63, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(464, 64, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(465, 65, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(466, 66, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(467, 67, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(468, 68, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(469, 69, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(470, 70, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(471, 71, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(472, 72, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(473, 73, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(474, 74, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(475, 75, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(476, 76, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(477, 77, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(478, 78, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(479, 79, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(480, 80, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(481, 81, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(482, 82, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(483, 83, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(484, 84, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(485, 85, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(486, 86, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(487, 87, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(488, 88, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(489, 89, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(490, 90, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(491, 91, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(492, 92, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(493, 93, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(494, 94, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(495, 95, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(496, 96, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(497, 97, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(498, 98, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(499, 99, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(500, 100, 5, 1, '1.2500', 'B', 0, 1, 1653717915, 0),
-(501, 1, 6, 1, '1.2500', 'C', 1, 0, 1653717915, 0),
-(502, 2, 6, 1, '1.2500', 'C', 1, 0, 1653717915, 0),
-(503, 3, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(504, 4, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(505, 5, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(506, 6, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(507, 7, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(508, 8, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(509, 9, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(510, 10, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(511, 11, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(512, 12, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(513, 13, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(514, 14, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(515, 15, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(516, 16, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(517, 17, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(518, 18, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(519, 19, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(520, 20, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(521, 21, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(522, 22, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(523, 23, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(524, 24, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(525, 25, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(526, 26, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(527, 27, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(528, 28, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(529, 29, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(530, 30, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(531, 31, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(532, 32, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(533, 33, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(534, 34, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(535, 35, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(536, 36, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(537, 37, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(538, 38, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(539, 39, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(540, 40, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(541, 41, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(542, 42, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(543, 43, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(544, 44, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(545, 45, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(546, 46, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(547, 47, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(548, 48, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(549, 49, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(550, 50, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(551, 51, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(552, 52, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(553, 53, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(554, 54, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(555, 55, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(556, 56, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(557, 57, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(558, 58, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(559, 59, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(560, 60, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(561, 61, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(562, 62, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(563, 63, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(564, 64, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(565, 65, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(566, 66, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(567, 67, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(568, 68, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(569, 69, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(570, 70, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(571, 71, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(572, 72, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(573, 73, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(574, 74, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(575, 75, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(576, 76, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(577, 77, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(578, 78, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(579, 79, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(580, 80, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(581, 81, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(582, 82, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(583, 83, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(584, 84, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(585, 85, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(586, 86, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(587, 87, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(588, 88, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(589, 89, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(590, 90, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(591, 91, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(592, 92, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(593, 93, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(594, 94, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(595, 95, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(596, 96, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(597, 97, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(598, 98, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(599, 99, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(600, 100, 6, 1, '1.2500', 'C', 0, 1, 1653717915, 0),
-(601, 1, 7, 1, '1.2500', 'D', 1, 0, 1653717915, 0),
-(602, 2, 7, 1, '1.2500', 'D', 1, 0, 1653717915, 0),
-(603, 3, 7, 1, '1.2500', 'D', 0, 1, 1653717915, 0),
-(604, 4, 7, 1, '1.2500', 'D', 0, 1, 1653717915, 0),
-(605, 5, 7, 1, '1.2500', 'D', 0, 1, 1653717915, 0),
-(606, 6, 7, 1, '1.2500', 'D', 0, 1, 1653717915, 0),
-(607, 7, 7, 1, '1.2500', 'D', 0, 1, 1653717915, 0),
-(608, 8, 7, 1, '1.2500', 'D', 0, 1, 1653717915, 0),
-(609, 9, 7, 1, '1.2500', 'D', 0, 1, 1653717915, 0),
-(610, 10, 7, 1, '1.2500', 'D', 0, 1, 1653717915, 0),
-(611, 11, 7, 1, '1.2500', 'D', 0, 1, 1653717915, 0),
-(612, 12, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(613, 13, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(614, 14, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(615, 15, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(616, 16, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(617, 17, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(618, 18, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(619, 19, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(620, 20, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(621, 21, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(622, 22, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(623, 23, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(624, 24, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(625, 25, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(626, 26, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(627, 27, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(628, 28, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(629, 29, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(630, 30, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(631, 31, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(632, 32, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(633, 33, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(634, 34, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(635, 35, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(636, 36, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(637, 37, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(638, 38, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(639, 39, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(640, 40, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(641, 41, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(642, 42, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(643, 43, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(644, 44, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(645, 45, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(646, 46, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(647, 47, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(648, 48, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(649, 49, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(650, 50, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(651, 51, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(652, 52, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(653, 53, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(654, 54, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(655, 55, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(656, 56, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(657, 57, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(658, 58, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(659, 59, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(660, 60, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(661, 61, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(662, 62, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(663, 63, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(664, 64, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(665, 65, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(666, 66, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(667, 67, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(668, 68, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(669, 69, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(670, 70, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(671, 71, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(672, 72, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(673, 73, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(674, 74, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(675, 75, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(676, 76, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(677, 77, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(678, 78, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(679, 79, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(680, 80, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(681, 81, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(682, 82, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(683, 83, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(684, 84, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(685, 85, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(686, 86, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(687, 87, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(688, 88, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(689, 89, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(690, 90, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(691, 91, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(692, 92, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(693, 93, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(694, 94, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(695, 95, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(696, 96, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(697, 97, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(698, 98, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(699, 99, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(700, 100, 7, 1, '1.2500', 'D', 0, 1, 1653717916, 0),
-(701, 1, 8, 1, '1.2500', 'E', 1, 0, 1653717916, 0),
-(702, 2, 8, 1, '1.2500', 'E', 1, 0, 1653717916, 0),
-(703, 3, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(704, 4, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(705, 5, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(706, 6, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(707, 7, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(708, 8, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(709, 9, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(710, 10, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(711, 11, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(712, 12, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(713, 13, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(714, 14, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(715, 15, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(716, 16, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(717, 17, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(718, 18, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(719, 19, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(720, 20, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(721, 21, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(722, 22, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(723, 23, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(724, 24, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(725, 25, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(726, 26, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(727, 27, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(728, 28, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(729, 29, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(730, 30, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(731, 31, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(732, 32, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(733, 33, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(734, 34, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(735, 35, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(736, 36, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(737, 37, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(738, 38, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(739, 39, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(740, 40, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(741, 41, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(742, 42, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(743, 43, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(744, 44, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(745, 45, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(746, 46, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(747, 47, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(748, 48, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(749, 49, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(750, 50, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(751, 51, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(752, 52, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(753, 53, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(754, 54, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(755, 55, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(756, 56, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(757, 57, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(758, 58, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(759, 59, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(760, 60, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(761, 61, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(762, 62, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(763, 63, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(764, 64, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(765, 65, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(766, 66, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(767, 67, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(768, 68, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(769, 69, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(770, 70, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(771, 71, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(772, 72, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(773, 73, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(774, 74, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(775, 75, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(776, 76, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(777, 77, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(778, 78, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(779, 79, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(780, 80, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(781, 81, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(782, 82, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(783, 83, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(784, 84, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(785, 85, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(786, 86, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(787, 87, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(788, 88, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(789, 89, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(790, 90, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(791, 91, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(792, 92, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(793, 93, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(794, 94, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(795, 95, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(796, 96, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(797, 97, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(798, 98, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(799, 99, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(800, 100, 8, 1, '1.2500', 'E', 0, 1, 1653717916, 0),
-(801, 1, 9, 1, '1.2500', 'F', 1, 0, 1653717916, 0),
-(802, 2, 9, 1, '1.2500', 'F', 1, 0, 1653717916, 0),
-(803, 3, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(804, 4, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(805, 5, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(806, 6, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(807, 7, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(808, 8, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(809, 9, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(810, 10, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(811, 11, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(812, 12, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(813, 13, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(814, 14, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(815, 15, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(816, 16, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(817, 17, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(818, 18, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(819, 19, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(820, 20, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(821, 21, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(822, 22, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(823, 23, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(824, 24, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(825, 25, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(826, 26, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(827, 27, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(828, 28, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(829, 29, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(830, 30, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(831, 31, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(832, 32, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(833, 33, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(834, 34, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(835, 35, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(836, 36, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(837, 37, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(838, 38, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(839, 39, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(840, 40, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(841, 41, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(842, 42, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(843, 43, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(844, 44, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(845, 45, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(846, 46, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(847, 47, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(848, 48, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(849, 49, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(850, 50, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(851, 51, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(852, 52, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(853, 53, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(854, 54, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(855, 55, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(856, 56, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(857, 57, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(858, 58, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(859, 59, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(860, 60, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(861, 61, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(862, 62, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(863, 63, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(864, 64, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(865, 65, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(866, 66, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(867, 67, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(868, 68, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(869, 69, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(870, 70, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(871, 71, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(872, 72, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(873, 73, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(874, 74, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(875, 75, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(876, 76, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(877, 77, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(878, 78, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(879, 79, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(880, 80, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(881, 81, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(882, 82, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(883, 83, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(884, 84, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(885, 85, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(886, 86, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(887, 87, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(888, 88, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(889, 89, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(890, 90, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(891, 91, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(892, 92, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(893, 93, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(894, 94, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(895, 95, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(896, 96, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(897, 97, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(898, 98, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(899, 99, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(900, 100, 9, 1, '1.2500', 'F', 0, 1, 1653717916, 0),
-(901, 1, 10, 1, '1.2500', 'G', 1, 0, 1653717916, 0),
-(902, 2, 10, 1, '1.2500', 'G', 1, 0, 1653717916, 0),
-(903, 3, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(904, 4, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(905, 5, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(906, 6, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(907, 7, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(908, 8, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(909, 9, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(910, 10, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(911, 11, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(912, 12, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(913, 13, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(914, 14, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(915, 15, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(916, 16, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(917, 17, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(918, 18, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(919, 19, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(920, 20, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(921, 21, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(922, 22, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(923, 23, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(924, 24, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(925, 25, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(926, 26, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(927, 27, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(928, 28, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(929, 29, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(930, 30, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(931, 31, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(932, 32, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(933, 33, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(934, 34, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(935, 35, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(936, 36, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(937, 37, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(938, 38, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(939, 39, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(940, 40, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(941, 41, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(942, 42, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(943, 43, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(944, 44, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(945, 45, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(946, 46, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(947, 47, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(948, 48, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(949, 49, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(950, 50, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(951, 51, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(952, 52, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(953, 53, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(954, 54, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(955, 55, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(956, 56, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(957, 57, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(958, 58, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(959, 59, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(960, 60, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(961, 61, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(962, 62, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(963, 63, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(964, 64, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0);
-INSERT INTO `dl_suit_goods` (`id`, `suit_id`, `goods_id`, `num`, `ratio`, `level`, `sales`, `surplus`, `create_time`, `is_special`) VALUES
-(965, 65, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(966, 66, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(967, 67, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(968, 68, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(969, 69, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(970, 70, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(971, 71, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(972, 72, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(973, 73, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(974, 74, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(975, 75, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(976, 76, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(977, 77, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(978, 78, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(979, 79, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(980, 80, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(981, 81, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(982, 82, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(983, 83, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(984, 84, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(985, 85, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(986, 86, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(987, 87, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(988, 88, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(989, 89, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(990, 90, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(991, 91, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(992, 92, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(993, 93, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(994, 94, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(995, 95, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(996, 96, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(997, 97, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(998, 98, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(999, 99, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(1000, 100, 10, 1, '1.2500', 'G', 0, 1, 1653717916, 0),
-(1001, 1, 11, 72, '90.0000', 'H', 72, 0, 1653717916, 0),
-(1002, 2, 11, 72, '90.0000', 'H', 72, 0, 1653717916, 0),
-(1003, 3, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1004, 4, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1005, 5, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1006, 6, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1007, 7, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1008, 8, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1009, 9, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1010, 10, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1011, 11, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1012, 12, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1013, 13, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1014, 14, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1015, 15, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1016, 16, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1017, 17, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1018, 18, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1019, 19, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1020, 20, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1021, 21, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1022, 22, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1023, 23, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1024, 24, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1025, 25, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1026, 26, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1027, 27, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1028, 28, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1029, 29, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1030, 30, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1031, 31, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1032, 32, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1033, 33, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1034, 34, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1035, 35, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1036, 36, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1037, 37, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1038, 38, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1039, 39, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1040, 40, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1041, 41, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1042, 42, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1043, 43, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1044, 44, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1045, 45, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1046, 46, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1047, 47, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1048, 48, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1049, 49, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1050, 50, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1051, 51, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1052, 52, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1053, 53, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1054, 54, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1055, 55, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1056, 56, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1057, 57, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1058, 58, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1059, 59, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1060, 60, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1061, 61, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1062, 62, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1063, 63, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1064, 64, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1065, 65, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1066, 66, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1067, 67, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1068, 68, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1069, 69, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1070, 70, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1071, 71, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1072, 72, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1073, 73, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1074, 74, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1075, 75, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1076, 76, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1077, 77, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1078, 78, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1079, 79, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1080, 80, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1081, 81, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1082, 82, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1083, 83, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1084, 84, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1085, 85, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1086, 86, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1087, 87, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1088, 88, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1089, 89, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1090, 90, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1091, 91, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1092, 92, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1093, 93, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1094, 94, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1095, 95, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1096, 96, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1097, 97, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1098, 98, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1099, 99, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1100, 100, 11, 72, '90.0000', 'H', 0, 72, 1653717916, 0),
-(1101, 101, 43, 1, '0.1000', 'First', 0, 1, 1653718206, 1),
-(1102, 102, 43, 1, '0.1000', 'First', 0, 1, 1653718206, 1),
-(1103, 103, 43, 1, '0.1000', 'First', 0, 1, 1653718206, 1),
-(1104, 104, 43, 1, '0.1000', 'First', 0, 1, 1653718206, 1),
-(1105, 105, 43, 1, '0.1000', 'First', 0, 1, 1653718206, 1),
-(1106, 106, 43, 1, '0.1000', 'First', 0, 1, 1653718206, 1),
-(1107, 107, 43, 1, '0.1000', 'First', 0, 1, 1653718206, 1),
-(1108, 108, 43, 1, '0.1000', 'First', 0, 1, 1653718206, 1),
-(1109, 109, 43, 1, '0.1000', 'First', 0, 1, 1653718206, 1),
-(1110, 110, 43, 1, '0.1000', 'First', 0, 1, 1653718206, 1),
-(1111, 111, 43, 1, '0.1000', 'First', 0, 1, 1653718206, 1),
-(1112, 112, 43, 1, '0.1000', 'First', 0, 1, 1653718206, 1),
-(1113, 113, 43, 1, '0.1000', 'First', 0, 1, 1653718206, 1),
-(1114, 114, 43, 1, '0.1000', 'First', 0, 1, 1653718206, 1),
-(1115, 115, 43, 1, '0.1000', 'First', 0, 1, 1653718206, 1),
-(1116, 116, 43, 1, '0.1000', 'First', 0, 1, 1653718206, 1),
-(1117, 117, 43, 1, '0.1000', 'First', 0, 1, 1653718206, 1),
-(1118, 118, 43, 1, '0.1000', 'First', 0, 1, 1653718206, 1),
-(1119, 119, 43, 1, '0.1000', 'First', 0, 1, 1653718206, 1),
-(1120, 120, 43, 1, '0.1000', 'First', 0, 1, 1653718206, 1),
-(1121, 121, 43, 1, '0.1000', 'First', 0, 1, 1653718207, 1),
-(1122, 122, 43, 1, '0.1000', 'First', 0, 1, 1653718207, 1),
-(1123, 123, 43, 1, '0.1000', 'First', 0, 1, 1653718207, 1),
-(1124, 124, 43, 1, '0.1000', 'First', 0, 1, 1653718207, 1),
-(1125, 125, 43, 1, '0.1000', 'First', 0, 1, 1653718207, 1),
-(1126, 126, 43, 1, '0.1000', 'First', 0, 1, 1653718207, 1),
-(1127, 127, 43, 1, '0.1000', 'First', 0, 1, 1653718207, 1),
-(1128, 128, 43, 1, '0.1000', 'First', 0, 1, 1653718207, 1),
-(1129, 129, 43, 1, '0.1000', 'First', 0, 1, 1653718207, 1),
-(1130, 130, 43, 1, '0.1000', 'First', 0, 1, 1653718207, 1),
-(1131, 131, 43, 1, '0.1000', 'First', 0, 1, 1653718207, 1),
-(1132, 132, 43, 1, '0.1000', 'First', 0, 1, 1653718207, 1),
-(1133, 133, 43, 1, '0.1000', 'First', 0, 1, 1653718207, 1),
-(1134, 134, 43, 1, '0.1000', 'First', 0, 1, 1653718207, 1),
-(1135, 135, 43, 1, '0.1000', 'First', 0, 1, 1653718207, 1),
-(1136, 136, 43, 1, '0.1000', 'First', 0, 1, 1653718207, 1),
-(1137, 137, 43, 1, '0.1000', 'First', 0, 1, 1653718207, 1),
-(1138, 138, 43, 1, '0.1000', 'First', 0, 1, 1653718207, 1),
-(1139, 139, 43, 1, '0.1000', 'First', 0, 1, 1653718207, 1),
-(1140, 140, 43, 1, '0.1000', 'First', 0, 1, 1653718207, 1),
-(1141, 141, 43, 1, '0.1000', 'First', 0, 1, 1653718207, 1),
-(1142, 142, 43, 1, '0.1000', 'First', 0, 1, 1653718207, 1),
-(1143, 143, 43, 1, '0.1000', 'First', 0, 1, 1653718207, 1),
-(1144, 144, 43, 1, '0.1000', 'First', 0, 1, 1653718207, 1),
-(1145, 145, 43, 1, '0.1000', 'First', 0, 1, 1653718207, 1),
-(1146, 146, 43, 1, '0.1000', 'First', 0, 1, 1653718207, 1),
-(1147, 147, 43, 1, '0.1000', 'First', 0, 1, 1653718207, 1),
-(1148, 148, 43, 1, '0.1000', 'First', 0, 1, 1653718207, 1),
-(1149, 149, 43, 1, '0.1000', 'First', 0, 1, 1653718208, 1),
-(1150, 150, 43, 1, '0.1000', 'First', 0, 1, 1653718208, 1),
-(1151, 101, 44, 1, '0.1000', 'Last', 0, 1, 1653718208, 1),
-(1152, 102, 44, 1, '0.1000', 'Last', 0, 1, 1653718208, 1),
-(1153, 103, 44, 1, '0.1000', 'Last', 0, 1, 1653718208, 1),
-(1154, 104, 44, 1, '0.1000', 'Last', 0, 1, 1653718208, 1),
-(1155, 105, 44, 1, '0.1000', 'Last', 0, 1, 1653718208, 1),
-(1156, 106, 44, 1, '0.1000', 'Last', 0, 1, 1653718208, 1),
-(1157, 107, 44, 1, '0.1000', 'Last', 0, 1, 1653718208, 1),
-(1158, 108, 44, 1, '0.1000', 'Last', 0, 1, 1653718208, 1),
-(1159, 109, 44, 1, '0.1000', 'Last', 0, 1, 1653718208, 1),
-(1160, 110, 44, 1, '0.1000', 'Last', 0, 1, 1653718208, 1),
-(1161, 111, 44, 1, '0.1000', 'Last', 0, 1, 1653718208, 1),
-(1162, 112, 44, 1, '0.1000', 'Last', 0, 1, 1653718208, 1),
-(1163, 113, 44, 1, '0.1000', 'Last', 0, 1, 1653718208, 1),
-(1164, 114, 44, 1, '0.1000', 'Last', 0, 1, 1653718208, 1),
-(1165, 115, 44, 1, '0.1000', 'Last', 0, 1, 1653718208, 1),
-(1166, 116, 44, 1, '0.1000', 'Last', 0, 1, 1653718208, 1),
-(1167, 117, 44, 1, '0.1000', 'Last', 0, 1, 1653718208, 1),
-(1168, 118, 44, 1, '0.1000', 'Last', 0, 1, 1653718208, 1),
-(1169, 119, 44, 1, '0.1000', 'Last', 0, 1, 1653718208, 1),
-(1170, 120, 44, 1, '0.1000', 'Last', 0, 1, 1653718208, 1),
-(1171, 121, 44, 1, '0.1000', 'Last', 0, 1, 1653718208, 1),
-(1172, 122, 44, 1, '0.1000', 'Last', 0, 1, 1653718208, 1),
-(1173, 123, 44, 1, '0.1000', 'Last', 0, 1, 1653718208, 1),
-(1174, 124, 44, 1, '0.1000', 'Last', 0, 1, 1653718208, 1),
-(1175, 125, 44, 1, '0.1000', 'Last', 0, 1, 1653718209, 1),
-(1176, 126, 44, 1, '0.1000', 'Last', 0, 1, 1653718209, 1),
-(1177, 127, 44, 1, '0.1000', 'Last', 0, 1, 1653718209, 1),
-(1178, 128, 44, 1, '0.1000', 'Last', 0, 1, 1653718209, 1),
-(1179, 129, 44, 1, '0.1000', 'Last', 0, 1, 1653718209, 1),
-(1180, 130, 44, 1, '0.1000', 'Last', 0, 1, 1653718209, 1),
-(1181, 131, 44, 1, '0.1000', 'Last', 0, 1, 1653718209, 1),
-(1182, 132, 44, 1, '0.1000', 'Last', 0, 1, 1653718209, 1),
-(1183, 133, 44, 1, '0.1000', 'Last', 0, 1, 1653718209, 1),
-(1184, 134, 44, 1, '0.1000', 'Last', 0, 1, 1653718209, 1),
-(1185, 135, 44, 1, '0.1000', 'Last', 0, 1, 1653718209, 1),
-(1186, 136, 44, 1, '0.1000', 'Last', 0, 1, 1653718209, 1),
-(1187, 137, 44, 1, '0.1000', 'Last', 0, 1, 1653718209, 1),
-(1188, 138, 44, 1, '0.1000', 'Last', 0, 1, 1653718209, 1),
-(1189, 139, 44, 1, '0.1000', 'Last', 0, 1, 1653718209, 1),
-(1190, 140, 44, 1, '0.1000', 'Last', 0, 1, 1653718209, 1),
-(1191, 141, 44, 1, '0.1000', 'Last', 0, 1, 1653718209, 1),
-(1192, 142, 44, 1, '0.1000', 'Last', 0, 1, 1653718209, 1),
-(1193, 143, 44, 1, '0.1000', 'Last', 0, 1, 1653718209, 1),
-(1194, 144, 44, 1, '0.1000', 'Last', 0, 1, 1653718209, 1),
-(1195, 145, 44, 1, '0.1000', 'Last', 0, 1, 1653718209, 1),
-(1196, 146, 44, 1, '0.1000', 'Last', 0, 1, 1653718209, 1),
-(1197, 147, 44, 1, '0.1000', 'Last', 0, 1, 1653718209, 1),
-(1198, 148, 44, 1, '0.1000', 'Last', 0, 1, 1653718209, 1),
-(1199, 149, 44, 1, '0.1000', 'Last', 0, 1, 1653718209, 1),
-(1200, 150, 44, 1, '0.1000', 'Last', 0, 1, 1653718209, 1),
-(1201, 101, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1202, 102, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1203, 103, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1204, 104, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1205, 105, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1206, 106, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1207, 107, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1208, 108, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1209, 109, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1210, 110, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1211, 111, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1212, 112, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1213, 113, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1214, 114, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1215, 115, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1216, 116, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1217, 117, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1218, 118, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1219, 119, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1220, 120, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1221, 121, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1222, 122, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1223, 123, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1224, 124, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1225, 125, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1226, 126, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1227, 127, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1228, 128, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1229, 129, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1230, 130, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1231, 131, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1232, 132, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1233, 133, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1234, 134, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1235, 135, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1236, 136, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1237, 137, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1238, 138, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1239, 139, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1240, 140, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1241, 141, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1242, 142, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1243, 143, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1244, 144, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1245, 145, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1246, 146, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1247, 147, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1248, 148, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1249, 149, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1250, 150, 45, 1, '0.1000', 'SP', 0, 1, 1653718209, 0),
-(1251, 101, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1252, 102, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1253, 103, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1254, 104, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1255, 105, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1256, 106, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1257, 107, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1258, 108, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1259, 109, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1260, 110, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1261, 111, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1262, 112, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1263, 113, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1264, 114, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1265, 115, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1266, 116, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1267, 117, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1268, 118, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1269, 119, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1270, 120, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1271, 121, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1272, 122, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1273, 123, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1274, 124, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1275, 125, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1276, 126, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1277, 127, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1278, 128, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1279, 129, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1280, 130, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1281, 131, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1282, 132, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1283, 133, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1284, 134, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1285, 135, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1286, 136, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1287, 137, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1288, 138, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1289, 139, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1290, 140, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1291, 141, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1292, 142, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1293, 143, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1294, 144, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1295, 145, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1296, 146, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1297, 147, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1298, 148, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1299, 149, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1300, 150, 46, 1, '0.1000', 'A', 0, 1, 1653718209, 0),
-(1301, 101, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1302, 102, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1303, 103, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1304, 104, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1305, 105, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1306, 106, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1307, 107, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1308, 108, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1309, 109, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1310, 110, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1311, 111, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1312, 112, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1313, 113, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1314, 114, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1315, 115, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1316, 116, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1317, 117, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1318, 118, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1319, 119, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1320, 120, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1321, 121, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1322, 122, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1323, 123, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1324, 124, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1325, 125, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1326, 126, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1327, 127, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1328, 128, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1329, 129, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1330, 130, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1331, 131, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1332, 132, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1333, 133, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1334, 134, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1335, 135, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1336, 136, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1337, 137, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1338, 138, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1339, 139, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1340, 140, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1341, 141, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1342, 142, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1343, 143, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1344, 144, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1345, 145, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1346, 146, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1347, 147, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1348, 148, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1349, 149, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1350, 150, 47, 1, '0.1000', 'B', 0, 1, 1653718209, 0),
-(1351, 101, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1352, 102, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1353, 103, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1354, 104, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1355, 105, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1356, 106, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1357, 107, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1358, 108, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1359, 109, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1360, 110, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1361, 111, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1362, 112, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1363, 113, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1364, 114, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1365, 115, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1366, 116, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1367, 117, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1368, 118, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1369, 119, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1370, 120, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1371, 121, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1372, 122, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1373, 123, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1374, 124, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1375, 125, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1376, 126, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1377, 127, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1378, 128, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1379, 129, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1380, 130, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1381, 131, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1382, 132, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1383, 133, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1384, 134, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1385, 135, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1386, 136, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1387, 137, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1388, 138, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1389, 139, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1390, 140, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1391, 141, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1392, 142, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1393, 143, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1394, 144, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1395, 145, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1396, 146, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1397, 147, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1398, 148, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1399, 149, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1400, 150, 48, 1, '0.1000', 'C', 0, 1, 1653718209, 0),
-(1401, 101, 49, 1, '0.1000', 'D', 1, 0, 1653718209, 0),
-(1402, 102, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1403, 103, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1404, 104, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1405, 105, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1406, 106, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1407, 107, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1408, 108, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1409, 109, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1410, 110, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1411, 111, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1412, 112, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1413, 113, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1414, 114, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1415, 115, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1416, 116, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1417, 117, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1418, 118, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1419, 119, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1420, 120, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1421, 121, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1422, 122, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1423, 123, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1424, 124, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1425, 125, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1426, 126, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1427, 127, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1428, 128, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1429, 129, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1430, 130, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1431, 131, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1432, 132, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1433, 133, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1434, 134, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1435, 135, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1436, 136, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1437, 137, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1438, 138, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1439, 139, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1440, 140, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1441, 141, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1442, 142, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1443, 143, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1444, 144, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1445, 145, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1446, 146, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1447, 147, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1448, 148, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1449, 149, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1450, 150, 49, 1, '0.1000', 'D', 0, 1, 1653718209, 0),
-(1451, 101, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1452, 102, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1453, 103, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1454, 104, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1455, 105, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1456, 106, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1457, 107, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1458, 108, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1459, 109, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1460, 110, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1461, 111, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1462, 112, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1463, 113, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1464, 114, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1465, 115, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1466, 116, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1467, 117, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1468, 118, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1469, 119, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1470, 120, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1471, 121, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1472, 122, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1473, 123, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1474, 124, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1475, 125, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1476, 126, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1477, 127, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1478, 128, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1479, 129, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1480, 130, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1481, 131, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1482, 132, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1483, 133, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1484, 134, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1485, 135, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1486, 136, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1487, 137, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1488, 138, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1489, 139, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1490, 140, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1491, 141, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1492, 142, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1493, 143, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1494, 144, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1495, 145, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1496, 146, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1497, 147, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1498, 148, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1499, 149, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1500, 150, 50, 1, '0.1000', 'E', 0, 1, 1653718209, 0),
-(1501, 101, 51, 1, '0.1000', 'F', 0, 1, 1653718209, 0),
-(1502, 102, 51, 1, '0.1000', 'F', 0, 1, 1653718209, 0),
-(1503, 103, 51, 1, '0.1000', 'F', 0, 1, 1653718209, 0),
-(1504, 104, 51, 1, '0.1000', 'F', 0, 1, 1653718209, 0),
-(1505, 105, 51, 1, '0.1000', 'F', 0, 1, 1653718209, 0),
-(1506, 106, 51, 1, '0.1000', 'F', 0, 1, 1653718209, 0),
-(1507, 107, 51, 1, '0.1000', 'F', 0, 1, 1653718209, 0),
-(1508, 108, 51, 1, '0.1000', 'F', 0, 1, 1653718209, 0),
-(1509, 109, 51, 1, '0.1000', 'F', 0, 1, 1653718209, 0),
-(1510, 110, 51, 1, '0.1000', 'F', 0, 1, 1653718209, 0),
-(1511, 111, 51, 1, '0.1000', 'F', 0, 1, 1653718209, 0),
-(1512, 112, 51, 1, '0.1000', 'F', 0, 1, 1653718209, 0),
-(1513, 113, 51, 1, '0.1000', 'F', 0, 1, 1653718209, 0),
-(1514, 114, 51, 1, '0.1000', 'F', 0, 1, 1653718209, 0),
-(1515, 115, 51, 1, '0.1000', 'F', 0, 1, 1653718209, 0),
-(1516, 116, 51, 1, '0.1000', 'F', 0, 1, 1653718209, 0),
-(1517, 117, 51, 1, '0.1000', 'F', 0, 1, 1653718209, 0),
-(1518, 118, 51, 1, '0.1000', 'F', 0, 1, 1653718209, 0),
-(1519, 119, 51, 1, '0.1000', 'F', 0, 1, 1653718209, 0),
-(1520, 120, 51, 1, '0.1000', 'F', 0, 1, 1653718209, 0),
-(1521, 121, 51, 1, '0.1000', 'F', 0, 1, 1653718209, 0),
-(1522, 122, 51, 1, '0.1000', 'F', 0, 1, 1653718209, 0),
-(1523, 123, 51, 1, '0.1000', 'F', 0, 1, 1653718209, 0),
-(1524, 124, 51, 1, '0.1000', 'F', 0, 1, 1653718209, 0),
-(1525, 125, 51, 1, '0.1000', 'F', 0, 1, 1653718209, 0),
-(1526, 126, 51, 1, '0.1000', 'F', 0, 1, 1653718209, 0),
-(1527, 127, 51, 1, '0.1000', 'F', 0, 1, 1653718209, 0),
-(1528, 128, 51, 1, '0.1000', 'F', 0, 1, 1653718209, 0),
-(1529, 129, 51, 1, '0.1000', 'F', 0, 1, 1653718209, 0),
-(1530, 130, 51, 1, '0.1000', 'F', 0, 1, 1653718210, 0),
-(1531, 131, 51, 1, '0.1000', 'F', 0, 1, 1653718210, 0),
-(1532, 132, 51, 1, '0.1000', 'F', 0, 1, 1653718210, 0),
-(1533, 133, 51, 1, '0.1000', 'F', 0, 1, 1653718210, 0),
-(1534, 134, 51, 1, '0.1000', 'F', 0, 1, 1653718210, 0),
-(1535, 135, 51, 1, '0.1000', 'F', 0, 1, 1653718210, 0),
-(1536, 136, 51, 1, '0.1000', 'F', 0, 1, 1653718210, 0),
-(1537, 137, 51, 1, '0.1000', 'F', 0, 1, 1653718210, 0),
-(1538, 138, 51, 1, '0.1000', 'F', 0, 1, 1653718210, 0),
-(1539, 139, 51, 1, '0.1000', 'F', 0, 1, 1653718210, 0),
-(1540, 140, 51, 1, '0.1000', 'F', 0, 1, 1653718210, 0),
-(1541, 141, 51, 1, '0.1000', 'F', 0, 1, 1653718210, 0),
-(1542, 142, 51, 1, '0.1000', 'F', 0, 1, 1653718210, 0),
-(1543, 143, 51, 1, '0.1000', 'F', 0, 1, 1653718210, 0),
-(1544, 144, 51, 1, '0.1000', 'F', 0, 1, 1653718210, 0),
-(1545, 145, 51, 1, '0.1000', 'F', 0, 1, 1653718210, 0),
-(1546, 146, 51, 1, '0.1000', 'F', 0, 1, 1653718210, 0),
-(1547, 147, 51, 1, '0.1000', 'F', 0, 1, 1653718210, 0),
-(1548, 148, 51, 1, '0.1000', 'F', 0, 1, 1653718210, 0),
-(1549, 149, 51, 1, '0.1000', 'F', 0, 1, 1653718210, 0),
-(1550, 150, 51, 1, '0.1000', 'F', 0, 1, 1653718210, 0),
-(1551, 101, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1552, 102, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1553, 103, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1554, 104, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1555, 105, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1556, 106, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1557, 107, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1558, 108, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1559, 109, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1560, 110, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1561, 111, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1562, 112, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1563, 113, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1564, 114, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1565, 115, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1566, 116, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1567, 117, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1568, 118, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1569, 119, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1570, 120, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1571, 121, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1572, 122, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1573, 123, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1574, 124, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1575, 125, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1576, 126, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1577, 127, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1578, 128, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1579, 129, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1580, 130, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1581, 131, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1582, 132, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1583, 133, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1584, 134, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1585, 135, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1586, 136, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1587, 137, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1588, 138, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1589, 139, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1590, 140, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1591, 141, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1592, 142, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1593, 143, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1594, 144, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1595, 145, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1596, 146, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1597, 147, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1598, 148, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1599, 149, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1600, 150, 52, 1, '0.1000', 'G', 0, 1, 1653718210, 0),
-(1601, 101, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1602, 102, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1603, 103, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1604, 104, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1605, 105, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1606, 106, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1607, 107, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1608, 108, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1609, 109, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1610, 110, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1611, 111, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1612, 112, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1613, 113, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1614, 114, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1615, 115, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1616, 116, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1617, 117, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1618, 118, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1619, 119, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1620, 120, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1621, 121, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1622, 122, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1623, 123, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1624, 124, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1625, 125, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1626, 126, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1627, 127, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1628, 128, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1629, 129, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1630, 130, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1631, 131, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1632, 132, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1633, 133, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1634, 134, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1635, 135, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1636, 136, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1637, 137, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1638, 138, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1639, 139, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1640, 140, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1641, 141, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1642, 142, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1643, 143, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1644, 144, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1645, 145, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1646, 146, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1647, 147, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1648, 148, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1649, 149, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1650, 150, 53, 1, '0.1000', 'H', 0, 1, 1653718210, 0),
-(1651, 101, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1652, 102, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1653, 103, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1654, 104, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1655, 105, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1656, 106, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1657, 107, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1658, 108, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1659, 109, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1660, 110, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1661, 111, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1662, 112, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1663, 113, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1664, 114, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1665, 115, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1666, 116, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1667, 117, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1668, 118, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1669, 119, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1670, 120, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1671, 121, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1672, 122, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1673, 123, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1674, 124, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1675, 125, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1676, 126, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1677, 127, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1678, 128, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1679, 129, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1680, 130, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1681, 131, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1682, 132, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1683, 133, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1684, 134, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1685, 135, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1686, 136, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1687, 137, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1688, 138, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1689, 139, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1690, 140, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1691, 141, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1692, 142, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1693, 143, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1694, 144, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1695, 145, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1696, 146, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1697, 147, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1698, 148, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1699, 149, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1700, 150, 54, 1, '0.1000', 'I', 0, 1, 1653718210, 0),
-(1701, 101, 55, 990, '99.0000', 'J', 135, 855, 1653718210, 0),
-(1702, 102, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1703, 103, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1704, 104, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1705, 105, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1706, 106, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1707, 107, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1708, 108, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1709, 109, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1710, 110, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1711, 111, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1712, 112, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1713, 113, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1714, 114, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1715, 115, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1716, 116, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1717, 117, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1718, 118, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1719, 119, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1720, 120, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1721, 121, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1722, 122, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1723, 123, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1724, 124, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1725, 125, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1726, 126, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1727, 127, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1728, 128, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1729, 129, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1730, 130, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1731, 131, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1732, 132, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1733, 133, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1734, 134, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1735, 135, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1736, 136, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1737, 137, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1738, 138, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1739, 139, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1740, 140, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1741, 141, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1742, 142, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1743, 143, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1744, 144, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1745, 145, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1746, 146, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1747, 147, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1748, 148, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1749, 149, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1750, 150, 55, 990, '99.0000', 'J', 0, 990, 1653718210, 0),
-(1751, 151, 23, 1, '1.0000', 'War', 1, 0, 1653718370, 1),
-(1752, 152, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1753, 153, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1754, 154, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1755, 155, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1756, 156, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1757, 157, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1758, 158, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1759, 159, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1760, 160, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1761, 161, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1762, 162, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1763, 163, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1764, 164, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1765, 165, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1766, 166, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1767, 167, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1768, 168, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1769, 169, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1770, 170, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1771, 171, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1772, 172, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1773, 173, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1774, 174, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1775, 175, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1776, 176, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1777, 177, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1778, 178, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1779, 179, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1780, 180, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1781, 181, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1782, 182, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1783, 183, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1784, 184, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1785, 185, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1786, 186, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1787, 187, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1788, 188, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1789, 189, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1790, 190, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1791, 191, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1792, 192, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1793, 193, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1794, 194, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1795, 195, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1796, 196, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1797, 197, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1798, 198, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1799, 199, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1800, 200, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1801, 201, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1802, 202, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1803, 203, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1804, 204, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1805, 205, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1806, 206, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1807, 207, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1808, 208, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1809, 209, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1810, 210, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1811, 211, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1812, 212, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1813, 213, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1814, 214, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1815, 215, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1816, 216, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1817, 217, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1818, 218, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1819, 219, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1820, 220, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1821, 221, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1822, 222, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1823, 223, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1824, 224, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1825, 225, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1826, 226, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1827, 227, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1828, 228, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1829, 229, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1830, 230, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1831, 231, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1832, 232, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1833, 233, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1834, 234, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1835, 235, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1836, 236, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1837, 237, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1838, 238, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1839, 239, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1840, 240, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1841, 241, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1842, 242, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1843, 243, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1844, 244, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1845, 245, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1846, 246, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1847, 247, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1848, 248, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1849, 249, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1850, 250, 23, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1851, 151, 24, 1, '1.0000', 'War', 1, 0, 1653718370, 1),
-(1852, 152, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1853, 153, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1854, 154, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1855, 155, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1856, 156, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1857, 157, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1858, 158, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1859, 159, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1860, 160, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1861, 161, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1862, 162, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1863, 163, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1864, 164, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1865, 165, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1866, 166, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1867, 167, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1868, 168, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1);
-INSERT INTO `dl_suit_goods` (`id`, `suit_id`, `goods_id`, `num`, `ratio`, `level`, `sales`, `surplus`, `create_time`, `is_special`) VALUES
-(1869, 169, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1870, 170, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1871, 171, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1872, 172, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1873, 173, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1874, 174, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1875, 175, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1876, 176, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1877, 177, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1878, 178, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1879, 179, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1880, 180, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1881, 181, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1882, 182, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1883, 183, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1884, 184, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1885, 185, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1886, 186, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1887, 187, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1888, 188, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1889, 189, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1890, 190, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1891, 191, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1892, 192, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1893, 193, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1894, 194, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1895, 195, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1896, 196, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1897, 197, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1898, 198, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1899, 199, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1900, 200, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1901, 201, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1902, 202, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1903, 203, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1904, 204, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1905, 205, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1906, 206, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1907, 207, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1908, 208, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1909, 209, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1910, 210, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1911, 211, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1912, 212, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1913, 213, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1914, 214, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1915, 215, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1916, 216, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1917, 217, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1918, 218, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1919, 219, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1920, 220, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1921, 221, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1922, 222, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1923, 223, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1924, 224, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1925, 225, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1926, 226, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1927, 227, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1928, 228, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1929, 229, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1930, 230, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1931, 231, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1932, 232, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1933, 233, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1934, 234, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1935, 235, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1936, 236, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1937, 237, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1938, 238, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1939, 239, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1940, 240, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1941, 241, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1942, 242, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1943, 243, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1944, 244, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1945, 245, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1946, 246, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1947, 247, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1948, 248, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1949, 249, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1950, 250, 24, 1, '1.0000', 'War', 0, 1, 1653718370, 1),
-(1951, 151, 25, 3, '100.0000', 'Challenge', 3, 0, 1653718370, 0),
-(1952, 152, 25, 3, '100.0000', 'Challenge', 2, 1, 1653718370, 0),
-(1953, 153, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1954, 154, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1955, 155, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1956, 156, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1957, 157, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1958, 158, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1959, 159, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1960, 160, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1961, 161, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1962, 162, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1963, 163, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1964, 164, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1965, 165, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1966, 166, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1967, 167, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1968, 168, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1969, 169, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1970, 170, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1971, 171, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1972, 172, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1973, 173, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1974, 174, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1975, 175, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1976, 176, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1977, 177, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1978, 178, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1979, 179, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1980, 180, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1981, 181, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1982, 182, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1983, 183, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1984, 184, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1985, 185, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1986, 186, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1987, 187, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1988, 188, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1989, 189, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1990, 190, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1991, 191, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1992, 192, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1993, 193, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1994, 194, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1995, 195, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1996, 196, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1997, 197, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1998, 198, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(1999, 199, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2000, 200, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2001, 201, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2002, 202, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2003, 203, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2004, 204, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2005, 205, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2006, 206, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2007, 207, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2008, 208, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2009, 209, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2010, 210, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2011, 211, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2012, 212, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2013, 213, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2014, 214, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2015, 215, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2016, 216, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2017, 217, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2018, 218, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2019, 219, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2020, 220, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2021, 221, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2022, 222, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2023, 223, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2024, 224, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2025, 225, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2026, 226, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2027, 227, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2028, 228, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2029, 229, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2030, 230, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2031, 231, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2032, 232, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2033, 233, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2034, 234, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2035, 235, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2036, 236, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2037, 237, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2038, 238, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2039, 239, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2040, 240, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2041, 241, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2042, 242, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2043, 243, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2044, 244, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2045, 245, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2046, 246, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2047, 247, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2048, 248, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2049, 249, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2050, 250, 25, 3, '100.0000', 'Challenge', 0, 3, 1653718370, 0),
-(2051, 251, 38, 1, '1.0000', 'War', 1, 0, 1653718514, 1),
-(2052, 252, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2053, 253, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2054, 254, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2055, 255, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2056, 256, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2057, 257, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2058, 258, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2059, 259, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2060, 260, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2061, 261, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2062, 262, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2063, 263, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2064, 264, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2065, 265, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2066, 266, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2067, 267, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2068, 268, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2069, 269, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2070, 270, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2071, 271, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2072, 272, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2073, 273, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2074, 274, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2075, 275, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2076, 276, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2077, 277, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2078, 278, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2079, 279, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2080, 280, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2081, 281, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2082, 282, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2083, 283, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2084, 284, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2085, 285, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2086, 286, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2087, 287, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2088, 288, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2089, 289, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2090, 290, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2091, 291, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2092, 292, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2093, 293, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2094, 294, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2095, 295, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2096, 296, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2097, 297, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2098, 298, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2099, 299, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2100, 300, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2101, 301, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2102, 302, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2103, 303, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2104, 304, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2105, 305, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2106, 306, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2107, 307, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2108, 308, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2109, 309, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2110, 310, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2111, 311, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2112, 312, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2113, 313, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2114, 314, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2115, 315, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2116, 316, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2117, 317, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2118, 318, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2119, 319, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2120, 320, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2121, 321, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2122, 322, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2123, 323, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2124, 324, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2125, 325, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2126, 326, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2127, 327, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2128, 328, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2129, 329, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2130, 330, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2131, 331, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2132, 332, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2133, 333, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2134, 334, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2135, 335, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2136, 336, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2137, 337, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2138, 338, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2139, 339, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2140, 340, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2141, 341, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2142, 342, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2143, 343, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2144, 344, 38, 1, '1.0000', 'War', 0, 1, 1653718514, 1),
-(2145, 345, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2146, 346, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2147, 347, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2148, 348, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2149, 349, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2150, 350, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2151, 351, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2152, 352, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2153, 353, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2154, 354, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2155, 355, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2156, 356, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2157, 357, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2158, 358, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2159, 359, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2160, 360, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2161, 361, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2162, 362, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2163, 363, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2164, 364, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2165, 365, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2166, 366, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2167, 367, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2168, 368, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2169, 369, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2170, 370, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2171, 371, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2172, 372, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2173, 373, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2174, 374, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2175, 375, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2176, 376, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2177, 377, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2178, 378, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2179, 379, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2180, 380, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2181, 381, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2182, 382, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2183, 383, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2184, 384, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2185, 385, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2186, 386, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2187, 387, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2188, 388, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2189, 389, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2190, 390, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2191, 391, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2192, 392, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2193, 393, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2194, 394, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2195, 395, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2196, 396, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2197, 397, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2198, 398, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2199, 399, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2200, 400, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2201, 401, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2202, 402, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2203, 403, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2204, 404, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2205, 405, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2206, 406, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2207, 407, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2208, 408, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2209, 409, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2210, 410, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2211, 411, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2212, 412, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2213, 413, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2214, 414, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2215, 415, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2216, 416, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2217, 417, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2218, 418, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2219, 419, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2220, 420, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2221, 421, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2222, 422, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2223, 423, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2224, 424, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2225, 425, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2226, 426, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2227, 427, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2228, 428, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2229, 429, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2230, 430, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2231, 431, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2232, 432, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2233, 433, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2234, 434, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2235, 435, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2236, 436, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2237, 437, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2238, 438, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2239, 439, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2240, 440, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2241, 441, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2242, 442, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2243, 443, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2244, 444, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2245, 445, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2246, 446, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2247, 447, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2248, 448, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2249, 449, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2250, 450, 38, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2251, 251, 39, 1, '1.0000', 'War', 1, 0, 1653718515, 1),
-(2252, 252, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2253, 253, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2254, 254, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2255, 255, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2256, 256, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2257, 257, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2258, 258, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2259, 259, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2260, 260, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2261, 261, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2262, 262, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2263, 263, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2264, 264, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2265, 265, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2266, 266, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2267, 267, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2268, 268, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2269, 269, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2270, 270, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2271, 271, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2272, 272, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2273, 273, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2274, 274, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2275, 275, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2276, 276, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2277, 277, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2278, 278, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2279, 279, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2280, 280, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2281, 281, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2282, 282, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2283, 283, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2284, 284, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2285, 285, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2286, 286, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2287, 287, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2288, 288, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2289, 289, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2290, 290, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2291, 291, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2292, 292, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2293, 293, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2294, 294, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2295, 295, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2296, 296, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2297, 297, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2298, 298, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2299, 299, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2300, 300, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2301, 301, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2302, 302, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2303, 303, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2304, 304, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2305, 305, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2306, 306, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2307, 307, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2308, 308, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2309, 309, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2310, 310, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2311, 311, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2312, 312, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2313, 313, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2314, 314, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2315, 315, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2316, 316, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2317, 317, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2318, 318, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2319, 319, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2320, 320, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2321, 321, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2322, 322, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2323, 323, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2324, 324, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2325, 325, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2326, 326, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2327, 327, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2328, 328, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2329, 329, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2330, 330, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2331, 331, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2332, 332, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2333, 333, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2334, 334, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2335, 335, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2336, 336, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2337, 337, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2338, 338, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2339, 339, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2340, 340, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2341, 341, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2342, 342, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2343, 343, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2344, 344, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2345, 345, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2346, 346, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2347, 347, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2348, 348, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2349, 349, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2350, 350, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2351, 351, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2352, 352, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2353, 353, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2354, 354, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2355, 355, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2356, 356, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2357, 357, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2358, 358, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2359, 359, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2360, 360, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2361, 361, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2362, 362, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2363, 363, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2364, 364, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2365, 365, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2366, 366, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2367, 367, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2368, 368, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2369, 369, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2370, 370, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2371, 371, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2372, 372, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2373, 373, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2374, 374, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2375, 375, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2376, 376, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2377, 377, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2378, 378, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2379, 379, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2380, 380, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2381, 381, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2382, 382, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2383, 383, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2384, 384, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2385, 385, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2386, 386, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2387, 387, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2388, 388, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2389, 389, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2390, 390, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2391, 391, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2392, 392, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2393, 393, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2394, 394, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2395, 395, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2396, 396, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2397, 397, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2398, 398, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2399, 399, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2400, 400, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2401, 401, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2402, 402, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2403, 403, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2404, 404, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2405, 405, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2406, 406, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2407, 407, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2408, 408, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2409, 409, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2410, 410, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2411, 411, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2412, 412, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2413, 413, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2414, 414, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2415, 415, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2416, 416, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2417, 417, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2418, 418, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2419, 419, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2420, 420, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2421, 421, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2422, 422, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2423, 423, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2424, 424, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2425, 425, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2426, 426, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2427, 427, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2428, 428, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2429, 429, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2430, 430, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2431, 431, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2432, 432, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2433, 433, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2434, 434, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2435, 435, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2436, 436, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2437, 437, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2438, 438, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2439, 439, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2440, 440, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2441, 441, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2442, 442, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2443, 443, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2444, 444, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2445, 445, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2446, 446, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2447, 447, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2448, 448, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2449, 449, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2450, 450, 39, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2451, 251, 40, 1, '1.0000', 'War', 1, 0, 1653718515, 1),
-(2452, 252, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2453, 253, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2454, 254, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2455, 255, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2456, 256, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2457, 257, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2458, 258, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2459, 259, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2460, 260, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2461, 261, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2462, 262, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2463, 263, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2464, 264, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2465, 265, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2466, 266, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2467, 267, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2468, 268, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2469, 269, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2470, 270, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2471, 271, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2472, 272, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2473, 273, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2474, 274, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2475, 275, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2476, 276, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2477, 277, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2478, 278, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2479, 279, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2480, 280, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2481, 281, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2482, 282, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2483, 283, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2484, 284, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2485, 285, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2486, 286, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2487, 287, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2488, 288, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2489, 289, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2490, 290, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2491, 291, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2492, 292, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2493, 293, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2494, 294, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2495, 295, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2496, 296, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2497, 297, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2498, 298, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2499, 299, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2500, 300, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2501, 301, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2502, 302, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2503, 303, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2504, 304, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2505, 305, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2506, 306, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2507, 307, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2508, 308, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2509, 309, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2510, 310, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2511, 311, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2512, 312, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2513, 313, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2514, 314, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2515, 315, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2516, 316, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2517, 317, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2518, 318, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2519, 319, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2520, 320, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2521, 321, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2522, 322, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2523, 323, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2524, 324, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2525, 325, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2526, 326, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2527, 327, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2528, 328, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2529, 329, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2530, 330, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2531, 331, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2532, 332, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2533, 333, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2534, 334, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2535, 335, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2536, 336, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2537, 337, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2538, 338, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2539, 339, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2540, 340, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2541, 341, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2542, 342, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2543, 343, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2544, 344, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2545, 345, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2546, 346, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2547, 347, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2548, 348, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2549, 349, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2550, 350, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2551, 351, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2552, 352, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2553, 353, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2554, 354, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2555, 355, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2556, 356, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2557, 357, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2558, 358, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2559, 359, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2560, 360, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2561, 361, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2562, 362, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2563, 363, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2564, 364, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2565, 365, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2566, 366, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2567, 367, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2568, 368, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2569, 369, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2570, 370, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2571, 371, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2572, 372, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2573, 373, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2574, 374, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2575, 375, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2576, 376, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2577, 377, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2578, 378, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2579, 379, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2580, 380, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2581, 381, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2582, 382, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2583, 383, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2584, 384, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2585, 385, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2586, 386, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2587, 387, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2588, 388, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2589, 389, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2590, 390, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2591, 391, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2592, 392, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2593, 393, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2594, 394, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2595, 395, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2596, 396, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2597, 397, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2598, 398, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2599, 399, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2600, 400, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2601, 401, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2602, 402, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2603, 403, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2604, 404, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2605, 405, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2606, 406, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2607, 407, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2608, 408, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2609, 409, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2610, 410, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2611, 411, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2612, 412, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2613, 413, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2614, 414, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2615, 415, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2616, 416, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2617, 417, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2618, 418, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2619, 419, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2620, 420, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2621, 421, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2622, 422, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2623, 423, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2624, 424, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2625, 425, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2626, 426, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2627, 427, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2628, 428, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2629, 429, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2630, 430, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2631, 431, 40, 1, '1.0000', 'War', 0, 1, 1653718515, 1),
-(2632, 432, 40, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2633, 433, 40, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2634, 434, 40, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2635, 435, 40, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2636, 436, 40, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2637, 437, 40, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2638, 438, 40, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2639, 439, 40, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2640, 440, 40, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2641, 441, 40, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2642, 442, 40, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2643, 443, 40, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2644, 444, 40, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2645, 445, 40, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2646, 446, 40, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2647, 447, 40, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2648, 448, 40, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2649, 449, 40, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2650, 450, 40, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2651, 251, 41, 1, '1.0000', 'War', 1, 0, 1653718516, 1),
-(2652, 252, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2653, 253, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2654, 254, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2655, 255, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2656, 256, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2657, 257, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2658, 258, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2659, 259, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2660, 260, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2661, 261, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2662, 262, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2663, 263, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2664, 264, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2665, 265, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2666, 266, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2667, 267, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2668, 268, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2669, 269, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2670, 270, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2671, 271, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2672, 272, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2673, 273, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2674, 274, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2675, 275, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2676, 276, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2677, 277, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2678, 278, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2679, 279, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2680, 280, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2681, 281, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2682, 282, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2683, 283, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2684, 284, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2685, 285, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2686, 286, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2687, 287, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2688, 288, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2689, 289, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2690, 290, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2691, 291, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2692, 292, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2693, 293, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2694, 294, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2695, 295, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2696, 296, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2697, 297, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2698, 298, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2699, 299, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2700, 300, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2701, 301, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2702, 302, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2703, 303, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2704, 304, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2705, 305, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2706, 306, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2707, 307, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2708, 308, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2709, 309, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2710, 310, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2711, 311, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2712, 312, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2713, 313, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2714, 314, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2715, 315, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2716, 316, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2717, 317, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2718, 318, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2719, 319, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2720, 320, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2721, 321, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2722, 322, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2723, 323, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2724, 324, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2725, 325, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2726, 326, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2727, 327, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2728, 328, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2729, 329, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2730, 330, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2731, 331, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2732, 332, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2733, 333, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2734, 334, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2735, 335, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2736, 336, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2737, 337, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2738, 338, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2739, 339, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2740, 340, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2741, 341, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2742, 342, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2743, 343, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2744, 344, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1);
-INSERT INTO `dl_suit_goods` (`id`, `suit_id`, `goods_id`, `num`, `ratio`, `level`, `sales`, `surplus`, `create_time`, `is_special`) VALUES
-(2745, 345, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2746, 346, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2747, 347, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2748, 348, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2749, 349, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2750, 350, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2751, 351, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2752, 352, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2753, 353, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2754, 354, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2755, 355, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2756, 356, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2757, 357, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2758, 358, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2759, 359, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2760, 360, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2761, 361, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2762, 362, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2763, 363, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2764, 364, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2765, 365, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2766, 366, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2767, 367, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2768, 368, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2769, 369, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2770, 370, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2771, 371, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2772, 372, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2773, 373, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2774, 374, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2775, 375, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2776, 376, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2777, 377, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2778, 378, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2779, 379, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2780, 380, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2781, 381, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2782, 382, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2783, 383, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2784, 384, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2785, 385, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2786, 386, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2787, 387, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2788, 388, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2789, 389, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2790, 390, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2791, 391, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2792, 392, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2793, 393, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2794, 394, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2795, 395, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2796, 396, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2797, 397, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2798, 398, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2799, 399, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2800, 400, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2801, 401, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2802, 402, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2803, 403, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2804, 404, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2805, 405, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2806, 406, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2807, 407, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2808, 408, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2809, 409, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2810, 410, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2811, 411, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2812, 412, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2813, 413, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2814, 414, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2815, 415, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2816, 416, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2817, 417, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2818, 418, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2819, 419, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2820, 420, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2821, 421, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2822, 422, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2823, 423, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2824, 424, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2825, 425, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2826, 426, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2827, 427, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2828, 428, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2829, 429, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2830, 430, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2831, 431, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2832, 432, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2833, 433, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2834, 434, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2835, 435, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2836, 436, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2837, 437, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2838, 438, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2839, 439, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2840, 440, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2841, 441, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2842, 442, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2843, 443, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2844, 444, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2845, 445, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2846, 446, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2847, 447, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2848, 448, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2849, 449, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2850, 450, 41, 1, '1.0000', 'War', 0, 1, 1653718516, 1),
-(2851, 251, 42, 5, '100.0000', 'Challenge', 5, 0, 1653718516, 0),
-(2852, 252, 42, 5, '100.0000', 'Challenge', 3, 2, 1653718516, 0),
-(2853, 253, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2854, 254, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2855, 255, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2856, 256, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2857, 257, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2858, 258, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2859, 259, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2860, 260, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2861, 261, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2862, 262, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2863, 263, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2864, 264, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2865, 265, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2866, 266, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2867, 267, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2868, 268, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2869, 269, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2870, 270, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2871, 271, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2872, 272, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2873, 273, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2874, 274, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2875, 275, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2876, 276, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2877, 277, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2878, 278, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2879, 279, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2880, 280, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2881, 281, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2882, 282, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2883, 283, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2884, 284, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2885, 285, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2886, 286, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2887, 287, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2888, 288, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2889, 289, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2890, 290, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2891, 291, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2892, 292, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2893, 293, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2894, 294, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2895, 295, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2896, 296, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2897, 297, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2898, 298, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2899, 299, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2900, 300, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2901, 301, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2902, 302, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2903, 303, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2904, 304, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2905, 305, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2906, 306, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2907, 307, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2908, 308, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2909, 309, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2910, 310, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2911, 311, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2912, 312, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2913, 313, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2914, 314, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2915, 315, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2916, 316, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2917, 317, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2918, 318, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2919, 319, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2920, 320, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2921, 321, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2922, 322, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2923, 323, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2924, 324, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2925, 325, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2926, 326, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2927, 327, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2928, 328, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2929, 329, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2930, 330, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2931, 331, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2932, 332, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2933, 333, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2934, 334, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2935, 335, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2936, 336, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2937, 337, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2938, 338, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2939, 339, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2940, 340, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2941, 341, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2942, 342, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2943, 343, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2944, 344, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2945, 345, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2946, 346, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2947, 347, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2948, 348, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2949, 349, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2950, 350, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2951, 351, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2952, 352, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2953, 353, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2954, 354, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2955, 355, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2956, 356, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2957, 357, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2958, 358, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2959, 359, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2960, 360, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2961, 361, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2962, 362, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2963, 363, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2964, 364, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2965, 365, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2966, 366, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2967, 367, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2968, 368, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2969, 369, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2970, 370, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2971, 371, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2972, 372, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2973, 373, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2974, 374, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2975, 375, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2976, 376, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2977, 377, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2978, 378, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2979, 379, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2980, 380, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2981, 381, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2982, 382, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2983, 383, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2984, 384, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2985, 385, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2986, 386, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2987, 387, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2988, 388, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2989, 389, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2990, 390, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2991, 391, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2992, 392, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2993, 393, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2994, 394, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2995, 395, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2996, 396, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2997, 397, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2998, 398, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(2999, 399, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3000, 400, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3001, 401, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3002, 402, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3003, 403, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3004, 404, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3005, 405, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3006, 406, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3007, 407, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3008, 408, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3009, 409, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3010, 410, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3011, 411, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3012, 412, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3013, 413, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3014, 414, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3015, 415, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3016, 416, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3017, 417, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3018, 418, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3019, 419, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3020, 420, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3021, 421, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3022, 422, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3023, 423, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3024, 424, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3025, 425, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3026, 426, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3027, 427, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3028, 428, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3029, 429, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3030, 430, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3031, 431, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3032, 432, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3033, 433, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3034, 434, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3035, 435, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3036, 436, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3037, 437, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3038, 438, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3039, 439, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3040, 440, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3041, 441, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3042, 442, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3043, 443, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3044, 444, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3045, 445, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3046, 446, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3047, 447, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3048, 448, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3049, 449, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3050, 450, 42, 5, '100.0000', 'Challenge', 0, 5, 1653718516, 0),
-(3051, 451, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3052, 452, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3053, 453, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3054, 454, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3055, 455, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3056, 456, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3057, 457, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3058, 458, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3059, 459, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3060, 460, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3061, 461, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3062, 462, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3063, 463, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3064, 464, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3065, 465, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3066, 466, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3067, 467, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3068, 468, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3069, 469, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3070, 470, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3071, 471, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3072, 472, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3073, 473, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3074, 474, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3075, 475, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3076, 476, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3077, 477, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3078, 478, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3079, 479, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3080, 480, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3081, 481, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3082, 482, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3083, 483, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3084, 484, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3085, 485, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3086, 486, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3087, 487, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3088, 488, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3089, 489, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3090, 490, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3091, 491, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3092, 492, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3093, 493, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3094, 494, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3095, 495, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3096, 496, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3097, 497, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3098, 498, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3099, 499, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3100, 500, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3101, 501, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3102, 502, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3103, 503, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3104, 504, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3105, 505, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3106, 506, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3107, 507, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3108, 508, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3109, 509, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3110, 510, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3111, 511, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3112, 512, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3113, 513, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3114, 514, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3115, 515, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3116, 516, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3117, 517, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3118, 518, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3119, 519, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3120, 520, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3121, 521, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3122, 522, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3123, 523, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3124, 524, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3125, 525, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3126, 526, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3127, 527, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3128, 528, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3129, 529, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3130, 530, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3131, 531, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3132, 532, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3133, 533, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3134, 534, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3135, 535, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3136, 536, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3137, 537, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3138, 538, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3139, 539, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3140, 540, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3141, 541, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3142, 542, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3143, 543, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3144, 544, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3145, 545, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3146, 546, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3147, 547, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3148, 548, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3149, 549, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3150, 550, 73, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3151, 451, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3152, 452, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3153, 453, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3154, 454, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3155, 455, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3156, 456, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3157, 457, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3158, 458, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3159, 459, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3160, 460, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3161, 461, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3162, 462, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3163, 463, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3164, 464, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3165, 465, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3166, 466, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3167, 467, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3168, 468, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3169, 469, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3170, 470, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3171, 471, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3172, 472, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3173, 473, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3174, 474, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3175, 475, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3176, 476, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3177, 477, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3178, 478, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3179, 479, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3180, 480, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3181, 481, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3182, 482, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3183, 483, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3184, 484, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3185, 485, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3186, 486, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3187, 487, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3188, 488, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3189, 489, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3190, 490, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3191, 491, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3192, 492, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3193, 493, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3194, 494, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3195, 495, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3196, 496, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3197, 497, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3198, 498, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3199, 499, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3200, 500, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3201, 501, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3202, 502, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3203, 503, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3204, 504, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3205, 505, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3206, 506, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3207, 507, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3208, 508, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3209, 509, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3210, 510, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3211, 511, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3212, 512, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3213, 513, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3214, 514, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3215, 515, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3216, 516, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3217, 517, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3218, 518, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3219, 519, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3220, 520, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3221, 521, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3222, 522, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3223, 523, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3224, 524, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3225, 525, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3226, 526, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3227, 527, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3228, 528, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3229, 529, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3230, 530, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3231, 531, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3232, 532, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3233, 533, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3234, 534, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3235, 535, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3236, 536, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3237, 537, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3238, 538, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3239, 539, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3240, 540, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3241, 541, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3242, 542, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3243, 543, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3244, 544, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3245, 545, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3246, 546, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3247, 547, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3248, 548, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3249, 549, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3250, 550, 74, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3251, 451, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3252, 452, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3253, 453, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3254, 454, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3255, 455, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3256, 456, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3257, 457, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3258, 458, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3259, 459, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3260, 460, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3261, 461, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3262, 462, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3263, 463, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3264, 464, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3265, 465, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3266, 466, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3267, 467, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3268, 468, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3269, 469, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3270, 470, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3271, 471, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3272, 472, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3273, 473, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3274, 474, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3275, 475, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3276, 476, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3277, 477, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3278, 478, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3279, 479, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3280, 480, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3281, 481, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3282, 482, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3283, 483, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3284, 484, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3285, 485, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3286, 486, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3287, 487, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3288, 488, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3289, 489, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3290, 490, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3291, 491, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3292, 492, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3293, 493, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3294, 494, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3295, 495, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3296, 496, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3297, 497, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3298, 498, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3299, 499, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3300, 500, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3301, 501, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3302, 502, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3303, 503, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3304, 504, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3305, 505, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3306, 506, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3307, 507, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3308, 508, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3309, 509, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3310, 510, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3311, 511, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3312, 512, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3313, 513, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3314, 514, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3315, 515, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3316, 516, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3317, 517, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3318, 518, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3319, 519, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3320, 520, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3321, 521, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3322, 522, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3323, 523, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3324, 524, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3325, 525, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3326, 526, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3327, 527, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3328, 528, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3329, 529, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3330, 530, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3331, 531, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3332, 532, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3333, 533, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3334, 534, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3335, 535, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3336, 536, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3337, 537, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3338, 538, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3339, 539, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3340, 540, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3341, 541, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3342, 542, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3343, 543, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3344, 544, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3345, 545, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3346, 546, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3347, 547, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3348, 548, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3349, 549, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3350, 550, 75, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3351, 451, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3352, 452, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3353, 453, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3354, 454, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3355, 455, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3356, 456, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3357, 457, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3358, 458, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3359, 459, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3360, 460, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3361, 461, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3362, 462, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3363, 463, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3364, 464, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3365, 465, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3366, 466, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3367, 467, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3368, 468, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3369, 469, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3370, 470, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3371, 471, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3372, 472, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3373, 473, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3374, 474, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3375, 475, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3376, 476, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3377, 477, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3378, 478, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3379, 479, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3380, 480, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3381, 481, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3382, 482, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3383, 483, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3384, 484, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3385, 485, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3386, 486, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3387, 487, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3388, 488, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3389, 489, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3390, 490, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3391, 491, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3392, 492, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3393, 493, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3394, 494, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3395, 495, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3396, 496, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3397, 497, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3398, 498, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3399, 499, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3400, 500, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3401, 501, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3402, 502, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3403, 503, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3404, 504, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3405, 505, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3406, 506, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3407, 507, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3408, 508, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3409, 509, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3410, 510, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3411, 511, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3412, 512, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3413, 513, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3414, 514, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3415, 515, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3416, 516, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3417, 517, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3418, 518, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3419, 519, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3420, 520, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3421, 521, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3422, 522, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3423, 523, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3424, 524, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3425, 525, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3426, 526, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3427, 527, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3428, 528, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3429, 529, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3430, 530, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3431, 531, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3432, 532, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3433, 533, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3434, 534, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3435, 535, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3436, 536, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3437, 537, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3438, 538, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3439, 539, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3440, 540, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3441, 541, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3442, 542, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3443, 543, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3444, 544, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3445, 545, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3446, 546, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3447, 547, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3448, 548, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3449, 549, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3450, 550, 76, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3451, 451, 77, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3452, 452, 77, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3453, 453, 77, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3454, 454, 77, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3455, 455, 77, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3456, 456, 77, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3457, 457, 77, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3458, 458, 77, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3459, 459, 77, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3460, 460, 77, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3461, 461, 77, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3462, 462, 77, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3463, 463, 77, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3464, 464, 77, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3465, 465, 77, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3466, 466, 77, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3467, 467, 77, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3468, 468, 77, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3469, 469, 77, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3470, 470, 77, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3471, 471, 77, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3472, 472, 77, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3473, 473, 77, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3474, 474, 77, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3475, 475, 77, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3476, 476, 77, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3477, 477, 77, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3478, 478, 77, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3479, 479, 77, 1, '1.0000', 'War', 0, 1, 1653718735, 1),
-(3480, 480, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3481, 481, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3482, 482, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3483, 483, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3484, 484, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3485, 485, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3486, 486, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3487, 487, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3488, 488, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3489, 489, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3490, 490, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3491, 491, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3492, 492, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3493, 493, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3494, 494, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3495, 495, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3496, 496, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3497, 497, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3498, 498, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3499, 499, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3500, 500, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3501, 501, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3502, 502, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3503, 503, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3504, 504, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3505, 505, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3506, 506, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3507, 507, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3508, 508, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3509, 509, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3510, 510, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3511, 511, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3512, 512, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3513, 513, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3514, 514, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3515, 515, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3516, 516, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3517, 517, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3518, 518, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3519, 519, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3520, 520, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3521, 521, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3522, 522, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3523, 523, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3524, 524, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3525, 525, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3526, 526, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3527, 527, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3528, 528, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3529, 529, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3530, 530, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3531, 531, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3532, 532, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3533, 533, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3534, 534, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3535, 535, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3536, 536, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3537, 537, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3538, 538, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3539, 539, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3540, 540, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3541, 541, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3542, 542, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3543, 543, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3544, 544, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3545, 545, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3546, 546, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3547, 547, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3548, 548, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3549, 549, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3550, 550, 77, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3551, 451, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3552, 452, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3553, 453, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3554, 454, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3555, 455, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3556, 456, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3557, 457, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3558, 458, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3559, 459, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3560, 460, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3561, 461, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3562, 462, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3563, 463, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3564, 464, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3565, 465, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3566, 466, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3567, 467, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3568, 468, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3569, 469, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3570, 470, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3571, 471, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3572, 472, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3573, 473, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3574, 474, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3575, 475, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3576, 476, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3577, 477, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3578, 478, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3579, 479, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3580, 480, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3581, 481, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3582, 482, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3583, 483, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3584, 484, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3585, 485, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3586, 486, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3587, 487, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3588, 488, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3589, 489, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3590, 490, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3591, 491, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3592, 492, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3593, 493, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3594, 494, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3595, 495, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3596, 496, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3597, 497, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3598, 498, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3599, 499, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3600, 500, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3601, 501, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3602, 502, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3603, 503, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3604, 504, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3605, 505, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1);
-INSERT INTO `dl_suit_goods` (`id`, `suit_id`, `goods_id`, `num`, `ratio`, `level`, `sales`, `surplus`, `create_time`, `is_special`) VALUES
-(3606, 506, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3607, 507, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3608, 508, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3609, 509, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3610, 510, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3611, 511, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3612, 512, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3613, 513, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3614, 514, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3615, 515, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3616, 516, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3617, 517, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3618, 518, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3619, 519, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3620, 520, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3621, 521, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3622, 522, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3623, 523, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3624, 524, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3625, 525, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3626, 526, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3627, 527, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3628, 528, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3629, 529, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3630, 530, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3631, 531, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3632, 532, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3633, 533, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3634, 534, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3635, 535, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3636, 536, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3637, 537, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3638, 538, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3639, 539, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3640, 540, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3641, 541, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3642, 542, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3643, 543, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3644, 544, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3645, 545, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3646, 546, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3647, 547, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3648, 548, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3649, 549, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3650, 550, 78, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3651, 451, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3652, 452, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3653, 453, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3654, 454, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3655, 455, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3656, 456, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3657, 457, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3658, 458, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3659, 459, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3660, 460, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3661, 461, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3662, 462, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3663, 463, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3664, 464, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3665, 465, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3666, 466, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3667, 467, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3668, 468, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3669, 469, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3670, 470, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3671, 471, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3672, 472, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3673, 473, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3674, 474, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3675, 475, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3676, 476, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3677, 477, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3678, 478, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3679, 479, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3680, 480, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3681, 481, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3682, 482, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3683, 483, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3684, 484, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3685, 485, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3686, 486, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3687, 487, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3688, 488, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3689, 489, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3690, 490, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3691, 491, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3692, 492, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3693, 493, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3694, 494, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3695, 495, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3696, 496, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3697, 497, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3698, 498, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3699, 499, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3700, 500, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3701, 501, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3702, 502, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3703, 503, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3704, 504, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3705, 505, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3706, 506, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3707, 507, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3708, 508, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3709, 509, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3710, 510, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3711, 511, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3712, 512, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3713, 513, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3714, 514, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3715, 515, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3716, 516, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3717, 517, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3718, 518, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3719, 519, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3720, 520, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3721, 521, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3722, 522, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3723, 523, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3724, 524, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3725, 525, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3726, 526, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3727, 527, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3728, 528, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3729, 529, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3730, 530, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3731, 531, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3732, 532, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3733, 533, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3734, 534, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3735, 535, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3736, 536, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3737, 537, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3738, 538, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3739, 539, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3740, 540, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3741, 541, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3742, 542, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3743, 543, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3744, 544, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3745, 545, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3746, 546, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3747, 547, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3748, 548, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3749, 549, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3750, 550, 79, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3751, 451, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3752, 452, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3753, 453, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3754, 454, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3755, 455, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3756, 456, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3757, 457, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3758, 458, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3759, 459, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3760, 460, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3761, 461, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3762, 462, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3763, 463, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3764, 464, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3765, 465, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3766, 466, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3767, 467, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3768, 468, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3769, 469, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3770, 470, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3771, 471, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3772, 472, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3773, 473, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3774, 474, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3775, 475, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3776, 476, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3777, 477, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3778, 478, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3779, 479, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3780, 480, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3781, 481, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3782, 482, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3783, 483, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3784, 484, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3785, 485, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3786, 486, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3787, 487, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3788, 488, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3789, 489, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3790, 490, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3791, 491, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3792, 492, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3793, 493, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3794, 494, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3795, 495, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3796, 496, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3797, 497, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3798, 498, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3799, 499, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3800, 500, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3801, 501, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3802, 502, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3803, 503, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3804, 504, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3805, 505, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3806, 506, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3807, 507, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3808, 508, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3809, 509, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3810, 510, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3811, 511, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3812, 512, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3813, 513, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3814, 514, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3815, 515, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3816, 516, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3817, 517, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3818, 518, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3819, 519, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3820, 520, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3821, 521, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3822, 522, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3823, 523, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3824, 524, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3825, 525, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3826, 526, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3827, 527, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3828, 528, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3829, 529, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3830, 530, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3831, 531, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3832, 532, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3833, 533, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3834, 534, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3835, 535, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3836, 536, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3837, 537, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3838, 538, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3839, 539, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3840, 540, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3841, 541, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3842, 542, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3843, 543, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3844, 544, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3845, 545, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3846, 546, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3847, 547, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3848, 548, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3849, 549, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3850, 550, 80, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3851, 451, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3852, 452, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3853, 453, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3854, 454, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3855, 455, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3856, 456, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3857, 457, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3858, 458, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3859, 459, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3860, 460, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3861, 461, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3862, 462, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3863, 463, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3864, 464, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3865, 465, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3866, 466, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3867, 467, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3868, 468, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3869, 469, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3870, 470, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3871, 471, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3872, 472, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3873, 473, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3874, 474, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3875, 475, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3876, 476, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3877, 477, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3878, 478, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3879, 479, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3880, 480, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3881, 481, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3882, 482, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3883, 483, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3884, 484, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3885, 485, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3886, 486, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3887, 487, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3888, 488, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3889, 489, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3890, 490, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3891, 491, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3892, 492, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3893, 493, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3894, 494, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3895, 495, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3896, 496, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3897, 497, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3898, 498, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3899, 499, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3900, 500, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3901, 501, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3902, 502, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3903, 503, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3904, 504, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3905, 505, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3906, 506, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3907, 507, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3908, 508, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3909, 509, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3910, 510, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3911, 511, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3912, 512, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3913, 513, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3914, 514, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3915, 515, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3916, 516, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3917, 517, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3918, 518, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3919, 519, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3920, 520, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3921, 521, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3922, 522, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3923, 523, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3924, 524, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3925, 525, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3926, 526, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3927, 527, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3928, 528, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3929, 529, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3930, 530, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3931, 531, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3932, 532, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3933, 533, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3934, 534, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3935, 535, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3936, 536, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3937, 537, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3938, 538, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3939, 539, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3940, 540, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3941, 541, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3942, 542, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3943, 543, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3944, 544, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3945, 545, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3946, 546, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3947, 547, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3948, 548, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3949, 549, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3950, 550, 81, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3951, 451, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3952, 452, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3953, 453, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3954, 454, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3955, 455, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3956, 456, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3957, 457, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3958, 458, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3959, 459, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3960, 460, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3961, 461, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3962, 462, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3963, 463, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3964, 464, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3965, 465, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3966, 466, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3967, 467, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3968, 468, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3969, 469, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3970, 470, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3971, 471, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3972, 472, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3973, 473, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3974, 474, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3975, 475, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3976, 476, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3977, 477, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3978, 478, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3979, 479, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3980, 480, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3981, 481, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3982, 482, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3983, 483, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3984, 484, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3985, 485, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3986, 486, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3987, 487, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3988, 488, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3989, 489, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3990, 490, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3991, 491, 82, 1, '1.0000', 'War', 0, 1, 1653718736, 1),
-(3992, 492, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(3993, 493, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(3994, 494, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(3995, 495, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(3996, 496, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(3997, 497, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(3998, 498, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(3999, 499, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4000, 500, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4001, 501, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4002, 502, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4003, 503, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4004, 504, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4005, 505, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4006, 506, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4007, 507, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4008, 508, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4009, 509, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4010, 510, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4011, 511, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4012, 512, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4013, 513, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4014, 514, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4015, 515, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4016, 516, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4017, 517, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4018, 518, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4019, 519, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4020, 520, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4021, 521, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4022, 522, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4023, 523, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4024, 524, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4025, 525, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4026, 526, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4027, 527, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4028, 528, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4029, 529, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4030, 530, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4031, 531, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4032, 532, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4033, 533, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4034, 534, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4035, 535, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4036, 536, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4037, 537, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4038, 538, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4039, 539, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4040, 540, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4041, 541, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4042, 542, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4043, 543, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4044, 544, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4045, 545, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4046, 546, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4047, 547, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4048, 548, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4049, 549, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4050, 550, 82, 1, '1.0000', 'War', 0, 1, 1653718737, 1),
-(4051, 451, 83, 100, '100.0000', 'Challenge', 26, 74, 1653718737, 0),
-(4052, 452, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4053, 453, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4054, 454, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4055, 455, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4056, 456, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4057, 457, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4058, 458, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4059, 459, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4060, 460, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4061, 461, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4062, 462, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4063, 463, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4064, 464, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4065, 465, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4066, 466, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4067, 467, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4068, 468, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4069, 469, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4070, 470, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4071, 471, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4072, 472, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4073, 473, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4074, 474, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4075, 475, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4076, 476, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4077, 477, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4078, 478, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4079, 479, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4080, 480, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4081, 481, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4082, 482, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4083, 483, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4084, 484, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4085, 485, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4086, 486, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4087, 487, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4088, 488, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4089, 489, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4090, 490, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4091, 491, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4092, 492, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4093, 493, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4094, 494, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4095, 495, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4096, 496, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4097, 497, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4098, 498, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4099, 499, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4100, 500, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4101, 501, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4102, 502, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4103, 503, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4104, 504, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4105, 505, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4106, 506, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4107, 507, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4108, 508, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4109, 509, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4110, 510, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4111, 511, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4112, 512, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4113, 513, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4114, 514, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4115, 515, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4116, 516, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4117, 517, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4118, 518, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4119, 519, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4120, 520, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4121, 521, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4122, 522, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4123, 523, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4124, 524, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4125, 525, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4126, 526, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4127, 527, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4128, 528, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4129, 529, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4130, 530, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4131, 531, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4132, 532, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4133, 533, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4134, 534, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4135, 535, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4136, 536, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4137, 537, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4138, 538, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4139, 539, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4140, 540, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4141, 541, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4142, 542, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4143, 543, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4144, 544, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4145, 545, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4146, 546, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4147, 547, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4148, 548, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4149, 549, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0),
-(4150, 550, 83, 100, '100.0000', 'Challenge', 0, 100, 1653718737, 0);
-
--- --------------------------------------------------------
+LOCK TABLES `dl_suit_goods` WRITE;
+/*!40000 ALTER TABLE `dl_suit_goods` DISABLE KEYS */;
+INSERT INTO `dl_suit_goods` VALUES (4554,737,244,50,80.0000,'A',2,48,1660420369,0,'[4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 1]'),(4555,737,247,50,10.0000,'A',1,49,1660420369,0,NULL),(4556,737,250,50,10.0000,'A',0,50,1660420369,0,NULL),(4557,738,245,50,80.0000,'SP',0,50,1660420443,0,'[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50]'),(4558,738,248,50,20.0000,'A',0,50,1660420443,0,NULL);
+/*!40000 ALTER TABLE `dl_suit_goods` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_user`
 --
 
+DROP TABLE IF EXISTS `dl_user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_user` (
-  `id` int(10) UNSIGNED NOT NULL COMMENT '主键ID',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键ID',
   `nickname` varchar(50) NOT NULL COMMENT '昵称',
   `avatar` varchar(255) CHARACTER SET utf8 NOT NULL COMMENT '头像图片',
   `mobile` varchar(20) NOT NULL COMMENT '手机号',
   `password` varchar(100) NOT NULL COMMENT '密码',
-  `balance` decimal(10,2) UNSIGNED NOT NULL DEFAULT '0.00' COMMENT '余额',
-  `score` decimal(10,2) UNSIGNED NOT NULL DEFAULT '0.00' COMMENT '积分',
-  `token` char(32) CHARACTER SET utf8 DEFAULT NULL COMMENT '令牌',
+  `balance` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '余额',
+  `score` decimal(10,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '积分',
+  `token` text CHARACTER SET utf8 COMMENT '令牌',
   `create_time` int(10) NOT NULL COMMENT '注册时间',
   `state` tinyint(3) NOT NULL DEFAULT '1' COMMENT '1正常 2封号',
   `is_del` tinyint(3) DEFAULT '0' COMMENT '是否删除',
-  `achieve` decimal(10,2) DEFAULT '0.00' COMMENT '消费'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表' ROW_FORMAT=COMPACT;
+  `achieve` decimal(10,2) DEFAULT '0.00' COMMENT '消费',
+  `platform_wallet` varchar(50) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `external_wallet_address` varchar(50) DEFAULT NULL,
+  `bitcoin_address` varchar(50) DEFAULT NULL,
+  `sol_address` varchar(50) DEFAULT NULL,
+  `login_type` tinyint(4) DEFAULT NULL,
+  `verified` tinyint(4) DEFAULT NULL,
+  `referral_id` varchar(50) DEFAULT NULL,
+  `ip` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT COMMENT='用户表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_user`
 --
 
-INSERT INTO `dl_user` (`id`, `nickname`, `avatar`, `mobile`, `password`, `balance`, `score`, `token`, `create_time`, `state`, `is_del`, `achieve`) VALUES
-(1, '栀', '/upload/images/20220531/1653964123151552.png', '18749814010', '$2y$10$Wpn0G74eE1b63/ENaeX40Ou0vhoKzxCYSiXq5GAfCjj33B9cjnjR6', '17531.00', '0.00', '9416A7E31A202DFF3C8719D83EA4756F', 1653553614, 1, 0, '0.00'),
-(2, '13592611824', '/upload/images/20220531/165396421926385.png', '13592611824', '$2y$10$2GmvC0IZ5T3R.uW6EOaYGuPWg12bi9yQO5/Th/ag6JtK3l3dLWbdq', '7584.00', '0.00', 'ACCBCC44064BC32A97A90A16E737E232', 1653708450, 1, 0, '0.00'),
-(3, '18538928703', '/images/logo.png', '18538928703', '$2y$10$eRig1uok.YpwiA9RtICwaO9wPmi1oHRghMwcetcAdgx2Zt/laLRSC', '688.00', '0.00', '863A64BABC6F6F6B4AE053996250FB62', 1653902375, 1, 0, '0.00'),
-(4, '两三点我怕死的', '/upload/images/20220609/1654761344224450.png', '18037294734', '$2y$10$Qr/Dtu.0j69ouaGXvGUL1.DfEx.jzvCpBvMgMYpF3RrcnQV/2au2C', '8861.00', '0.00', 'DB38B427832602FA6B481BD972B90CC2', 1653983012, 1, 0, '0.00');
-
--- --------------------------------------------------------
+LOCK TABLES `dl_user` WRITE;
+/*!40000 ALTER TABLE `dl_user` DISABLE KEYS */;
+INSERT INTO `dl_user` VALUES (28,'Jake Hiram','20220805164830.jpg','','',820.20,0.00,'ya29.A0AVA9y1uvUOia2Pfml5gH8EHakWvzUYTfZ4U1Q1JmQJrLPYdXvXCiNj6g1fDuw9m1zhM_jCB8eBw0GUFTLCG4az3u_ZCsq2UkuKnHAW4gS5qzvQjdQU6-x_G_YXGO8kkbNknaqoDEPHn9_rrNuaAJCivmFs9uKtoaCgYKATASATASFQE65dr8tby3gNjkxY1b6wi1Y_aTew0166',1660418590,0,0,0.00,'0xaE43aCac9FdeA2448fc62071aA5637D0Db98200d','jake@aylab.io','0xa8A86B82AeFbf31e9DFFB7C53dD1b3c2ad9A591f','tb1q9v7lr5kn8m79226q6jgk95kgavysqrlgu73k0w','FAQfHJSGowmtgGsEQZQiAEJCmxvhZi2YCw1tuwmPsZh2',0,0,'318','193.178.210.183'),(29,'Patryk Pietras','','','',198.03,0.00,'ya29.A0AVA9y1vxLw2O1AL2aCp97VAA43xPAvAtU_AQDHbBfrA5qq9xrF4rH4su7-ivbq40gQCQqVJ8kSbAuaZI8C6VGBq9yPgfK8kXr6Ute2mq32AQgdRadkO5mn-pJOSptZl2sQXak8ne6Gs9KSL9ch68Ru9FQEnKUAYUNnWUtBVEFTQVRBU0ZRRTY1ZHI4X1pseFc3YnlCaHBMT2Y2b1ZiQjBWQQ0165',1660418612,0,0,0.00,'0xdB7Dc0C66f5b212Bb7a252e51C660Fc00f3A9A6f','patrykpietrasfree@gmail.com','0xb1d9e45dB419B67e9f9239B98c1444f69CD8d1F0','mgtNWmG5NGvoBWjFAmY2KqzxyKWTRgjyxB','8Mhzxd8N8f49xrXSMUDtsr2qBm1t5sXnXKzoqTfDj4bC',0,0,'28',NULL),(30,'哆啦A梦鸭','20220720104903.jpeg','','',46.50,0.00,'decc3f0fcb6c8429d33ca68c1b0be42cd409e21b9544d80de509058238d3ad82',1660418628,0,0,0.00,'0x02f5d7425E63cf00abE400c47a9b4fd8ebCF52f8','','0x14da4Fc1abD3D749E62C1f5E1Cd219A6e31ecc06','msuAQ4xuE4T4CMjPTAHDXfSsYQ1p7FqRqJ','E5xeGcDBMdfhCpQrXrhHKRMwxogJwc8uvWHUQzbqh7yq',2,0,'35','193.178.210.183'),(31,'Kanshin','','','',101.02,0.00,'ya29.A0AVA9y1tpAx1TS9kG276XI3iwG3DVbEeUB5zcWY1iED15YqEahlv-LqNufwCAb7Mg1xHzdB3_lSL97RsRFm8Q66nxWdvt_-IT7QM0umJOgDZUYOV4pumtHijY8TgOcklZ0QQQkrAjEPOxf96eAZc3VJ64LodngN4YUNnWUtBVEFTQVRBU0ZRRTY1ZHI4aDFUODRfUU1zTEhfTjBSN2ZhRXFpdw0166',1660418637,0,0,0.00,'0x1F501BbCf702cc0eC37379BF0E735D9762731B68','robert@aylab.io','0xEd1EFd4a92276cB0c283f2b50091533FA4c9e95f','mgpxaoQQiVwqkCMP5M2g7Zy9f9pxobQXoQ','49WEXXWuwDEsU5h3Yu4zt6fpvvAQZyVuApSnry3mwP59',0,0,'31',NULL),(32,'Rik Adrit','','','',96.02,0.00,'ya29.a0ARrdaM8HvAB7OG3UXMgQ9z0X80JG51Ke0Q1AhN3MfMp4432VHm4Y4zr8ujCPr327JVVknbyALD-G0k5rGNmh7JiJeCGYTYe4WjQZS5mxWSpstgwmax4LgWLyruzBJFR7ohvuN81w5UoD-dniImAIJx5HuL9v',1660418646,0,0,0.00,'0xf3beCAD2c0539653C7dB219bD90D031eF5586582','rikadrit@gmail.com','0xcEc82D0D7e24d1DD896D3e06499DCc4d9E7b9a81','my967wRVAfb9spGxU279Q445SRdvnS6J8X','FZmftscP2Pj23im9XAUinkySXCFyRVxE35noZA4WAjGq',0,0,'29',NULL),(33,'Ronello Raganas','','','',100.01,0.00,'ya29.a0ARrdaM8sUTkqItnDIIiawuHo1ppTVGG4Af3IpIFbGzX8GHwZZo8e2cyCqUzbqfJrP4pXijnng-FOcdTKoHHGGASIt37b8yuhyjn2CHQwQG5CFbj6ybVovgZ-midh7-MwbHhQCofDHsxNDDx9xEjciq4LocRg',1660418655,0,0,0.00,'0xa6e7aE8668f416c4EC87dEEd263820E33ACeaD48','ragz100790@gmail.com','0xcf98331D6b98e1A51605FDd70829c0D2C9069a13','momaTx4PyjjiyXmRh2M7rmy4TB1L32zM7v','5JDSFTXq3GVqtJ5pp8qsgv94DfCEQHJz1JkvoMUE6fKs',0,0,'29',NULL),(34,'mrfishvlogs','','','',6.03,0.00,'f3c8537b7b5a008e9a219931736dd6c7655e4fc7a379e015f4c82c0ef184fa22',1660418662,0,0,0.00,'0x17d42fb8b803F143e9367b357CbE41D776c8113d','','0x1fAcd6893681AC539eA28a77a7B67d58843C0e9B','mvCdQwXyEQZNMvHsyphp6iV6mafGB3c1VY','BUaiSPY9KAJHySa8Ywy9yC6SbAyUN88ZhM5ea6Wd2QrM',2,0,'29',NULL),(35,'Jake Hiram','','','',931.78,0.00,'ya29.A0AVA9y1vNnzja20RxlGcd6SWS0ew2X0lVCu-7SZXxM42SZZXR1ZWYc_QdhmlzxG8BtYvZrpFRcspETHTO4Ywaf_E8oqfkdLIdsErNhj9xOjonjxJHFyBZSqobhwWR0EmF8nzNCmjR77aDMVd7kipx7-5TNl8WFWQYUNnWUtBVEFTQVRBU0ZRRTY1ZHI4UUQ2Z29ZdjhDSnRZcFU3WmxtaVpPZw0166',1660648686,0,0,0.00,'0xD046195cE42cBa98D9667DFB4f50df836817E4ef','hiramjake59@gmail.com','0x5Da6D29C69Ac99f99dB2da64b115e267F08C3bE4','n4QGLRgg9KnZXxuSqYBm4xiFiLNrM8Yied','6CfFRG7bX8Xskgq6ZrbSHtEbvhY1tgt5hLkTENk4YTJr',0,0,'29',NULL),(36,'Ivan Zieco','','','',100.02,0.00,'EAAKg6TyP5dMBAHkzwy1zV03m5ATYhAWnFGsKS09ZC90caA6qZAQTxMWpHGBNJGlD1ZCciD1QO5yVA9uhFDusyDik2fLOFV12c4OVwv7HuEVZCnOaEpl53ZBOLP83aRRfZAZBh1Vhmd5qpUyvD1gNZAq2cS2ISJ7eZCTwlWE3UWXVBCx8ymIcpZBaEGTZBoM5V26Qk0yDPY8G84euSxjdkh3l0ZBmarqZBdiQ7m5BFJIImxbYBTucrICgnzZCSC',1660418685,0,0,0.00,'0x944fb08dCb8a308411d343507b551934E2dcb220','ivanfree523@gmail.com','0xB98F30f3Fb057579736Bea71d5a9a5b4F3e72283','moxKNfumkiMZCTkcPDfYoDDM3v3BVMAmwQ','BcJcs38j59bJiLWhJRqv3VF5gq1urSCYye1Sw84XHCpY',1,0,'29',NULL),(37,'许愿','','','',100.01,0.00,'ya29.A0AVA9y1vcLQzoFko5vVrSWEmiRezqHNgh70rqTvnZBYlIpNEdOdvdjRjmV4VwdaL5rwTWRCNsfLReCTjlSKQmp3lm0_WecnrR5fQd4BDc0coiQnKTFi_omqy-Doc6CYYyr08_Bps5mCEbb4n1D41PYhvissXwgKwaCgYKATASATASFQE65dr83ln8hPNdIuZAHHAl5XSwSQ0166',1660418693,0,0,0.00,'0xC2Aa257e55c0EDD48093b54A8cf64a61312e46EF','damonxuyuan@gmail.com','0x2790Df539615D896D46DfEdc331f8e065d0B1731','mqGgqwSKDJfSdzq2Zb6YMPoRV4rUQRpbYM','A1SDhTLr3ErNpkKctjaRQPp1YDqKhfoSbE7g2pdjBmhj',0,0,NULL,NULL),(38,'','','','',100.02,0.00,'51c0b6ad6193c9cd92fc36e142a854b56a72c157e60a4280171e3967f30929e8',1660418702,0,0,0.00,'0x28826a5d05a12A8F19e862AFc5DF958d796Ce7c7','','0x8a72D3480EB61B985765ebD9823DbaC3E77A96DE','n2AswZonGJ1oStXtBFQXJzyCVC4c1fWH6n','F48mnwFFH4r9myybpda8HCGtEgo8QzLYiK6w2c9vHwuo',2,0,NULL,NULL);
+/*!40000 ALTER TABLE `dl_user` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_user_address`
 --
 
+DROP TABLE IF EXISTS `dl_user_address`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_user_address` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `uid` int(10) NOT NULL COMMENT '用户ID',
   `username` varchar(30) NOT NULL COMMENT '提货人',
   `mobile` varchar(20) NOT NULL COMMENT '手机号',
@@ -6712,43 +1130,81 @@ CREATE TABLE `dl_user_address` (
   `area` varchar(50) NOT NULL COMMENT '区/县',
   `address` varchar(150) NOT NULL COMMENT '详细地址',
   `is_default` tinyint(3) DEFAULT '0' COMMENT '是否默认',
-  `create_time` int(10) NOT NULL COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户自提表' ROW_FORMAT=DYNAMIC;
+  `create_time` int(10) NOT NULL COMMENT '添加时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='用户自提表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_user_address`
 --
 
-INSERT INTO `dl_user_address` (`id`, `uid`, `username`, `mobile`, `province`, `city`, `area`, `address`, `is_default`, `create_time`) VALUES
-(1, 3, '778', '17777888877', '北京市', '市辖区', '西城区', '古城一节', 1, 1653902583),
-(2, 1, '康逍遥', '18749814010', '河南省', '郑州市', '金水区', '商务外环路王鼎国际1408', 0, 1653905534),
-(3, 1, '康逍遥', '18749814010', '香港', '香港岛', '香港岛', '0000000', 0, 1653905945),
-(4, 2, '李基', '13592611824', '北京市', '市辖区', '西城区', '王鼎国际1408', 1, 1653965580),
-(5, 4, '刘', '15236981852', '北京市', '市辖区', '西城区', '121561561', 1, 1653983564);
+LOCK TABLES `dl_user_address` WRITE;
+/*!40000 ALTER TABLE `dl_user_address` DISABLE KEYS */;
+INSERT INTO `dl_user_address` VALUES (1,3,'778','17777888877','北京市','市辖区','西城区','古城一节',1,1653902583),(2,1,'康逍遥','18749814010','河南省','郑州市','金水区','商务外环路王鼎国际1408',0,1653905534),(3,1,'康逍遥','18749814010','香港','香港岛','香港岛','0000000',0,1653905945),(4,2,'李基','13592611824','北京市','市辖区','西城区','王鼎国际1408',1,1653965580),(5,4,'刘','15236981852','北京市','市辖区','西城区','121561561',1,1653983564);
+/*!40000 ALTER TABLE `dl_user_address` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- --------------------------------------------------------
+--
+-- Table structure for table `dl_user_bid`
+--
+
+DROP TABLE IF EXISTS `dl_user_bid`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `dl_user_bid` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `box_id` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `buyNumber` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `dl_user_bid`
+--
+
+LOCK TABLES `dl_user_bid` WRITE;
+/*!40000 ALTER TABLE `dl_user_bid` DISABLE KEYS */;
+/*!40000 ALTER TABLE `dl_user_bid` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_user_box`
 --
 
+DROP TABLE IF EXISTS `dl_user_box`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_user_box` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `uid` int(10) NOT NULL COMMENT '用户ID',
   `box_id` int(10) NOT NULL COMMENT '盲盒ID',
-  `suit_id` int(10) NOT NULL COMMENT '箱子ID',
-  `achieve` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '累计消费',
-  `type` tinyint(3) NOT NULL COMMENT '1普通赏 2竞技赏 3无限赏'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `reward_rank` int(10) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- --------------------------------------------------------
+--
+-- Dumping data for table `dl_user_box`
+--
+
+LOCK TABLES `dl_user_box` WRITE;
+/*!40000 ALTER TABLE `dl_user_box` DISABLE KEYS */;
+INSERT INTO `dl_user_box` VALUES (5,28,36,8),(6,29,36,1),(7,31,36,1),(8,35,49,1);
+/*!40000 ALTER TABLE `dl_user_box` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_user_coupon`
 --
 
+DROP TABLE IF EXISTS `dl_user_coupon`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_user_coupon` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `uid` int(10) NOT NULL COMMENT '用户ID',
   `cid` int(10) NOT NULL COMMENT '优惠券ID',
   `level` varchar(20) NOT NULL COMMENT '级别',
@@ -6758,17 +1214,29 @@ CREATE TABLE `dl_user_coupon` (
   `oid` int(10) DEFAULT NULL COMMENT '订单ID',
   `state` tinyint(3) NOT NULL DEFAULT '1' COMMENT '0未使用 1已使用 2已合成',
   `create_time` int(10) NOT NULL COMMENT '添加时间',
-  `is_merge` tinyint(3) NOT NULL DEFAULT '0' COMMENT '是否合并'
+  `is_merge` tinyint(3) NOT NULL DEFAULT '0' COMMENT '是否合并',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户优惠券表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- --------------------------------------------------------
+--
+-- Dumping data for table `dl_user_coupon`
+--
+
+LOCK TABLES `dl_user_coupon` WRITE;
+/*!40000 ALTER TABLE `dl_user_coupon` DISABLE KEYS */;
+/*!40000 ALTER TABLE `dl_user_coupon` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_user_coupon_log`
 --
 
+DROP TABLE IF EXISTS `dl_user_coupon_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_user_coupon_log` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `cid` int(10) NOT NULL COMMENT '优惠券ID',
   `uid` int(10) NOT NULL COMMENT '用户ID',
   `level` varchar(20) NOT NULL COMMENT '级别',
@@ -6777,602 +1245,88 @@ CREATE TABLE `dl_user_coupon_log` (
   `max_score` int(10) NOT NULL COMMENT '最大可得',
   `is_merge` tinyint(3) DEFAULT '0' COMMENT '是否合并',
   `state` tinyint(3) NOT NULL DEFAULT '0' COMMENT '0分享中 1待开券 2已开券',
-  `create_time` int(10) NOT NULL COMMENT '时间'
+  `create_time` int(10) NOT NULL COMMENT '时间',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='潮玩券记录';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- --------------------------------------------------------
+--
+-- Dumping data for table `dl_user_coupon_log`
+--
+
+LOCK TABLES `dl_user_coupon_log` WRITE;
+/*!40000 ALTER TABLE `dl_user_coupon_log` DISABLE KEYS */;
+/*!40000 ALTER TABLE `dl_user_coupon_log` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `dl_user_deal`
 --
 
+DROP TABLE IF EXISTS `dl_user_deal`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `dl_user_deal` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `uid` int(10) UNSIGNED NOT NULL COMMENT '用户ID',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `uid` int(10) unsigned NOT NULL COMMENT '用户ID',
   `type` tinyint(3) NOT NULL COMMENT '1增加 2减少',
   `before_amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '之前余额',
   `amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '变动金额',
   `after_amount` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '之后余额',
   `info` varchar(255) NOT NULL COMMENT '说明',
   `way` tinyint(3) NOT NULL COMMENT '1余额 2积分',
-  `create_time` int(10) NOT NULL COMMENT '添加时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户交易记录表' ROW_FORMAT=DYNAMIC;
+  `create_time` int(10) NOT NULL COMMENT '添加时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='用户交易记录表';
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `dl_user_deal`
 --
 
-INSERT INTO `dl_user_deal` (`id`, `uid`, `type`, `before_amount`, `amount`, `after_amount`, `info`, `way`, `create_time`) VALUES
-(1, 2, 2, '10000.00', '880.00', '9120.00', '抽赏扣除余额', 1, 1653722051),
-(2, 3, 1, '0.00', '10000.00', '10000.00', '管理员调整增加', 1, 1653902691),
-(3, 3, 2, '10000.00', '220.00', '9780.00', '抽赏扣除余额', 1, 1653902739),
-(4, 3, 2, '9780.00', '88.00', '9692.00', '抽赏扣除余额', 1, 1653902758),
-(5, 3, 2, '9692.00', '880.00', '8812.00', '抽赏扣除余额', 1, 1653902772),
-(6, 3, 2, '8812.00', '880.00', '7932.00', '抽赏扣除余额', 1, 1653902777),
-(7, 3, 2, '7932.00', '880.00', '7052.00', '抽赏扣除余额', 1, 1653902782),
-(8, 3, 2, '7052.00', '3432.00', '3620.00', '抽赏扣除余额', 1, 1653902788),
-(9, 3, 2, '3620.00', '10.00', '3610.00', '发货扣除余额', 1, 1653902999),
-(10, 3, 2, '3610.00', '10.00', '3600.00', '发货扣除余额', 1, 1653903001),
-(11, 3, 2, '3600.00', '10.00', '3590.00', '发货扣除余额', 1, 1653903007),
-(12, 3, 2, '3590.00', '10.00', '3580.00', '发货扣除余额', 1, 1653903010),
-(13, 3, 2, '3580.00', '10.00', '3570.00', '发货扣除余额', 1, 1653903072),
-(14, 3, 2, '3570.00', '10.00', '3560.00', '发货扣除余额', 1, 1653903075),
-(15, 3, 2, '3560.00', '130.00', '3430.00', '抽赏扣除余额', 1, 1653903237),
-(16, 3, 2, '3430.00', '130.00', '3300.00', '抽赏扣除余额', 1, 1653903243),
-(17, 3, 2, '3300.00', '130.00', '3170.00', '抽赏扣除余额', 1, 1653903250),
-(18, 3, 2, '3170.00', '130.00', '3040.00', '抽赏扣除余额', 1, 1653903254),
-(19, 3, 2, '3040.00', '130.00', '2910.00', '抽赏扣除余额', 1, 1653903258),
-(20, 3, 2, '2910.00', '130.00', '2780.00', '抽赏扣除余额', 1, 1653903261),
-(21, 3, 2, '2780.00', '130.00', '2650.00', '抽赏扣除余额', 1, 1653903265),
-(22, 3, 2, '2650.00', '130.00', '2520.00', '抽赏扣除余额', 1, 1653903268),
-(23, 3, 2, '2520.00', '130.00', '2390.00', '抽赏扣除余额', 1, 1653903271),
-(24, 3, 2, '2390.00', '130.00', '2260.00', '抽赏扣除余额', 1, 1653903275),
-(25, 3, 2, '2260.00', '130.00', '2130.00', '抽赏扣除余额', 1, 1653903278),
-(26, 3, 2, '2130.00', '130.00', '2000.00', '抽赏扣除余额', 1, 1653903282),
-(27, 1, 1, '0.00', '50.00', '50.00', '管理员调整增加', 1, 1653905381),
-(28, 1, 1, '0.00', '200.00', '200.00', '管理员调整增加', 2, 1653905389),
-(29, 1, 2, '200.00', '88.00', '112.00', '抽赏抵扣88潮玩币', 2, 1653905444),
-(30, 1, 2, '112.00', '88.00', '24.00', '抽赏抵扣88潮玩币', 2, 1653905451),
-(31, 1, 1, '50.00', '80.00', '130.00', '管理员调整增加', 1, 1653905469),
-(32, 1, 2, '24.00', '24.00', '0.00', '抽赏抵扣24潮玩币', 2, 1653905480),
-(33, 1, 2, '130.00', '64.00', '66.00', '抽赏扣除余额', 1, 1653905480),
-(34, 1, 2, '66.00', '10.00', '56.00', '发货扣除余额', 1, 1653905539),
-(35, 1, 1, '56.00', '20000.00', '20056.00', '管理员调整增加', 1, 1653905740),
-(36, 1, 2, '20056.00', '880.00', '19176.00', '抽赏扣除余额', 1, 1653905754),
-(37, 1, 1, '19176.00', '228.00', '19404.00', '挂售余额收入', 1, 1653905961),
-(38, 1, 2, '19404.00', '25.00', '19379.00', '抽赏扣除余额', 1, 1653906042),
-(39, 2, 2, '1000.00', '88.00', '912.00', '抽赏抵扣88潮玩币', 2, 1653965641),
-(40, 2, 2, '9120.00', '10.00', '9110.00', '发货扣除余额', 1, 1653965654),
-(41, 2, 2, '912.00', '88.00', '824.00', '抽赏抵扣88潮玩币', 2, 1653965881),
-(42, 2, 2, '9110.00', '10.00', '9100.00', '发货扣除余额', 1, 1653965910),
-(43, 2, 2, '9100.00', '10.00', '9090.00', '发货扣除余额', 1, 1653965917),
-(44, 2, 2, '824.00', '440.00', '384.00', '抽赏抵扣440潮玩币', 2, 1653965944),
-(45, 2, 2, '384.00', '130.00', '254.00', '抽赏抵扣130潮玩币', 2, 1653965959),
-(46, 2, 2, '254.00', '254.00', '0.00', '抽赏抵扣254潮玩币', 2, 1653966023),
-(47, 2, 2, '9090.00', '626.00', '8464.00', '抽赏扣除余额', 1, 1653966023),
-(48, 2, 2, '8464.00', '880.00', '7584.00', '抽赏扣除余额', 1, 1653978055),
-(49, 4, 2, '10000.00', '440.00', '9560.00', '抽赏扣除余额', 1, 1653983168),
-(50, 4, 2, '9560.00', '88.00', '9472.00', '抽赏扣除余额', 1, 1653983791),
-(51, 4, 2, '9472.00', '10.00', '9462.00', '发货扣除余额', 1, 1653983804),
-(52, 4, 2, '9462.00', '88.00', '9374.00', '抽赏扣除余额', 1, 1653984729),
-(53, 4, 2, '9374.00', '10.00', '9364.00', '发货扣除余额', 1, 1653984739),
-(54, 1, 2, '19379.00', '880.00', '18499.00', '抽赏扣除余额', 1, 1653985601),
-(55, 3, 2, '2000.00', '440.00', '1560.00', '抽赏扣除余额', 1, 1654076279),
-(56, 3, 2, '1560.00', '90.00', '1470.00', '抽赏扣除余额', 1, 1654077486),
-(57, 3, 2, '1470.00', '45.00', '1425.00', '抽赏扣除余额', 1, 1654077511),
-(58, 3, 2, '1425.00', '90.00', '1335.00', '抽赏扣除余额', 1, 1654077517),
-(59, 3, 2, '1335.00', '88.00', '1247.00', '抽赏扣除余额', 1, 1654077620),
-(60, 3, 2, '1247.00', '25.00', '1222.00', '抽赏扣除余额', 1, 1654077653),
-(61, 3, 2, '1222.00', '112.00', '1110.00', '抽赏扣除余额', 1, 1654077912),
-(62, 3, 2, '1110.00', '56.00', '1054.00', '抽赏扣除余额', 1, 1654077921),
-(63, 3, 2, '1054.00', '13.00', '1041.00', '抽赏扣除余额', 1, 1654077997),
-(64, 3, 2, '1041.00', '65.00', '976.00', '抽赏扣除余额', 1, 1654078039),
-(65, 4, 2, '9364.00', '88.00', '9276.00', '抽赏扣除余额', 1, 1654078272),
-(66, 4, 2, '9276.00', '44.00', '9232.00', '抽赏扣除余额', 1, 1654079742),
-(67, 4, 2, '9232.00', '88.00', '9144.00', '抽赏扣除余额', 1, 1654079931),
-(68, 4, 2, '9144.00', '88.00', '9056.00', '抽赏扣除余额', 1, 1654079977),
-(69, 4, 2, '9056.00', '9.00', '9047.00', '抽赏扣除余额', 1, 1654080028),
-(70, 4, 2, '9047.00', '5.00', '9042.00', '抽赏扣除余额', 1, 1654080136),
-(71, 4, 2, '9042.00', '88.00', '8954.00', '抽赏扣除余额', 1, 1654080163),
-(72, 4, 2, '8954.00', '88.00', '8866.00', '抽赏扣除余额', 1, 1654080259),
-(73, 1, 2, '18499.00', '440.00', '18059.00', '抽赏扣除余额', 1, 1654080267),
-(74, 1, 2, '18059.00', '440.00', '17619.00', '抽赏扣除余额', 1, 1654080346),
-(75, 1, 2, '17619.00', '88.00', '17531.00', '抽赏扣除余额', 1, 1654080437),
-(76, 3, 2, '976.00', '88.00', '888.00', '抽赏扣除余额', 1, 1654080509),
-(77, 4, 2, '8866.00', '5.00', '8861.00', '抽赏扣除余额', 1, 1654080527),
-(78, 3, 2, '888.00', '112.00', '776.00', '抽赏扣除余额', 1, 1654086591),
-(79, 3, 2, '776.00', '88.00', '688.00', '抽赏扣除余额', 1, 1654331859);
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `dl_ad`
---
-ALTER TABLE `dl_ad`
-  ADD PRIMARY KEY (`id`) USING BTREE;
-
---
--- Indexes for table `dl_admin`
---
-ALTER TABLE `dl_admin`
-  ADD PRIMARY KEY (`id`) USING BTREE,
-  ADD UNIQUE KEY `username` (`username`) USING BTREE,
-  ADD KEY `phone` (`phone`) USING BTREE;
-
---
--- Indexes for table `dl_admin_auth`
---
-ALTER TABLE `dl_admin_auth`
-  ADD PRIMARY KEY (`id`) USING BTREE,
-  ADD UNIQUE KEY `title` (`title`) USING BTREE;
-
---
--- Indexes for table `dl_admin_auth_node`
---
-ALTER TABLE `dl_admin_auth_node`
-  ADD PRIMARY KEY (`id`) USING BTREE,
-  ADD KEY `index_system_auth_auth` (`auth_id`) USING BTREE,
-  ADD KEY `index_system_auth_node` (`menu_id`) USING BTREE;
-
---
--- Indexes for table `dl_admin_menu`
---
-ALTER TABLE `dl_admin_menu`
-  ADD PRIMARY KEY (`id`) USING BTREE,
-  ADD KEY `title` (`title`) USING BTREE,
-  ADD KEY `href` (`href`) USING BTREE;
-
---
--- Indexes for table `dl_box`
---
-ALTER TABLE `dl_box`
-  ADD PRIMARY KEY (`id`) USING BTREE;
-
---
--- Indexes for table `dl_box_award`
---
-ALTER TABLE `dl_box_award`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `dl_box_level`
---
-ALTER TABLE `dl_box_level`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `dl_card`
---
-ALTER TABLE `dl_card`
-  ADD PRIMARY KEY (`id`) USING BTREE;
-
---
--- Indexes for table `dl_cash`
---
-ALTER TABLE `dl_cash`
-  ADD PRIMARY KEY (`id`) USING BTREE;
-
---
--- Indexes for table `dl_category`
---
-ALTER TABLE `dl_category`
-  ADD PRIMARY KEY (`id`) USING BTREE;
-
---
--- Indexes for table `dl_collection`
---
-ALTER TABLE `dl_collection`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `dl_config`
---
-ALTER TABLE `dl_config`
-  ADD PRIMARY KEY (`id`) USING BTREE,
-  ADD UNIQUE KEY `name` (`name`) USING BTREE;
-
---
--- Indexes for table `dl_consume`
---
-ALTER TABLE `dl_consume`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `uid` (`uid`);
-
---
--- Indexes for table `dl_coupon`
---
-ALTER TABLE `dl_coupon`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `dl_customer`
---
-ALTER TABLE `dl_customer`
-  ADD PRIMARY KEY (`id`) USING BTREE;
-
---
--- Indexes for table `dl_deliver`
---
-ALTER TABLE `dl_deliver`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `dl_egg`
---
-ALTER TABLE `dl_egg`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `goods_id` (`goods_id`) USING BTREE,
-  ADD KEY `box_id` (`box_id`) USING BTREE;
-
---
--- Indexes for table `dl_express`
---
-ALTER TABLE `dl_express`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `dl_goods`
---
-ALTER TABLE `dl_goods`
-  ADD PRIMARY KEY (`id`) USING BTREE;
-
---
--- Indexes for table `dl_help`
---
-ALTER TABLE `dl_help`
-  ADD PRIMARY KEY (`id`) USING BTREE;
-
---
--- Indexes for table `dl_level`
---
-ALTER TABLE `dl_level`
-  ADD PRIMARY KEY (`id`) USING BTREE;
-
---
--- Indexes for table `dl_order`
---
-ALTER TABLE `dl_order`
-  ADD PRIMARY KEY (`id`) USING BTREE;
-
---
--- Indexes for table `dl_order_address`
---
-ALTER TABLE `dl_order_address`
-  ADD PRIMARY KEY (`id`) USING BTREE;
-
---
--- Indexes for table `dl_order_goods`
---
-ALTER TABLE `dl_order_goods`
-  ADD PRIMARY KEY (`id`) USING BTREE;
-
---
--- Indexes for table `dl_order_pay`
---
-ALTER TABLE `dl_order_pay`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `dl_prize`
---
-ALTER TABLE `dl_prize`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `goods_id` (`goods_id`) USING BTREE,
-  ADD KEY `box_id` (`box_id`) USING BTREE;
-
---
--- Indexes for table `dl_recharge`
---
-ALTER TABLE `dl_recharge`
-  ADD PRIMARY KEY (`id`) USING BTREE;
-
---
--- Indexes for table `dl_sale`
---
-ALTER TABLE `dl_sale`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `dl_single`
---
-ALTER TABLE `dl_single`
-  ADD PRIMARY KEY (`id`) USING BTREE;
-
---
--- Indexes for table `dl_sms`
---
-ALTER TABLE `dl_sms`
-  ADD PRIMARY KEY (`id`) USING BTREE;
-
---
--- Indexes for table `dl_suit`
---
-ALTER TABLE `dl_suit`
-  ADD PRIMARY KEY (`id`) USING BTREE;
-
---
--- Indexes for table `dl_suit_goods`
---
-ALTER TABLE `dl_suit_goods`
-  ADD PRIMARY KEY (`id`) USING BTREE;
-
---
--- Indexes for table `dl_user`
---
-ALTER TABLE `dl_user`
-  ADD PRIMARY KEY (`id`) USING BTREE;
-
---
--- Indexes for table `dl_user_address`
---
-ALTER TABLE `dl_user_address`
-  ADD PRIMARY KEY (`id`) USING BTREE;
-
---
--- Indexes for table `dl_user_box`
---
-ALTER TABLE `dl_user_box`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `dl_user_coupon`
---
-ALTER TABLE `dl_user_coupon`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `dl_user_coupon_log`
---
-ALTER TABLE `dl_user_coupon_log`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `dl_user_deal`
---
-ALTER TABLE `dl_user_deal`
-  ADD PRIMARY KEY (`id`) USING BTREE;
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `dl_ad`
---
-ALTER TABLE `dl_ad`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- AUTO_INCREMENT for table `dl_admin`
---
-ALTER TABLE `dl_admin`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `dl_admin_auth`
---
-ALTER TABLE `dl_admin_auth`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `dl_admin_auth_node`
---
-ALTER TABLE `dl_admin_auth_node`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=300;
-
---
--- AUTO_INCREMENT for table `dl_admin_menu`
---
-ALTER TABLE `dl_admin_menu`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=601;
-
---
--- AUTO_INCREMENT for table `dl_box`
---
-ALTER TABLE `dl_box`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT for table `dl_box_award`
---
-ALTER TABLE `dl_box_award`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `dl_box_level`
---
-ALTER TABLE `dl_box_level`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
-
---
--- AUTO_INCREMENT for table `dl_card`
---
-ALTER TABLE `dl_card`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `dl_cash`
---
-ALTER TABLE `dl_cash`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `dl_category`
---
-ALTER TABLE `dl_category`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT for table `dl_collection`
---
-ALTER TABLE `dl_collection`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `dl_config`
---
-ALTER TABLE `dl_config`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=135;
-
---
--- AUTO_INCREMENT for table `dl_consume`
---
-ALTER TABLE `dl_consume`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
-
---
--- AUTO_INCREMENT for table `dl_coupon`
---
-ALTER TABLE `dl_coupon`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `dl_customer`
---
-ALTER TABLE `dl_customer`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `dl_deliver`
---
-ALTER TABLE `dl_deliver`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
---
--- AUTO_INCREMENT for table `dl_egg`
---
-ALTER TABLE `dl_egg`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `dl_express`
---
-ALTER TABLE `dl_express`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT for table `dl_goods`
---
-ALTER TABLE `dl_goods`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=222;
-
---
--- AUTO_INCREMENT for table `dl_help`
---
-ALTER TABLE `dl_help`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `dl_level`
---
-ALTER TABLE `dl_level`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
-
---
--- AUTO_INCREMENT for table `dl_order`
---
-ALTER TABLE `dl_order`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
-
---
--- AUTO_INCREMENT for table `dl_order_address`
---
-ALTER TABLE `dl_order_address`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `dl_order_goods`
---
-ALTER TABLE `dl_order_goods`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=358;
-
---
--- AUTO_INCREMENT for table `dl_order_pay`
---
-ALTER TABLE `dl_order_pay`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
-
---
--- AUTO_INCREMENT for table `dl_prize`
---
-ALTER TABLE `dl_prize`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
-
---
--- AUTO_INCREMENT for table `dl_recharge`
---
-ALTER TABLE `dl_recharge`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- AUTO_INCREMENT for table `dl_sale`
---
-ALTER TABLE `dl_sale`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `dl_single`
---
-ALTER TABLE `dl_single`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
-
---
--- AUTO_INCREMENT for table `dl_sms`
---
-ALTER TABLE `dl_sms`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `dl_suit`
---
-ALTER TABLE `dl_suit`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=551;
-
---
--- AUTO_INCREMENT for table `dl_suit_goods`
---
-ALTER TABLE `dl_suit_goods`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4151;
-
---
--- AUTO_INCREMENT for table `dl_user`
---
-ALTER TABLE `dl_user`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键ID', AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `dl_user_address`
---
-ALTER TABLE `dl_user_address`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `dl_user_box`
---
-ALTER TABLE `dl_user_box`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `dl_user_coupon`
---
-ALTER TABLE `dl_user_coupon`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `dl_user_coupon_log`
---
-ALTER TABLE `dl_user_coupon_log`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT for table `dl_user_deal`
---
-ALTER TABLE `dl_user_deal`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
-COMMIT;
-
+LOCK TABLES `dl_user_deal` WRITE;
+/*!40000 ALTER TABLE `dl_user_deal` DISABLE KEYS */;
+INSERT INTO `dl_user_deal` VALUES (1,2,2,10000.00,880.00,9120.00,'抽赏扣除余额',1,1653722051),(2,3,1,0.00,10000.00,10000.00,'管理员调整增加',1,1653902691),(3,3,2,10000.00,220.00,9780.00,'抽赏扣除余额',1,1653902739),(4,3,2,9780.00,88.00,9692.00,'抽赏扣除余额',1,1653902758),(5,3,2,9692.00,880.00,8812.00,'抽赏扣除余额',1,1653902772),(6,3,2,8812.00,880.00,7932.00,'抽赏扣除余额',1,1653902777),(7,3,2,7932.00,880.00,7052.00,'抽赏扣除余额',1,1653902782),(8,3,2,7052.00,3432.00,3620.00,'抽赏扣除余额',1,1653902788),(9,3,2,3620.00,10.00,3610.00,'发货扣除余额',1,1653902999),(10,3,2,3610.00,10.00,3600.00,'发货扣除余额',1,1653903001),(11,3,2,3600.00,10.00,3590.00,'发货扣除余额',1,1653903007),(12,3,2,3590.00,10.00,3580.00,'发货扣除余额',1,1653903010),(13,3,2,3580.00,10.00,3570.00,'发货扣除余额',1,1653903072),(14,3,2,3570.00,10.00,3560.00,'发货扣除余额',1,1653903075),(15,3,2,3560.00,130.00,3430.00,'抽赏扣除余额',1,1653903237),(16,3,2,3430.00,130.00,3300.00,'抽赏扣除余额',1,1653903243),(17,3,2,3300.00,130.00,3170.00,'抽赏扣除余额',1,1653903250),(18,3,2,3170.00,130.00,3040.00,'抽赏扣除余额',1,1653903254),(19,3,2,3040.00,130.00,2910.00,'抽赏扣除余额',1,1653903258),(20,3,2,2910.00,130.00,2780.00,'抽赏扣除余额',1,1653903261),(21,3,2,2780.00,130.00,2650.00,'抽赏扣除余额',1,1653903265),(22,3,2,2650.00,130.00,2520.00,'抽赏扣除余额',1,1653903268),(23,3,2,2520.00,130.00,2390.00,'抽赏扣除余额',1,1653903271),(24,3,2,2390.00,130.00,2260.00,'抽赏扣除余额',1,1653903275),(25,3,2,2260.00,130.00,2130.00,'抽赏扣除余额',1,1653903278),(26,3,2,2130.00,130.00,2000.00,'抽赏扣除余额',1,1653903282),(27,1,1,0.00,50.00,50.00,'管理员调整增加',1,1653905381),(28,1,1,0.00,200.00,200.00,'管理员调整增加',2,1653905389),(29,1,2,200.00,88.00,112.00,'抽赏抵扣88潮玩币',2,1653905444),(30,1,2,112.00,88.00,24.00,'抽赏抵扣88潮玩币',2,1653905451),(31,1,1,50.00,80.00,130.00,'管理员调整增加',1,1653905469),(32,1,2,24.00,24.00,0.00,'抽赏抵扣24潮玩币',2,1653905480),(33,1,2,130.00,64.00,66.00,'抽赏扣除余额',1,1653905480),(34,1,2,66.00,10.00,56.00,'发货扣除余额',1,1653905539),(35,1,1,56.00,20000.00,20056.00,'管理员调整增加',1,1653905740),(36,1,2,20056.00,880.00,19176.00,'抽赏扣除余额',1,1653905754),(37,1,1,19176.00,228.00,19404.00,'挂售余额收入',1,1653905961),(38,1,2,19404.00,25.00,19379.00,'抽赏扣除余额',1,1653906042),(39,2,2,1000.00,88.00,912.00,'抽赏抵扣88潮玩币',2,1653965641),(40,2,2,9120.00,10.00,9110.00,'发货扣除余额',1,1653965654),(41,2,2,912.00,88.00,824.00,'抽赏抵扣88潮玩币',2,1653965881),(42,2,2,9110.00,10.00,9100.00,'发货扣除余额',1,1653965910),(43,2,2,9100.00,10.00,9090.00,'发货扣除余额',1,1653965917),(44,2,2,824.00,440.00,384.00,'抽赏抵扣440潮玩币',2,1653965944),(45,2,2,384.00,130.00,254.00,'抽赏抵扣130潮玩币',2,1653965959),(46,2,2,254.00,254.00,0.00,'抽赏抵扣254潮玩币',2,1653966023),(47,2,2,9090.00,626.00,8464.00,'抽赏扣除余额',1,1653966023),(48,2,2,8464.00,880.00,7584.00,'抽赏扣除余额',1,1653978055),(49,4,2,10000.00,440.00,9560.00,'抽赏扣除余额',1,1653983168),(50,4,2,9560.00,88.00,9472.00,'抽赏扣除余额',1,1653983791),(51,4,2,9472.00,10.00,9462.00,'发货扣除余额',1,1653983804),(52,4,2,9462.00,88.00,9374.00,'抽赏扣除余额',1,1653984729),(53,4,2,9374.00,10.00,9364.00,'发货扣除余额',1,1653984739),(54,1,2,19379.00,880.00,18499.00,'抽赏扣除余额',1,1653985601),(55,3,2,2000.00,440.00,1560.00,'抽赏扣除余额',1,1654076279),(56,3,2,1560.00,90.00,1470.00,'抽赏扣除余额',1,1654077486),(57,3,2,1470.00,45.00,1425.00,'抽赏扣除余额',1,1654077511),(58,3,2,1425.00,90.00,1335.00,'抽赏扣除余额',1,1654077517),(59,3,2,1335.00,88.00,1247.00,'抽赏扣除余额',1,1654077620),(60,3,2,1247.00,25.00,1222.00,'抽赏扣除余额',1,1654077653),(61,3,2,1222.00,112.00,1110.00,'抽赏扣除余额',1,1654077912),(62,3,2,1110.00,56.00,1054.00,'抽赏扣除余额',1,1654077921),(63,3,2,1054.00,13.00,1041.00,'抽赏扣除余额',1,1654077997),(64,3,2,1041.00,65.00,976.00,'抽赏扣除余额',1,1654078039),(65,4,2,9364.00,88.00,9276.00,'抽赏扣除余额',1,1654078272),(66,4,2,9276.00,44.00,9232.00,'抽赏扣除余额',1,1654079742),(67,4,2,9232.00,88.00,9144.00,'抽赏扣除余额',1,1654079931),(68,4,2,9144.00,88.00,9056.00,'抽赏扣除余额',1,1654079977),(69,4,2,9056.00,9.00,9047.00,'抽赏扣除余额',1,1654080028),(70,4,2,9047.00,5.00,9042.00,'抽赏扣除余额',1,1654080136),(71,4,2,9042.00,88.00,8954.00,'抽赏扣除余额',1,1654080163),(72,4,2,8954.00,88.00,8866.00,'抽赏扣除余额',1,1654080259),(73,1,2,18499.00,440.00,18059.00,'抽赏扣除余额',1,1654080267),(74,1,2,18059.00,440.00,17619.00,'抽赏扣除余额',1,1654080346),(75,1,2,17619.00,88.00,17531.00,'抽赏扣除余额',1,1654080437),(76,3,2,976.00,88.00,888.00,'抽赏扣除余额',1,1654080509),(77,4,2,8866.00,5.00,8861.00,'抽赏扣除余额',1,1654080527),(78,3,2,888.00,112.00,776.00,'抽赏扣除余额',1,1654086591),(79,3,2,776.00,88.00,688.00,'抽赏扣除余额',1,1654331859),(80,3,2,688.00,13.00,675.00,'抽赏扣除余额',1,1655702899),(81,3,2,675.00,44.00,631.00,'抽赏扣除余额',1,1655731929),(82,3,2,631.00,88.00,543.00,'抽赏扣除余额',1,1655732012),(83,3,2,543.00,88.00,455.00,'抽赏扣除余额',1,1655732042),(84,3,2,455.00,56.00,399.00,'抽赏扣除余额',1,1655814489),(85,3,2,399.00,56.00,343.00,'抽赏扣除余额',1,1655814505),(86,3,2,343.00,112.00,231.00,'抽赏扣除余额',1,1655814511),(87,3,2,231.00,112.00,119.00,'抽赏扣除余额',1,1655814581),(88,3,2,119.00,45.00,74.00,'抽赏扣除余额',1,1655814687),(89,3,2,74.00,56.00,18.00,'抽赏扣除余额',1,1655814725),(90,3,2,18.00,5.00,13.00,'抽赏扣除余额',1,1655815706),(91,3,2,13.00,1.00,12.00,'抽赏扣除余额',1,1655923240),(92,3,2,12.00,5.00,7.00,'抽赏扣除余额',1,1657117457),(93,3,2,7.00,1.00,6.00,'抽赏扣除余额',1,1657330617),(94,3,2,6.00,1.00,5.00,'抽赏扣除余额',1,1657347042),(95,3,2,5.00,1.00,4.00,'抽赏扣除余额',1,1657635005),(96,3,2,4.00,0.10,3.90,'抽赏扣除余额',1,1658238316),(97,3,2,3.90,1.00,2.90,'抽赏扣除余额',1,1658301554);
+/*!40000 ALTER TABLE `dl_user_deal` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `dl_user_nft`
+--
+
+DROP TABLE IF EXISTS `dl_user_nft`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `dl_user_nft` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `box_id` int(11) NOT NULL,
+  `goods_id` int(11) NOT NULL,
+  `NFTname` varchar(50) NOT NULL DEFAULT '',
+  `level` varchar(50) NOT NULL DEFAULT '',
+  `time` varchar(50) NOT NULL DEFAULT '',
+  `token_id` json DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `dl_user_nft`
+--
+
+LOCK TABLES `dl_user_nft` WRITE;
+/*!40000 ALTER TABLE `dl_user_nft` DISABLE KEYS */;
+INSERT INTO `dl_user_nft` VALUES (29,28,36,237,'TestGood1','A','1660327933','[2]'),(30,35,49,244,'B-nft-1','A','1660420872','[3]');
+/*!40000 ALTER TABLE `dl_user_nft` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2022-08-16 11:26:57

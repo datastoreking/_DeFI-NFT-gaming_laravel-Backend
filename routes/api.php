@@ -40,7 +40,6 @@ Route::post('getUserReturnList','Api\IndexController@getUserReturnList');//NewAP
 Route::post('getUserTransactionsList','Api\IndexController@getUserTransactionsList');//NewAPI13
 Route::post('returnNFTs','Api\IndexController@returnNFTs');//NewAPI14
 Route::post('withdrawalNFTs','Api\IndexController@withdrawalNFTs');//NewAPI15
-Route::post('payAmount','Api\IndexController@payAmount');//temp
 Route::post('boxList','Api\IndexController@boxList');//盲盒列表
 Route::post('boxDetail','Api\IndexController@boxDetail');//盲盒详情
 Route::post('suitNum','Api\IndexController@suitNum');//盲盒详情余量
