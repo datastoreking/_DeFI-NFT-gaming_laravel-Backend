@@ -43,12 +43,15 @@ class GoodsController extends Controller
         $is_book = $request->input('is_book');
         $book_time = $request->input('book_time');
         $content = $request->input('content');
+        $contract_address = $request->input('contract_address');
+        $reward_type = $request->input('reward_type');
 
         if(empty($name)) return $this->error('名称不能位空');
         if(empty($image)) return $this->error('请上传图片');
         if(empty($price)) return $this->error('价格不能为空');
         if(empty($cost_price)) return $this->error('回收价不能为空');
         if(empty($sort)) return $this->error('排序值不能为空');
+        if($reward_type == null) return $this->error('请填写奖励类型');
         if($is_book == 1){
             if(empty($book_time)) return $this->error('请选择预售时间');
             if(strtotime($book_time) < time()) return $this->error('预售时间不能小于当前时间');
@@ -68,6 +71,8 @@ class GoodsController extends Controller
         $goods->is_book = $is_book;
         $goods->book_time = strtotime($book_time);
         $goods->content = $content;
+        $goods->contract_address = $contract_address;
+        $goods->reward_type = $reward_type;
         try{
             $goods->save();
             return $this->success('操作成功');

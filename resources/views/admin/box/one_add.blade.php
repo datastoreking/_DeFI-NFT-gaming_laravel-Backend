@@ -49,27 +49,27 @@
         <div class="layui-form-item">
             <label class="layui-form-label">箱数</label>
             <div class="layui-input-block">
-                <input class="layui-input" name="num"  placeholder="请输入箱数" type="text" value="{{$box['num']}}" disabled>
+                <input class="layui-input" name="num"  placeholder="请输入箱数" type="text" value="{{1}}" disabled>
             </div>
         </div>
         @else
         <div class="layui-form-item">
             <label class="layui-form-label">箱数</label>
             <div class="layui-input-block">
-                <input class="layui-input" name="num"  placeholder="请输入箱数" type="text" value="{{$box['num']}}">
+                <input class="layui-input" name="num"  placeholder="请输入箱数" type="text" value="{{1}}" disabled>
             </div>
         </div>
         @endif
         <div class="layui-form-item">
             <label class="layui-form-label">排序值</label>
             <div class="layui-input-block">
-                <input class="layui-input" name="sort"  placeholder="请输入排序值" type="text" value="{{$box['sort']}}">
+                <input class="layui-input" name="sort"  placeholder="请输入排序值" type="text" value="{{1}}" disabled>
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">抽奖数</label>
             <div class="layui-input-block">
-                <input class="layui-input" name="sale"  placeholder="请输入多少抽奖数后可全收" type="text" value="{{$box['sale']}}">
+                <input class="layui-input" name="sale"  placeholder="请输入多少抽奖数后可全收" type="text" value="{{1}}" disabled>
             </div>
         </div>
         <div class="layui-form-item layui-col-lg8 appoint_type appoint_type-3">
@@ -85,6 +85,7 @@
                         <th>商品图片</th>
                         <th>售价</th>
                         <th>成本价</th>
+                        <th>奖励类型</th>
                         <th>数量</th>
                         <th>概率%</th>
                         <th>等级</th>

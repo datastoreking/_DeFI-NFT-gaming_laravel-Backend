@@ -121,7 +121,12 @@ class BoxController extends Controller
                 DB::table('suit')->insert($data);
                 $boxSuit = Suit::query()->where('box_id',$box->id)->get()->toArray();
                 foreach ($goods_id as $k=>$v){
+                    Goods::query()->where('id', $goods_id[$k])->where('reward_type',0)->update(['is_del'=>1]);
                     foreach ($boxSuit as $key=>$item){
+                        $surplusNFTidArray = [];
+                        for($i=1; $i<$number[$k]+1; $i++){
+                            array_push($surplusNFTidArray, $i);
+                        }
                         $boxSuitGoods = new SuitGoods();
                         $boxSuitGoods->suit_id = $item['id'];
                         $boxSuitGoods->goods_id = $goods_id[$k];
@@ -130,6 +135,10 @@ class BoxController extends Controller
                         $boxSuitGoods->level = $level[$k];
                         $boxSuitGoods->surplus = $number[$k];
                         $boxSuitGoods->create_time = time();
+                        $reward_type = Goods::query()->where('id', $goods_id[$k])->select('reward_type')->first()->reward_type;
+                        if($reward_type == 0){
+                            $boxSuitGoods->surplusNFTidArray = json_encode($surplusNFTidArray);
+                        }
                         if(in_array($level[$k],['Free','W','First','Last','War'])){
                             $boxSuitGoods->is_special = 1;
                         }else{

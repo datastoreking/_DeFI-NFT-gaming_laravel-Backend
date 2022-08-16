@@ -73,8 +73,7 @@ class LoginController extends Controller
         $data['balance'] = $result['balance'];
         $data['score'] = '';
         $data['token'] = $result['access_token'];
-        $data['created'] = $result['created'];
-        $data['create_time'] = '';
+        $data['create_time'] = time();
         $data['state'] = '';
         $data['is_del'] = 0;
         $data['achieve'] = 0;

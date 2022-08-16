@@ -28,7 +28,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">回收价</label>
             <div class="layui-input-block">
-                <input class="layui-input" name="cost_price" placeholder="请输入回收价" type="text" value="{{$goods['cost_price']}}">
+                <input class="layui-input" name="cost_price" placeholder="投入回收百分比" type="text" value="{{$goods['cost_price']}}">
             </div>
         </div>
         <div class="layui-form-item">
@@ -47,7 +47,19 @@
         <div class="layui-form-item">
             <label class="layui-form-label">排序值</label>
             <div class="layui-input-block">
-                <input class="layui-input" name="sort" placeholder="请输入排序值" type="text" value="{{$goods['sort']}}">
+                <input class="layui-input" name="sort" placeholder="请输入排序值" type="text" value="{{1}}" disabled>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">NFT 合约地址</label>
+            <div class="layui-input-block">
+                <input class="layui-input" name="contract_address" placeholder="如果这是 NFT 奖励，请输入 NFT 合约地址" type="text" value="{{$goods['contract_address']}}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">奖励类型</label>
+            <div class="layui-input-block">
+                <input class="layui-input" name="reward_type" placeholder="输入奖励类型" type="text" value="{{$goods['reward_type']}}">
             </div>
         </div>
         <div class="layui-form-item layui-form-text">

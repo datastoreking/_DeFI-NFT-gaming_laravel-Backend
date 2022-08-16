@@ -56,6 +56,7 @@
                             },
                             {field: 'price', title: '售价', minWidth: 100},
                             {field: 'cost_price', title: '成本价', minWidth: 100},
+                            {field: 'reward_type', title: '奖励类型', minWidth: 100},
                             {field: 'right', title: '操作', minWidth: 150, align: 'center', toolbar: '#barDemo'}
                         ]],
                         done: function(res, curr, count) {
@@ -81,7 +82,7 @@
                             "<td class='ids'>"+data.id+"</td>" +
                             "<td>"+data.name+"<input type='hidden' name='goods_id[]' value='"+data.id+"'></td>" +
                             "<td>"+data.sort+"</td><td><img src='"+data.image+"' style='width-max: 150px;height:50px;margin-left: 2px;'></td>" +
-                            "<td>"+data.price+"</td><td>"+data.cost_price+"</td><td><input type='number' style='width: 120px;' class='number' name='number[]'></td>" +
+                            "<td>"+data.price+"</td><td>"+data.cost_price+"</td><td>"+data.reward_type+"</td><td><input type='number' style='width: 120px;' class='number' name='number[]'></td>" +
                             "<td><input type='text' style='width: 120px;' class='ratio' name='ratio[]'></td>"+
                             "<td><input type='text' style='width: 120px;' class='level' name='level[]'></td>"+
                             "<td><a onclick='sea_del(this)'>删除</a></td>" +
@@ -100,7 +101,7 @@
                                 "<td class='ids'>"+data.id+"</td>" +
                                 "<td>"+data.name+"<input type='hidden' name='goods_id[]' value='"+data.id+"'></td>" +
                                 "<td>"+data.sort+"</td><td><img src='"+data.image+"' style='width-max: 150px;height:50px;margin-left: 2px;'></td>" +
-                                "<td>"+data.price+"</td><td>"+data.cost_price+"</td><td><input type='number' style='width: 120px;' class='number' name='number[]'></td>" +
+                                "<td>"+data.price+"</td><td>"+data.cost_price+"</td><td>"+data.reward_type+"</td><td><input type='number' style='width: 120px;' class='number' name='number[]'></td>" +
                                 "<td><input type='text' style='width: 120px;' class='ratio' name='ratio[]'></td>"+
                                 "<td><input type='text' style='width: 120px;' class='level' name='level[]'></td>"+
                                 "<td><a onclick='sea_del(this)'>删除</a></td>" +
