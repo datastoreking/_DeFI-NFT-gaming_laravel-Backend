@@ -213,7 +213,7 @@ class IndexController extends Controller
                         $contract_address = Goods::query()->where('id',$getGoodsId)->select('contract_address')->first()->contract_address;
                         $reward_type = Goods::query()->where('id',$getGoodsId)->select('reward_type')->first()->reward_type;
                         $selling_price = Goods::query()->where('id',$getGoodsId)->select('price')->first()->price;
-                        var_dump("reward type:",$reward_type);
+                        //var_dump("reward type:",$reward_type);
 
                         // get tokenId
                         if($reward_type == 0){
@@ -338,7 +338,7 @@ class IndexController extends Controller
                                 $contract_address = Goods::query()->where('id',$getGoodsId)->select('contract_address')->first()->contract_address;
                                 $reward_type = Goods::query()->where('id',$getGoodsId)->select('reward_type')->first()->reward_type;
                                 $selling_price = Goods::query()->where('id',$getGoodsId)->select('price')->first()->price;
-                                var_dump("reward type:",$reward_type);
+                                //var_dump("reward type:",$reward_type);
         
                                 // get tokenId
                                 if($reward_type == 0){
@@ -605,6 +605,25 @@ class IndexController extends Controller
             }
             return $this->ajax(1,'failed', $data = $res_array['result']);
         }
+    }
+
+    //NewAPI16
+    public function getAllNFTs(Request $request) {
+        $accessToken = $request->input('accessToken');
+        $user_id = User::query()->where('token',$accessToken)->select('id')->first()->id;
+        $query = DB::table('user_nft')->where('uid', $user_id)->select('goods_id', 'NFTname', 'token_id')->first();
+        $goods_id = $query->goods_id;
+        $img = Goods::query()->where('id', $goods_id)->select('image')->first()->image;
+        $NFTname = $query->NFTname;
+        $tokenIdarray = $query->token_id;
+        $quantity = count(json_decode($tokenIdarray, true));
+        return $this->ajax(0,'success', $data = [
+            'id'=>$goods_id,
+            'img'=>$img,
+            'name'=>$NFTname,
+            'quantity'=>$quantity,
+            'returnPrice'=> '30%'
+        ]);
     }
 
     public function payAmount($accessToken, $user_id, $price){
