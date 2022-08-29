@@ -57,11 +57,11 @@ class LoginController extends Controller
     public function login(Request $request){
         $accessToken = $request->input('accessToken'); 
         $params=['accessToken'=>$accessToken];
-        $ch = curl_init('https://app.gamifly.co:3001/auth/login');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-        $response = curl_exec($ch);
-        curl_close($ch);
+        $ch = \curl_init('https://app.gamifly.co:3001/auth/login');
+        \curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        \curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+        $response = \curl_exec($ch);
+        \curl_close($ch);
         $result = json_decode($response,true);
 
         $data = [];

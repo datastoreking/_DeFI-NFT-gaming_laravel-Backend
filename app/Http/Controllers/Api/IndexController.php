@@ -145,7 +145,7 @@ class IndexController extends Controller
             $data[$i]['time'] = $item->time;
             $i ++;         
         }
-        return $this->ajax(0,'sucess',$data);
+        return $this->ajax(0,'success',$data);
     }
 
     //NewAPI7
@@ -295,7 +295,7 @@ class IndexController extends Controller
                                     DB::table('user_box')->insert($data_array);
                                 }
                             }
-                            return $this->ajax(0,'sucess', $result['hash']);
+                            return $this->ajax(0,'success', $result['hash']);
                         }
                         return $this->ajax(1,'failed', $result['result']);
                     }
