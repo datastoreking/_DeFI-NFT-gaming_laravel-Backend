@@ -41,6 +41,7 @@ Route::post('getUserTransactionsList','Api\IndexController@getUserTransactionsLi
 Route::post('returnNFTs','Api\IndexController@returnNFTs');//NewAPI14
 Route::post('withdrawalNFTs','Api\IndexController@withdrawalNFTs');//NewAPI15
 Route::post('getAllNFTs','Api\IndexController@getAllNFTs');//NewAPI16
+Route::post('getRewardTransaction','Api\IndexController@getRewardTransaction');//NewAPI16
 Route::post('boxList','Api\IndexController@boxList');//盲盒列表
 Route::post('boxDetail','Api\IndexController@boxDetail');//盲盒详情
 Route::post('suitNum','Api\IndexController@suitNum');//盲盒详情余量

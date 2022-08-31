@@ -233,7 +233,7 @@ class IndexController extends Controller
                         curl_close($ch);
                         $result = json_decode($res, true);
 
-                        if($result['hash']){
+                        if($result['result'] == "success"){
                             //update surplus
                             if($getCurrentSurplus > 0){
                                 $sales = $getCurrentSales + 1;
@@ -295,7 +295,7 @@ class IndexController extends Controller
                                     DB::table('user_box')->insert($data_array);
                                 }
                             }
-                            return $this->ajax(0,'success', $result['hash']);
+                            return $this->ajax(0,'success', $result['result']);
                         }
                         return $this->ajax(1,'failed', $result['result']);
                     }
@@ -358,7 +358,7 @@ class IndexController extends Controller
                                 curl_close($ch);
                                 $result = json_decode($res, true);
         
-                                if($result['hash']){
+                                if($result['result'] == "success"){
                                     //update surplus
                                     if($getCurrentSurplus > 0){
                                         $sales = $getCurrentSales + 1;
@@ -420,7 +420,7 @@ class IndexController extends Controller
                                             DB::table('user_box')->insert($data_array);
                                         }
                                     }
-                                    return $this->ajax(0,'sucess', $result['hash']);
+                                    return $this->ajax(0,'sucess', $result['result']);
                                 }
                                 return $this->ajax(1,'failed', $result['result']);
                             }
@@ -626,6 +626,20 @@ class IndexController extends Controller
         ]);
     }
 
+    //NewAPI17
+    public function getRewardTransaction(Request $request) {
+        $accessToken = $request->input('accessToken');
+        $user_id = User::query()->where('token',$accessToken)->select('id')->first()->id;
+        $params1=['user_id'=>$user_id];
+        $ch = curl_init('https://app.gamifly.co:3001/api/getblindRewardTransaction');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $params1);
+        $res = curl_exec($ch); 
+        curl_close($ch);
+        $result = json_decode($res, true);
+        return $this->ajax(0, 'success', $result);
+    }
+
     public function payAmount($accessToken, $user_id, $price){
         $params=['accessToken'=>$accessToken, 'user_id'=>$user_id, 'reason'=>'buyNFT', 'amount'=>$price];
         $ch = curl_init('https://app.gamifly.co:3001/api/decrease');
@@ -771,7 +785,7 @@ class IndexController extends Controller
                 $item->level_name = DB::table('level')->where('level',$item->level)->value('name');
                 if($item->is_special == 0 && $suit->surplus > 0){
                     $ratio = bcdiv($item->surplus,$suit->surplus,5);
-                    $item->ratio = sprintf('%.2f',bcmul($ratio,100,3));
+                    $item->ratio = sprintf('%.2f',bcmul($ratio,100,3)); 
                 }else{
                     $item->ratio = 0;
                 }
