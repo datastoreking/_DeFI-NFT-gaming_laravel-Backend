@@ -272,10 +272,10 @@ class IndexController extends Controller
                                     DB::table('user_nft')->insert($data_array);
                                 }
                                 else{
-                                    $current_tokenidArray = DB::table('user_nft')->where('uid', $user_id)->select('token_id')->first()->token_id;
+                                    $current_tokenidArray = DB::table('user_nft')->where('uid', $user_id)->where('box_id', $id)->select('token_id')->first()->token_id;
                                     $str_array = json_decode($current_tokenidArray, true);
                                     array_push($str_array, $tokenId);
-                                    DB::table('user_nft')->where('uid', $user_id)->update(['token_id' => json_encode($str_array)]);
+                                    DB::table('user_nft')->where('uid', $user_id)->where('box_id', $id)->update(['token_id' => json_encode($str_array)]);
                                 }
                             }// For rank API
                             else{
@@ -397,10 +397,10 @@ class IndexController extends Controller
                                             DB::table('user_nft')->insert($data_array);
                                         }
                                         else{
-                                            $current_tokenidArray = DB::table('user_nft')->where('uid', $user_id)->select('token_id')->first()->token_id;
+                                            $current_tokenidArray = DB::table('user_nft')->where('uid', $user_id)->where('box_id', $id)->select('token_id')->first()->token_id;
                                             $str_array = json_decode($current_tokenidArray, true);
                                             array_push($str_array, $tokenId);
-                                            DB::table('user_nft')->where('uid', $user_id)->update(['token_id' => json_encode($str_array)]);
+                                            DB::table('user_nft')->where('uid', $user_id)->where('box_id', $id)->update(['token_id' => json_encode($str_array)]);
                                         }
                                     }// For rank API
                                     else{
@@ -507,7 +507,7 @@ class IndexController extends Controller
             $quantity = array_count_values($goodsIdArray)[$goods_id];
 
             //get NFT id
-            $query = DB::table('user_nft')->where('uid', $user_id)->select('token_id')->first()->token_id;
+            $query = DB::table('user_nft')->where('uid', $user_id)->where('goods_id', $goods_id)->select('token_id')->first()->token_id;
             $query_array = json_decode($query, true);
             $idToreturn = array_shift($query_array);
 
@@ -521,7 +521,7 @@ class IndexController extends Controller
             $res_array = json_decode($response, true);
 
             if($res_array['hash']){
-                DB::table('user_nft')->where('uid', $user_id)->update(['token_id'=>json_encode($query_array)]);
+                DB::table('user_nft')->where('uid', $user_id)->where('goods_id', $goods_id)->update(['token_id'=>json_encode($query_array)]);
                 $surplusNFTidArray = SuitGoods::where('goods_id', $goods_id)->select('surplusNFTidArray')->first()->surplusNFTidArray;
                 $surplusNFT = json_decode($surplusNFTidArray, true);
                 array_push($surplusNFT, $idToreturn);
@@ -573,7 +573,7 @@ class IndexController extends Controller
         $user_id = User::query()->where('token',$accessToken)->select('id')->first()->id;
         for($i = 0; $i < count($goodsIdArray); $i ++){
             $goods_id = $goodsIdArray[$i];
-            $query = DB::table('user_nft')->where('uid', $user_id)->select('token_id')->first();
+            $query = DB::table('user_nft')->where('uid', $user_id)->where('goods_id', $goods_id)->select('token_id')->first();
             $boughtNFTidArray = json_decode($query->token_id, true);
             if(count($boughtNFTidArray) != 0){
                 $idTowithdraw = array_shift($boughtNFTidArray);
@@ -589,7 +589,7 @@ class IndexController extends Controller
             $res_array = json_decode($response, true);
             if($res_array['hash']){
                 //update token_id array in user_nft table
-                DB::table('user_nft')->where('uid', $user_id)->update(['token_id'=>json_encode($boughtNFTidArray)]);
+                DB::table('user_nft')->where('uid', $user_id)->where('goods_id', $goods_id)->update(['token_id'=>json_encode($boughtNFTidArray)]);
 
                 //get withdrawNFT list
                 $listQuery = Goods::query()->where('id',$goods_id)->select('image', 'name')->first();
@@ -612,18 +612,33 @@ class IndexController extends Controller
         $accessToken = $request->input('accessToken');
         $user_id = User::query()->where('token',$accessToken)->select('id')->first()->id;
         $query = DB::table('user_nft')->where('uid', $user_id)->select('goods_id', 'NFTname', 'token_id')->first();
-        $goods_id = $query->goods_id;
-        $img = Goods::query()->where('id', $goods_id)->select('image')->first()->image;
-        $NFTname = $query->NFTname;
-        $tokenIdarray = $query->token_id;
-        $quantity = count(json_decode($tokenIdarray, true));
-        return $this->ajax(0,'success', $data = [
-            'id'=>$goods_id,
-            'img'=>$img,
-            'name'=>$NFTname,
-            'quantity'=>$quantity,
-            'returnPrice'=> '30%'
-        ]);
+        // $goods_id = $query->goods_id;
+        // $img = Goods::query()->where('id', $goods_id)->select('image')->first()->image;
+        // $NFTname = $query->NFTname;
+        // $tokenIdarray = $query->token_id;
+        // $quantity = count(json_decode($tokenIdarray, true));
+        // return $this->ajax(0,'success', $data = [
+        //     'id'=>$goods_id,
+        //     'img'=>$img,
+        //     'name'=>$NFTname,
+        //     'quantity'=>$quantity,
+        //     'returnPrice'=> '30%'
+        // ]);
+        $result = array();
+        for($i = 0; $i < count($query->items()); $i ++){
+            $goods_id = $$query->items()[$i]->goods_id;
+            $img = Goods::query()->where('id', $goods_id)->select('image')->first()->image;
+            $NFTname = $$query->items()[$i]->NFTname;
+            $tokenIdarray = $$query->items()[$i]->token_id;
+            $quantity = count(json_decode($tokenIdarray, true));
+
+            $result[$i]['id'] = $goods_id;
+            $result[$i]['img'] = $img;
+            $result[$i]['name'] = $NFTname;
+            $result[$i]['quantity'] = $quantity;
+            $result[$i]['returnPrice'] = '30%';
+        }
+        return $this->ajax(0, 'success', $result);
     }
 
     //NewAPI17
